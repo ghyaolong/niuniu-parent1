@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mouchina.moumou_server.dao.award.SignHistoryMapper">
+	<resultMap id="BaseResultMap"
+		type="com.mouchina.moumou_server.entity.award.SignHistory">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="count" property="count" jdbcType="TINYINT" />
+		<result column="sign_time" property="signTime" jdbcType="TIMESTAMP" />
+		<result column="history_time" property="historyTime" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR"/>
+		<result column="value" property="value" jdbcType="VARCHAR"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, user_id, count, sign_time, history_time,type,value
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from sign_history
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from sign_history
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.mouchina.moumou_server.entity.award.SignHistory">
+		insert into sign_history (id, user_id, count,sign_time, history_time,type,value)
+		values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+		#{count,jdbcType=TINYINT},
+		#{signTime,jdbcType=TIMESTAMP}, #{historyTime,jdbcType=VARCHAR},
+		#{type,jdbcType=TIMESTAMP}, #{value,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.mouchina.moumou_server.entity.award.SignHistory">
+		insert into sign_history
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="count != null">
+				count,
+			</if>
+			<if test="signTime != null">
+				sign_time,
+			</if>
+			<if test="historyTime != null">
+				history_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="count != null">
+				#{count,jdbcType=TINYINT},
+			</if>
+			<if test="signTime != null">
+				#{signTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="historyTime != null">
+				#{historyTime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.mouchina.moumou_server.entity.award.SignHistory">
+		update sign_history
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="count != null">
+				count = #{count,jdbcType=TINYINT},
+			</if>
+			<if test="signTime != null">
+				sign_time = #{signTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="historyTime != null">
+				history_time = #{historyTime,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<!-- 根据主键更新用户签到历史记录 -->
+	<update id="updateByPrimaryKey" parameterType="com.mouchina.moumou_server.entity.award.SignHistory">
+		update sign_history
+		set user_id = #{userId,jdbcType=BIGINT},
+		count = #{count,jdbcType=TINYINT},
+		sign_time = #{signTime,jdbcType=TIMESTAMP},
+		history_time = #{historyTime,jdbcType=VARCHAR},
+		type = #{type,jdbcType=VARCHAR},
+		value = #{value,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<update id="updateByUserId" parameterType="com.mouchina.moumou_server.entity.award.SignHistory">
+		update sign_history
+		set user_id = #{userId,jdbcType=BIGINT},
+		count = #{count,jdbcType=TINYINT},
+		sign_time = #{signTime,jdbcType=TIMESTAMP},
+		history_time = #{historyTime,jdbcType=VARCHAR},
+		type = #{type,jdbcType=VARCHAR},
+		value = #{value,jdbcType=VARCHAR}
+		where user_id = #{userId,jdbcType=BIGINT}
+	</update>
+	
+	<select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from sign_history
+		where user_Id = #{userId,jdbcType=BIGINT}
+	</select>
+</mapper>

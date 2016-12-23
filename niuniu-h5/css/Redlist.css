@@ -1,0 +1,128 @@
+html {
+	font-family: "微软雅黑", sans-serif;
+	height: 100%;
+	overflow: hidden;
+}
+
+ul li {
+	list-style: none;
+}
+
+.container {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 10;
+	width: 100%;
+	overflow: hidden;
+}
+
+.ban {
+	width: 100%;
+	height: 3.243rem;
+}
+
+.ban img {
+	width: 100%;
+	height: 100%;
+}
+
+.info {
+	clear: both;
+	width: 100%;
+	height: 1.161rem;
+	border-bottom: 0.171rem solid #EAEAEA;
+}
+
+.info li {
+	width: 100%;
+	height: 1.161rem;
+}
+
+.info li img {
+	float: left;
+	width: 0.75rem;
+	height: 0.75rem;
+	border-radius: 50%;
+	margin: 0.22rem;
+	background: url(../images/fudai1.jpg) no-repeat;
+	background-size: 100% 100%;
+}
+
+.info li .name {
+	float: left;
+	font-size: 0.256rem;
+	color: #000;
+	width: 1.95rem;
+	margin-top: 0.31rem;
+	margin-right: 0.05rem;
+}
+
+.info li .per {
+	float: left;
+	font-size: 0.189rem;
+	color: #AEAEAE;
+	margin-left: -1.95rem;
+	margin-top: 0.7rem;
+}
+
+.info li .march {
+	float: right;
+	font-size: 0.222rem;
+	color: #D12730;
+	margin-top: 0.63rem;
+}
+
+.info li .sum {
+	float: right;
+	font-size: 0.512rem;
+	color: #D12730;
+	margin-top: 0.3925rem;
+	margin-right: 0.256rem;
+}
+
+.list {
+	clear: both;
+	width: 100%;
+	overflow: hidden;
+}
+
+.list li {
+	width: 100%;
+	height: 1.21rem;
+	border-bottom: 1px solid #E6E6E6;
+}
+
+.list li img {
+	float: left;
+	width: 0.75rem;
+	height: 0.75rem;
+	border-radius: 50%;
+	background: #fff;
+	margin: 0.22rem;
+	background: url(../images/fudai1.jpg) no-repeat;
+	background-size: 100% 100%;
+}
+
+.list li .fname {
+	float: left;
+	width: 1.95rem;
+	font-size: 0.256rem;
+	color: #000;
+	margin-top: 0.46rem;
+}
+
+.list li .fmarch {
+	float: right;
+	font-size: 0.222rem;
+	color: #D12730;
+	margin-top: 0.63rem;
+}
+
+.list li .fsum {
+	float: right;
+	font-size: 0.512rem;
+	color: #D12730;
+	margin-top: 0.3925rem;
+	margin-right: 0.256rem;
+}

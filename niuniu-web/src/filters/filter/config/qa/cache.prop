@@ -1,0 +1,9 @@
+#cache config
+
+#cache servers
+cache.serverList=10.117.62.243:15002 10.117.62.243:15001
+#cache.serverList=10.154.46.27:15000
+#cache init connections
+cache.poolSize=2
+#alive time (unit:second)
+cache.alive=3600

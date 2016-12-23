@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>哞哞管理后台</title>
+	#parse('layout/thems/default/common/base.vm')
+
+</head>
+<body>
+
+<!-- Header -->
+#parse('layout/thems/default/header.vm')
+
+	<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				var pageNav="members_user_new";
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+				#parse('layout/thems/default/left.vm')
+
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="#">首页</a>
+							</li>
+							<li class="active">用户管理</li>
+						</ul><!-- .breadcrumb -->
+
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="icon-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- #nav-search -->
+					</div>
+
+					<div class="page-content">
+						<div class="page-header">
+							<h1>
+								用户添加
+								<small>
+									<i class="icon-double-angle-right"></i>
+									 查看
+								</small>
+							</h1>
+						</div><!-- /.page-header -->
+
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+								<form role="form" class="form-horizontal" id="newUserForm" method="post" action="$contentPath/members/user/add.html" >
+									<div class="form-group">
+										<label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 手机号 </label>
+
+										<div class="col-sm-9">
+											<div class="col-xs-10">
+											<input type="text" name="phone"  check-type="required mobile"   required-message="手机号码错误" class="col-xs-10 col-sm-5" placeholder="手机号" id="phoneInput">
+											</div>
+										</div>
+									</div>
+									<div class="space-4"></div>
+
+									<div class="form-group">
+										<label for="form-field-1"  class="col-sm-3 control-label no-padding-right"> 昵称 </label>
+
+										<div class="col-sm-9">
+											<div class="col-xs-10">
+											<input type="text" name="nickName"  check-type="required"   required-message="昵称不能为空"  class="col-xs-10 col-sm-5" placeholder="昵称" id="form-field-1">
+											</div>
+										</div>
+									</div>
+									
+									<div class="space-4"></div>
+
+									<div class="form-group">
+										<label for="form-field-1"      class="col-sm-3 control-label no-padding-right"> 密码 </label>
+
+										<div class="col-sm-9">
+											<div class="col-xs-10">
+											<input type="password" name="passWord" check-type="required"  minLength="6"  maxLength="20" required-message="密码需要6～8位" class="col-xs-10 col-sm-5" placeholder="密码" id="form-field-1">
+											</div>
+										</div>
+									</div>
+									<div class="space-4"></div>
+									
+										<div class="form-group">
+										<label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 性别</label>
+
+										<div class="col-sm-9">
+											<div class="control-group">
+
+												<div class="radio">
+													<label>
+														<input type="radio" class="ace" value="0" name="sex">
+														<span class="lbl"> 男</span>
+													</label>
+													<label>
+														<input type="radio" checked="checked" value="1" class="ace" name="sex">
+														<span class="lbl">女</span>
+													</label>
+												</div>
+
+												
+											</div>
+										</div>
+									</div>
+									
+										<div class="space-4"></div>
+									
+										<div class="form-group">
+										<label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 收益类型</label>
+
+										<div class="col-sm-9">
+											<div class="control-group">
+											<div class="col-xs-10">
+											<select name="incomeLevel">
+												<option value ="0">无收益</option>
+												<option selected="true" value ="1">邀请好友获得红包收益(默认)</option>
+												<option value="2">邀请好友获得红包和发布广告收益</option>
+												
+											</select>
+											</div>
+												
+											</div>
+										</div>
+									</div>
+									<div class="space-4"></div>
+									
+									<div class="form-group">
+										<label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 生日 </label>
+
+										<div class="col-sm-9">
+											<div class="col-xs-10 col-sm-5">
+																<div class="input-group">
+																	
+																	<input  check-type="required date"   required-message="生日 "  name="birthday" type="text" data-date-format="yyyy-mm-dd" id="id-date-picker-1" class="form-control date-picker">
+																	<span class="input-group-addon">
+																		<i class="icon-calendar bigger-110"></i>
+																	</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="space-4"></div>
+
+									<div class="form-group">
+										<label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 图像 </label>
+
+										<div class="col-sm-9">
+											<div class="col-xs-10">
+														<input type="hidden" name="avatar"  id="avatarInput"   />
+														<image  id="avatarUpload" class="btn col-sm-8" alt="点击上传" />
+											</div>
+										</div>
+									</div>
+									<div class="space-4"></div>
+									<div class="clearfix form-actions">
+										<div class="col-md-offset-3 col-md-9">
+											<button type="button" id="newUserButton" class="btn btn-info">
+												<i class="icon-ok bigger-110"></i>
+												提交
+											</button>
+
+											&nbsp; &nbsp; &nbsp;
+											<button type="reset" class="btn">
+												<i class="icon-undo bigger-110"></i>
+												重置
+											</button>
+										</div>
+									</div>
+
+									<div class="hr hr-24"></div>
+
+
+								
+
+
+								</form>
+
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+				#parse('layout/thems/default/setting.vm')
+			</div><!-- /.main-container-inner -->
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div>
+
+
+<!-- ========== CONTENT END ========== -->
+
+<!-- ========== FOOTER START ========== -->
+#parse('layout/thems/default/footer.vm')
+<!-- ========== FOOTER END ========== -->
+<!-- 配置文件 -->
+
+<script type="text/javascript">
+ 	seajs.use("members-user-new");
+</script>
+
+</body>
+</html>

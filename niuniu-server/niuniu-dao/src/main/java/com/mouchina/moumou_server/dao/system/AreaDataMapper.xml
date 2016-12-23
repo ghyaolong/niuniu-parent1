@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mouchina.moumou_server.dao.system.AreaDataMapper">
+	<resultMap id="BaseResultMap"
+		type="com.mouchina.moumou_server.entity.system.AreaData">
+		<result column="areaCode" property="areaCode" jdbcType="VARCHAR" />
+		<result column="areaName" property="areaName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List_Area">
+		areaID as areaCode, area as areaName
+	</sql>
+
+	<sql id="Base_Column_List_City">
+		cityID as areaCode, city as areaName
+	</sql>
+
+	<sql id="Base_Column_List_Province">
+		provinceID as areaCode, province as areaName
+	</sql>
+
+	<select id="selectAreaByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	    select 
+	    <include refid="Base_Column_List_Area" />
+	    from hat_area
+	    <where>
+		    <if test="areaCode != null" >
+		    	areaID = #{areaCode,jdbcType=VARCHAR}
+		    </if>
+	    </where>
+	</select>
+	
+	<select id="selectCityByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	    select 
+	    <include refid="Base_Column_List_City" />
+	    from hat_city
+	    <where>
+		    <if test="areaCode != null" >
+		    	cityID = #{areaCode,jdbcType=VARCHAR}
+		    </if>
+	    </where>
+	</select>
+	
+	<select id="selectProvinceByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	    select 
+	    <include refid="Base_Column_List_Province" />
+	    from hat_province
+	    <where>
+		    <if test="areaCode != null" >
+		    	provinceID = #{areaCode,jdbcType=VARCHAR}
+		    </if>
+	    </where>
+	</select>
+	
+	<select id="selectAreaListByCode" resultMap="BaseResultMap" parameterType="java.util.Map" >
+	    select 
+	    <include refid="Base_Column_List_Area" />
+	    from hat_area
+	     where not EXISTS (select county_code from user_agent where county_code = areaID
+	    <if test="userId != null" >
+	    	<![CDATA[ and user_id <> #{userId,jdbcType=BIGINT} ]]>
+	    </if>
+	     )
+	    <if test="areaCode != null" >
+	    	and father = #{areaCode,jdbcType=VARCHAR}
+	    </if>
+	</select>
+	
+	<select id="selectCityListByCode" resultMap="BaseResultMap" parameterType="java.util.Map" >
+	    select 
+	    <include refid="Base_Column_List_City" />
+	    from hat_city
+	    <where>
+		    <if test="areaCode != null" >
+		    	father = #{areaCode,jdbcType=VARCHAR}
+		    </if>
+	    </where>
+	</select>
+	
+	<select id="selectProvinceListByCode" resultMap="BaseResultMap" parameterType="java.util.Map" >
+	    select 
+	    <include refid="Base_Column_List_Province" />
+	    from hat_province
+	    <where>
+		    <if test="areaCode != null" >
+		    	father = #{areaCode,jdbcType=VARCHAR}
+		    </if>
+	    </where>
+	</select>
+</mapper>
+

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mouchina.moumou_server.dao.member.UserActivityDeployMapper">
+	<resultMap id="BaseResultMap"
+		type="com.mouchina.moumou_server.entity.member.UserActivityDeploy">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="advert_id" property="advertId" jdbcType="BIGINT" />
+		<result column="count" property="count" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, user_id, advert_id, count, create_time
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from moumou.user_activity_deploy
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		moumou.user_activity_deploy
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert"
+		parameterType="com.mouchina.moumou_server.entity.member.UserActivityDeploy">
+		insert into moumou.user_activity_deploy (id, user_id,
+		advert_id,
+		count, create_time)
+		values (#{id,jdbcType=BIGINT},
+		#{userId,jdbcType=BIGINT},
+		#{advertId,jdbcType=BIGINT},
+		#{count,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.mouchina.moumou_server.entity.member.UserActivityDeploy">
+		insert into moumou.user_activity_deploy
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="advertId != null">
+				advert_id,
+			</if>
+			<if test="count != null">
+				count,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="advertId != null">
+				#{advertId,jdbcType=BIGINT},
+			</if>
+			<if test="count != null">
+				#{count,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.mouchina.moumou_server.entity.member.UserActivityDeploy">
+		update moumou.user_activity_deploy
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="advertId != null">
+				advert_id = #{advertId,jdbcType=BIGINT},
+			</if>
+			<if test="count != null">
+				count = #{count,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.mouchina.moumou_server.entity.member.UserActivityDeploy">
+		update moumou.user_activity_deploy
+		set user_id =
+		#{userId,jdbcType=BIGINT},
+		advert_id = #{advertId,jdbcType=BIGINT},
+		count = #{count,jdbcType=INTEGER},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<update id="updateActivityCount"
+		parameterType="com.mouchina.moumou_server.entity.member.UserActivityDeploy">
+		update moumou.user_activity_deploy
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="advertId != null">
+				advert_id = #{advertId,jdbcType=BIGINT},
+			</if>
+			<if test="count != null">
+				count = #{count,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where advert_id = #{advertId,jdbcType=BIGINT} and user_id =
+		#{userId,jdbcType=BIGINT}
+	</update>
+	<select id="selectModel" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from moumou.user_activity_deploy
+		<where>
+			<if test="userId != null">
+				and user_id = #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="advertId != null">
+				and advert_id = #{advertId,jdbcType=BIGINT}
+			</if>
+			<if test="count != null">
+				and count = #{count,jdbcType=INTEGER}
+			</if>
+			<if test="createTime != null">
+				and create_time = #{createTime,jdbcType=TIMESTAMP}
+			</if>
+		</where>
+	</select>
+</mapper>

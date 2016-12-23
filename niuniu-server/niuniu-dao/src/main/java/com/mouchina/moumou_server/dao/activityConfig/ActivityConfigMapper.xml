@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.mouchina.moumou_server.dao.activityConfig.ActivityConfigMapper">
+	<resultMap id="BaseResultMap"
+		type="com.mouchina.moumou_server.entity.activityConfig.ActivityConfig">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="advert_id" property="advertId" jdbcType="BIGINT" />
+		<result column="scope" property="scope" jdbcType="VARCHAR" />
+		<result column="rank" property="rank" jdbcType="INTEGER" />
+		<result column="probability" property="probability" jdbcType="VARCHAR" />
+		<result column="num_max" property="numMax" jdbcType="VARCHAR" />
+		<result column="prize" property="prize" jdbcType="VARCHAR" />
+		<result column="prize_pic" property="prizePic" jdbcType="VARCHAR" />
+		<result column="show_time" property="showTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, advert_id, scope, rank, probability, num_max, prize,
+		prize_pic
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from activity_config
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		activity_config
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert"
+		parameterType="com.mouchina.moumou_server.entity.activityConfig.ActivityConfig">
+		insert into activity_config (id, advert_id, scope,
+		rank,
+		probability, num_max,
+		prize, prize_pic)
+		values (#{id,jdbcType=BIGINT},
+		#{advertId,jdbcType=BIGINT},
+		#{scope,jdbcType=VARCHAR},
+		#{rank,jdbcType=INTEGER}, #{probability,jdbcType=VARCHAR},
+		#{numMax,jdbcType=VARCHAR},
+		#{prize,jdbcType=VARCHAR},
+		#{prizePic,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.mouchina.moumou_server.entity.activityConfig.ActivityConfig">
+		insert into activity_config
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="advertId != null">
+				advert_id,
+			</if>
+			<if test="scope != null">
+				scope,
+			</if>
+			<if test="rank != null">
+				rank,
+			</if>
+			<if test="probability != null">
+				probability,
+			</if>
+			<if test="numMax != null">
+				num_max,
+			</if>
+			<if test="prize != null">
+				prize,
+			</if>
+			<if test="prizePic != null">
+				prize_pic,
+			</if>
+			<if test="showTime != null">
+				show_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="advertId != null">
+				#{advertId,jdbcType=BIGINT},
+			</if>
+			<if test="scope != null">
+				#{scope,jdbcType=VARCHAR},
+			</if>
+			<if test="rank != null">
+				#{rank,jdbcType=INTEGER},
+			</if>
+			<if test="probability != null">
+				#{probability,jdbcType=VARCHAR},
+			</if>
+			<if test="numMax != null">
+				#{numMax,jdbcType=VARCHAR},
+			</if>
+			<if test="prize != null">
+				#{prize,jdbcType=VARCHAR},
+			</if>
+			<if test="prizePic != null">
+				#{prizePic,jdbcType=VARCHAR},
+			</if>
+			<if test="showTime != null">
+				#{showTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<sql id="selectPageCondition">
+		from moumou.activity_config ac
+		<where>
+			<if test="advertId != null">
+				and advert_id = #{advertId,jdbcType=BIGINT}
+			</if>
+			<if test="scope != null">
+				and scope = #{scope,jdbcType=VARCHAR}
+			</if>
+			<if test="rank != null">
+				and rank = #{rank,jdbcType=INTEGER}
+			</if>
+			<if test="probability != null">
+				and probability = #{probability,jdbcType=VARCHAR}
+			</if>
+			<if test="numMax != null">
+				and num_max = #{numMax,jdbcType=VARCHAR}
+			</if>
+			<if test="prize != null">
+				and prize = #{prize,jdbcType=VARCHAR}
+			</if>
+			<if test="prizePic != null">
+				and prize_pic = #{prizePic,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="selectList" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		<include refid="selectPageCondition" />
+		<if test="order != null">
+      <![CDATA[  order by  ac.${order} ]]>
+		</if>
+	</select>
+
+	<select id="selectPageList" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		<include refid="selectPageCondition" />
+		<if test="order != null">
+      <![CDATA[  order by  ac.${order} ]]>
+		</if>
+		<if test="page != null">
+      <![CDATA[  limit #{page.begin}, #{page.end} ]]>
+		</if>
+	</select>
+
+	<select id="selectCount" resultType="int" parameterType="java.util.Map">
+		select count(1)
+		<include refid="selectPageCondition" />
+	</select>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.mouchina.moumou_server.entity.activityConfig.ActivityConfig">
+		update activity_config
+		<set>
+			<if test="advertId != null">
+				advert_id = #{advertId,jdbcType=BIGINT},
+			</if>
+			<if test="scope != null">
+				scope = #{scope,jdbcType=VARCHAR},
+			</if>
+			<if test="rank != null">
+				rank = #{rank,jdbcType=INTEGER},
+			</if>
+			<if test="probability != null">
+				probability = #{probability,jdbcType=VARCHAR},
+			</if>
+			<if test="numMax != null">
+				num_max = #{numMax,jdbcType=VARCHAR},
+			</if>
+			<if test="prize != null">
+				prize = #{prize,jdbcType=VARCHAR},
+			</if>
+			<if test="prizePic != null">
+				prize_pic = #{prizePic,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.mouchina.moumou_server.entity.activityConfig.ActivityConfig">
+		update activity_config
+		set advert_id =
+		#{advertId,jdbcType=BIGINT},
+		scope = #{scope,jdbcType=VARCHAR},
+		rank =
+		#{rank,jdbcType=INTEGER},
+		probability =
+		#{probability,jdbcType=VARCHAR},
+		num_max = #{numMax,jdbcType=VARCHAR},
+		prize = #{prize,jdbcType=VARCHAR},
+		prize_pic =
+		#{prizePic,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

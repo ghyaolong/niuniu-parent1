@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mouchina.moumou_server.dao.advert.UserDonationRecordMapper">
+  <resultMap id="BaseResultMap" type="com.mouchina.moumou_server.entity.advert.UserDonationRecord">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="money" jdbcType="INTEGER" property="money" />
+    <result column="relation_id" jdbcType="BIGINT" property="relationId" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, money, relation_id, create_time, type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_donation_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_donation_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.mouchina.moumou_server.entity.advert.UserDonationRecord">
+    insert into user_donation_record (id, user_id, money, 
+      relation_id, create_time, type
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{money,jdbcType=INTEGER}, 
+      #{relationId,jdbcType=BIGINT}, #{createTime,jdbcType=DATE}, #{type,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mouchina.moumou_server.entity.advert.UserDonationRecord">
+    insert into user_donation_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="relationId != null">
+        relation_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=INTEGER},
+      </if>
+      <if test="relationId != null">
+        #{relationId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mouchina.moumou_server.entity.advert.UserDonationRecord">
+    update user_donation_record
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=INTEGER},
+      </if>
+      <if test="relationId != null">
+        relation_id = #{relationId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mouchina.moumou_server.entity.advert.UserDonationRecord">
+    update user_donation_record
+    set user_id = #{userId,jdbcType=BIGINT},
+      money = #{money,jdbcType=INTEGER},
+      relation_id = #{relationId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=DATE},
+      type = #{type,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectPageList" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		moumou.user_donation_record
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="createTime != null">
+				and create_time= #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="type != null">
+				and type= #{type,jdbcType=TINYINT}
+			</if>
+			<if test="userId != null">
+				and user_id= #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="advertId != null">
+				and advert_id= #{advertId,jdbcType=BIGINT}
+			</if>
+			<if test="money != null">
+				and money= #{money,jdbcType=INTEGER}
+			</if>
+		</where>
+		<if test="order != null">
+      <![CDATA[  order by  ${order} ]]>
+		</if>
+		<if test="page != null">
+      <![CDATA[  limit #{page.begin}, #{page.end} ]]>
+		</if>
+	</select>
+</mapper>

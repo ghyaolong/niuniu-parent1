@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>哞哞管理后台</title>
+    #parse('layout/thems/default/common/base.vm')
+    <link href="${contentPath}/resources/assets/src/style/common/bootstrao-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+</head>
+
+
+<script>
+
+
+
+
+</script>
+
+<body>
+<!-- Header -->
+    #parse('layout/thems/default/header.vm')
+    <div class="main-container" id="main-container">
+			<script type="text/javascript">
+				var pageNav="info_menu_list_${sysId}";
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+				#parse('layout/thems/default/left.vm')
+
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="#">首页</a>
+							</li>
+							<li class="active">代理商后台</li>
+						</ul><!-- .breadcrumb -->
+
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="icon-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- #nav-search -->
+					</div>
+
+					<div class="page-content">
+						<div class="page-header">
+							<h1>
+								公益广告
+								<small>
+									<i class="icon-double-angle-right"></i>
+									添加
+								</small>
+							</h1>
+						</div><!-- /.page-header -->
+						
+						<div class="row">
+							
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+								<form role="form" class="form-horizontal" id="operatingActivityForm" method="post" action="/advert/publicWelfare/add.html" >
+									<div role="grid" class="dataTables_wrapper" id="sample-table-2_wrapper">
+										<div class="row" style="margin-bottom:30px">
+				                        	<div class="col-sm-2">
+												<input  placeholder="开始日期" name="startTime"  type="text" data-date-format="yyyy-mm-dd HH:mm:ss" id="id-date-picker-3" class="form-control date-picker">
+											</div>
+											<div class="col-sm-2">												
+												<input  placeholder="结束日期" name="endTime" type="text" data-date-format="yyyy-mm-dd HH:mm:ss" id="id-date-picker-4" class="form-control date-picker">
+											</div>
+											<div class="col-sm-3">
+											<div class="input-group m-b">
+												<span class="input-group-btn">
+													<button class="btn btn-sm btn-primary" type="button" id="serchBtn" data-fild="userPhone">Go!</button>
+												</span>
+											</div>
+				                        </div>
+									</div>
+									<div class="form-group">
+										<label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 广告名称 </label>
+										<div class="col-sm-9">
+											<div class="col-xs-10">
+											<input type="text" name="advertName" id="queryKey" check-type="required mobile" class="col-xs-10 col-sm-5">
+										</div>
+										</div>
+									</div>
+									<div class="space-4"></div>
+									<div class="form-group">
+										<label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 广告内容 </label>
+										<div class="col-sm-9">
+											<div class="col-xs-10">
+											<input type="text" name="advertContent" id="queryKey" check-type="required mobile" class="col-xs-10 col-sm-5">
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 广告图片</label>
+										<input type="hidden" name="photoUrl" id="photoUrl4" />
+										<image style="margin-left:22px" id="prizePic4" name="prizePic" class="btn col-sm-0" alt="添加图片" />
+									</div>
+								<div class="space-4"></div>
+									<div class="clearfix form-actions">
+										<div class="col-md-offset-3 col-md-9">
+											<button type="submit" id="newTeacherButton" class="btn btn-info">
+												<i class="icon-ok bigger-110"></i>
+												提交
+											</button>
+
+											&nbsp; &nbsp; &nbsp;
+											<button type="reset" class="btn">
+												<i class="icon-undo bigger-110"></i>
+												重置
+											</button>
+										</div>
+									</div>
+
+									<div class="hr hr-24"></div>
+
+								</form>
+
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+				#parse('layout/thems/default/setting.vm')
+			</div><!-- /.main-container-inner -->
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div>
+
+
+<!-- ========== CONTENT END ========== -->
+
+<!-- ========== FOOTER START ========== -->
+#parse('layout/thems/default/footer.vm')
+<!-- ========== FOOTER END ========== -->
+
+
+<script type="text/javascript">
+ 	seajs.use("advert-publicWelfareAdd");
+</script>

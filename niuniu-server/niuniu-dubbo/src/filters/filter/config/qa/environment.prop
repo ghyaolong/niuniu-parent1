@@ -1,0 +1,5 @@
+#sms.url=http://test5.eachbaby.com/service/send_sms
+#message.private.url=http://test5.eachbaby.com/service/save_private_message
+#message.public.url=http://test5.eachbaby.com/service/save_public_message
+#teacher.push.url=http://test5.eachbaby.com/service/teacher_push
+#user.push.url=http://test5.eachbaby.com/service/user_push

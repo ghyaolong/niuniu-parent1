@@ -1,0 +1,2 @@
+log4j.service.level=info
+log4j.standard.level=info

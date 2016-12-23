@@ -1,0 +1,4 @@
+dubbo.registry.address=zookeeper://10.117.62.243:2181
+#dubbo.registry.address=zookeeper://10.105.127.193:2181
+dubbo.protocol.name=dubbo
+dubbo.protocol.port=20890

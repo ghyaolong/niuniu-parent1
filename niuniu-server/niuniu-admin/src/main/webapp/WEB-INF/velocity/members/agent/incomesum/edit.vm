@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>哞哞管理后台</title>
+	#parse('layout/thems/default/common/base.vm')
+
+</head>
+<body>
+
+<!-- Header -->
+#parse('layout/thems/default/header.vm')
+
+	<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				var pageNav="info_menu_list_${newsMenu.sysId}";
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+				#parse('layout/thems/default/left.vm')
+
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="#">首页</a>
+							</li>
+							<li class="active">代理商管理</li>
+						</ul><!-- .breadcrumb -->
+
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="icon-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- #nav-search -->
+					</div>
+
+					<div class="page-content">
+						<div class="page-header">
+							<h1>
+								目录修改
+								<small>
+									<i class="icon-double-angle-right"></i>
+									 查看
+								</small>
+							</h1>
+						</div><!-- /.page-header -->
+
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+								<form role="form" class="form-horizontal" id="newUserForm" method="post" action="$contentPath/user/agent/incomesum/update.html" >
+									<div class="form-group">
+										<label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 月份 </label>
+
+										<div class="col-sm-9">
+											<div class="col-xs-10">
+											   	$!date.format("yyyy-MM-dd",$!agentIncomeSum.incomeDate)	
+											</div>
+										</div>
+									</div>
+									<div class="space-4"></div>
+								
+									<div class="form-group">
+										<label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 金额 </label>
+
+										<div class="col-sm-9">
+											<div class="col-xs-10">
+											     #set($Double = 0.0)
+																			 #set($oriPrice=$Double.parseDouble("$!{agentIncomeSum.amount}"))
+																			 #set($op=$oriPrice / 100)
+																		$number.format("#0.00",$op)
+																		
+											</div>
+										</div>
+									</div>
+									<div class="space-4"></div>
+									<div class="form-group">
+										<label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 结算状态</label>
+
+										<div class="col-sm-9">
+												<div class="col-xs-10 col-sm-5">
+														    <input type="hidden" name="id" value="$!{agentIncomeSum.id}"  >
+																#if("$!{agentIncomeSum.state}"=="1")
+																	<select  class="width-80 " name="state"  id="form-field-select-1" data-placeholder= "代理商等级">
+																
+																	
+																		<option  selected="selected" value="1">出账</option>
+																		<option   value="3">结算</option>
+															
+														
+																	</select>
+																#else
+																	结算
+																	
+																#end
+												</div>		
+										</div>
+									</div>
+									
+									
+									
+									
+							
+									
+									<div class="space-4"></div>
+									
+									<div class="form-group">
+										<label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 创建时间 </label>
+
+										<div class="col-sm-9">
+											<div class="col-xs-10 col-sm-5">
+																<div class="input-group">
+																	$!date.format("yyyy-MM-dd HH:mm:ss",$!agentIncomeSum.createTime)	
+																	
+												</div>
+												
+											</div>
+										</div>
+									</div>
+									<div class="space-4"></div>
+									
+									
+									
+									#if("$!{agentIncomeSum.state}"=="1")
+									<div class="clearfix form-actions">
+										<div class="col-md-offset-3 col-md-9">
+											<button type="button" id="newUserButton" class="btn btn-info">
+												<i class="icon-ok bigger-110"></i>
+												提交
+											</button>
+
+											&nbsp; &nbsp; &nbsp;
+											<button type="reset" class="btn">
+												<i class="icon-undo bigger-110"></i>
+												重置
+											</button>
+										</div>
+									</div>
+									#end
+									<div class="hr hr-24"></div>
+
+
+								
+
+
+								</form>
+
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+				#parse('layout/thems/default/setting.vm')
+			</div><!-- /.main-container-inner -->
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div>
+
+
+<!-- ========== CONTENT END ========== -->
+
+<!-- ========== FOOTER START ========== -->
+
+#parse('layout/thems/default/footer.vm')
+
+
+<!-- ========== FOOTER END ========== -->
+<!-- 配置文件 -->
+
+<script type="text/javascript">
+ seajs.use("members-agent-incomesum-edit");
+</script>
+
+</body>
+</html>

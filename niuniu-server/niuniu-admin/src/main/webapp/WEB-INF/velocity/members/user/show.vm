@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>哞哞管理后台</title>
+	#parse('layout/thems/default/common/base.vm')
+	<script type="text/javascript">
+		var userRoles=new Array();
+		#foreach($userRole in $userRoles)
+        	userRoles.push($userRole.id);
+		#end
+	</script>
+</head>
+<body>
+
+<!-- Header -->
+#parse('layout/thems/default/header.vm')
+
+	<div class="main-container" id="main-container">
+			<script type="text/javascript">
+                var pageNav="members_user_query";
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+				#parse('layout/thems/default/left.vm')
+
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="#">首页</a>
+							</li>
+							<li class="active">用户管理</li>
+						</ul><!-- .breadcrumb -->
+
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="icon-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- #nav-search -->
+					</div>
+
+					<div class="page-content">
+						<div class="page-header">
+							<h1>
+								用户信息
+								<small>
+									<i class="icon-double-angle-right"></i>
+										<a href="$contentPath/members/user/edit/$!{userInfo.user.phone}.html">
+									用户编辑
+								</a>	
+								</small>
+							
+							</h1>
+						</div><!-- /.page-header -->
+
+						<div class="row">
+							<div class="col-xs-12">
+								<div class="">
+									<div class="user-profile" id="user-profile-2">
+										<div class="tabbable">
+											<ul class="nav nav-tabs padding-18">
+												<li class="active">
+													<a href="#home" data-toggle="tab">
+														<i class="green icon-user bigger-120"></i>
+														基础信息
+													</a>
+												</li>
+##												<li class="">
+##													<a href="#cashFlow" data-toggle="tab">
+##														<i class="orange icon-rss bigger-120"></i>
+##														充值/消费记录
+##													</a>
+##												</li>
+##                                                <li class="">
+##                                                    <a href="#roleDistribution" data-toggle="tab">
+##                                                        <i class="orange icon-rss bigger-120"></i>
+##                                                        角色分配
+##                                                    </a>
+##                                                </li>
+##												<li class="">
+##													<a href="#friends" data-toggle="tab">
+##														<i class="blue icon-group bigger-120"></i>
+##														关注
+##													</a>
+##												</li>
+##												<li class="">
+##													<a href="#pictures" data-toggle="tab">
+##														<i class="pink icon-picture bigger-120"></i>
+##														图库
+##													</a>
+##												</li>
+											</ul>
+											<div class="tab-content no-border padding-24">
+												<div class="tab-pane active" id="home">
+                                                    <div class="row">
+                                                        <input type="hidden" value="$!{userInfo.user.Id}" id="userId">
+                                                        <div class="col-xs-12 col-sm-3 center">
+															<span class="profile-picture">
+																<img src="$!{userInfo.user.avatar}" id="avatar2" alt="Alex's Avatar" class="editable img-responsive">
+															</span>
+
+                                                            <div class="space space-4"></div>
+                                                        </div><!-- /span -->
+
+                                                        <div class="col-xs-12 col-sm-9">
+                                                            <h4 class="blue">
+																<span class="label label-purple arrowed-in-right">
+																	<i class="icon-circle smaller-80 align-middle"></i>
+																	online
+																</span>
+                                                            </h4>
+                                                            <div class="profile-user-info">
+                                                                <div class="profile-info-row">
+                                                                    <div class="profile-info-name"> 手机号 </div>
+
+                                                                    <div class="profile-info-value">
+                                                                        <span>$!{userInfo.user.phone}</span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="profile-info-row">
+                                                                    <div class="profile-info-name"> 姓名 </div>
+
+                                                                    <div class="profile-info-value">
+                                                                        <span>
+																			#if($userInfo.user.name&&$userInfo.user.name!="")
+																				$!{userInfo.user.name}
+																			#else
+                                                                                无
+																			#end
+																		</span>
+                                                                    </div>
+                                                                </div>
+														
+                                                                <div class="profile-info-row">
+                                                                    <div class="profile-info-name"> 昵称 </div>
+
+                                                                    <div class="profile-info-value">
+                                                                        <span>
+																			#if($!{userInfo.user.nickName}&&$userInfo.user.nickName!="")
+																				$!{userInfo.user.nickName}
+																			#else
+                                                                                无
+																			#end
+																		</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="profile-info-row">
+                                                                    <div class="profile-info-name"> 账户余额 </div>
+                                                                    <div class="profile-info-value">
+                                                                        <span>
+																			#if($!{userInfo.userAssets.balance})
+																				$!{userInfo.userAssets.balance}
+																			#else
+                                                                                0
+																			#end
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="profile-info-row">
+                                                                    <div class="profile-info-name"> 性别 </div>
+                                                                    <div class="profile-info-value">
+                                                                        <span>
+																			#if($!{userInfo.user.sex})
+                                                                                女
+																			#else
+                                                                                男
+																			#end
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+															 <div class="profile-info-row">
+                                                                    <div class="profile-info-name"> 收益类型 </div>
+
+                                                                    <div class="profile-info-value">
+                                                                        <span>
+																			#if($userInfo.user.incomeLevel=="1")
+																				邀请好友获得红包收益
+																			#elseif($userInfo.user.incomeLevel=="2")
+                                                                                邀请好友获得红包和发布广告收益
+																			#else
+																				无收益
+																			#end
+																		</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="profile-info-row">
+                                                                    <div class="profile-info-name"> 注册渠道 </div>
+                                                                    <div class="profile-info-value">
+                                                                        <span>
+                                                                            #if($!{userInfo.user.channel}&&$userInfo.user.channel!="")
+                                                                                $!{userInfo.user.channel}
+                                                                            #else
+                                                                                无
+                                                                            #end
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="profile-info-row">
+                                                                    <div class="profile-info-name"> 最近登陆时间 </div>
+
+                                                                    <div class="profile-info-value">
+                                                                        <span>
+																			#if($userInfo.user.lastLoginTime)
+																				$!date.format("yyyy-MM-dd HH:mm:ss",$userInfo.user.lastLoginTime)
+																			#else
+                                                                                暂无登录信息
+																			#end
+																		</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="hr hr-8 dotted"></div>
+                                                        </div><!-- /span -->
+                                                    </div>
+													<div class="space-20"></div>
+												</div><!-- #home -->
+                                                <div class="tab-pane" id="cashFlow" style="display: none">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-9">
+                                                            <div class="ibox float-e-margins">
+                                                                <div class="ibox-title">
+                                                                    <div class="input-group m-b">
+                                                                        <div class="input-group-btn">
+                                                                            <button type="button" class="btn btn-white dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                                                                                2016 <span class="caret"></span>
+                                                                            </button>
+                                                                            <ul class="dropdown-menu" role="menu" id="yearDropDown" data-chk="">
+                                                                                <li data-val="2015">
+                                                                                    <a href="javascript:void(0);">2015</a>
+                                                                                </li>
+                                                                                <li class="active" data-val="2016">
+                                                                                    <a href="javascript:void(0);">2016</a>
+                                                                                </li>
+                                                                                <li data-val="2017">
+                                                                                    <a href="javascript:void(0);">2017</a>
+                                                                                </li>
+                                                                                <li data-val="2018">
+                                                                                    <a href="javascript:void(0);">2018</a>
+                                                                                </li>
+                                                                                <li data-val="2019">
+                                                                                    <a href="javascript:void(0);">2019</a>
+                                                                                </li>
+                                                                                <li data-val="2020">
+                                                                                    <a href="javascript:void(0);">2020</a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <h5 style="margin-top:10px;">年 充值/消费记录</h5>
+                                                                    </div>
+
+                                                                    <div class="ibox-tools">
+                                                                        <span class="label label-warning-light" id="masCount"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="ibox-content">
+                                                                    <div>
+                                                                        <div class="feed-activity-list" id="iboxContent">
+                                                                        </div>
+                                                                        <button class="btn btn-primary btn-block m-t" type="button" id="loadNextPage">
+                                                                            <i class="fa fa-arrow-down"></i> 加载更多...
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+														</div>
+													</div>
+												</div>
+                                                <div class="tab-pane" id="roleDistribution" style="display: none">
+                                                    <div class="row">
+														<div class="col-xs-6 col-sm-3">
+															<input type="hidden" id="roleUserId" value="$!{userInfo.user.id}"/>
+                                                            <input type="hidden" id="roleUserPhone" value="$!{userInfo.user.phone}"/>
+																<ul class="list-unstyled" style="margin-bottom: 20px;float: left">
+																	#foreach($role in $!{staticRoles.getContent()})
+																		<li style="float: left;margin-left: 15px;margin-bottom: 10px;">
+																			#set($isChk=0)
+                                                                            #foreach($userRole in $userRoles)
+																				#if($userRole.roleId==${role.roleId})
+																					#set($isChk=$isChk+1)
+																				#end
+																			#end
+																			#if($isChk>0)
+                                                                                <input type="checkbox" checked="checked" class="ace" data-id="${role.roleId}" data-roleName="${role.roleName}"/>
+																			#else
+																				<input type="checkbox" class="ace" data-id="${role.roleId}" data-roleName="${role.roleName}"/>
+																			#end
+																			<span class="lbl"><a href="#" title="查询权限" data-id="${role.roleId}" class="selRole">${role.roleName}</a></span>
+																		</li>
+																	#end
+																</ul>
+																<button class="btn btn-primary btn-block m-	t" type="button" id="saveRole">保存</button>
+                                                            </div>
+                                                        </div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div><!-- /.main-content -->
+				#parse('layout/thems/default/setting.vm')
+		
+			</div><!-- /.main-container-inner -->
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">角色权限</h4>
+            </div>
+            <div class="modal-body">
+                <div class="tab-content" id="myTabContent">
+                    <div role="tabpanel" class="tab-pane fade active in" id="addPermission" aria-labelledby="home-tab">
+                        <ul id="tree" class="ztree" style="width:560px; overflow:auto;"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ========== CONTENT END ========== -->
+
+<!-- ========== FOOTER START ========== -->
+#parse('layout/thems/default/footer.vm')
+<!-- ========== FOOTER END ========== -->
+<!-- 配置文件 -->
+<script id="CashFlow-Template" type="text/x-handlebars-template">
+    {{#each data}}
+        <div class="feed-element">
+            <a class="pull-left" href="{{linkOrder triggerNo}}" target="_blank">
+                {{cashFlowType cashFlowType}} {{price}}元
+            </a>
+            <div class="media-body">
+                <small class="pull-right">余额:{{balance}}</small>
+                <strong>{{cashFlowTitle}}</strong><br>
+                <small class="text-muted">{{createTime}}</small>
+            </div>
+        </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    seajs.use("members-user-show");
+</script>
+
+</body>
+</html>

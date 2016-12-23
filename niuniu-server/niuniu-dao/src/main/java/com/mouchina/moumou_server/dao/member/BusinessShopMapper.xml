@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mouchina.moumou_server.dao.member.BusinessShopMapper">
+	<resultMap id="BaseResultMap"
+		type="com.mouchina.moumou_server.entity.member.BusinessShop">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="business_id" property="businessId" jdbcType="BIGINT" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="shop_sign" property="shopSign" jdbcType="VARCHAR" />
+		<result column="first_pic" property="firstPic" jdbcType="VARCHAR" />
+		<result column="second_pic" property="secondPic" jdbcType="VARCHAR" />
+		<result column="third_pic" property="thirdPic" jdbcType="VARCHAR" />
+		<result column="four_pic" property="fourPic" jdbcType="VARCHAR" />
+		<result column="five_pic" property="fivePic" jdbcType="VARCHAR" />
+		<result column="six_pic" property="sixPic" jdbcType="VARCHAR" />
+		<result column="about" property="about" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, business_id, user_id, create_time, modify_time,
+		state, shop_sign, first_pic, second_pic, third_pic,
+		four_pic, five_pic, six_pic, about, remark
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from business_shop
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	
+	<select id="selectByPrimaryKeyTemp" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from business_shop_temp
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	
+	<select id="selectByBusinessIdTemp" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from business_shop_temp
+		where business_id = #{businessId,jdbcType=BIGINT}
+	</select>
+	
+	<insert id="insertSelective" parameterType="com.mouchina.moumou_server.entity.member.BusinessShop"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into business_shop
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="businessId != null">
+				business_id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="modifyTime != null">
+				modify_time,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="shopSign != null">
+				shop_sign,
+			</if>
+			<if test="firstPic != null">
+				first_pic,
+			</if>
+			<if test="secondPic != null">
+				second_pic,
+			</if>
+			<if test="thirdPic != null">
+				third_pic,
+			</if>
+			<if test="fourPic != null">
+				four_pic,
+			</if>
+			<if test="fivePic != null">
+				five_pic,
+			</if>
+			<if test="sixPic != null">
+				six_pic,
+			</if>
+			<if test="about != null">
+				about,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="businessId != null">
+				#{businessId,jdbcType=BIGINT},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifyTime != null">
+				#{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=INTEGER},
+			</if>
+			<if test="shopSign != null">
+				#{shopSign,jdbcType=VARCHAR},
+			</if>
+			<if test="firstPic != null">
+				#{firstPic,jdbcType=VARCHAR},
+			</if>
+			<if test="secondPic != null">
+				#{secondPic,jdbcType=VARCHAR},
+			</if>
+			<if test="thirdPic != null">
+				#{thirdPic,jdbcType=VARCHAR},
+			</if>
+			<if test="fourPic != null">
+				#{fourPic,jdbcType=VARCHAR},
+			</if>
+			<if test="fivePic != null">
+				#{fivePic,jdbcType=VARCHAR},
+			</if>
+			<if test="sixPic != null">
+				#{sixPic,jdbcType=VARCHAR},
+			</if>
+			<if test="about != null">
+				#{about,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<insert id="insertSelectiveTemp" parameterType="com.mouchina.moumou_server.entity.member.BusinessShop"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into business_shop_temp
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="businessId != null">
+				business_id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="modifyTime != null">
+				modify_time,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="shopSign != null">
+				shop_sign,
+			</if>
+			<if test="firstPic != null">
+				first_pic,
+			</if>
+			<if test="secondPic != null">
+				second_pic,
+			</if>
+			<if test="thirdPic != null">
+				third_pic,
+			</if>
+			<if test="fourPic != null">
+				four_pic,
+			</if>
+			<if test="fivePic != null">
+				five_pic,
+			</if>
+			<if test="sixPic != null">
+				six_pic,
+			</if>
+			<if test="about != null">
+				about,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="businessId != null">
+				#{businessId,jdbcType=BIGINT},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifyTime != null">
+				#{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=INTEGER},
+			</if>
+			<if test="shopSign != null">
+				#{shopSign,jdbcType=VARCHAR},
+			</if>
+			<if test="firstPic != null">
+				#{firstPic,jdbcType=VARCHAR},
+			</if>
+			<if test="secondPic != null">
+				#{secondPic,jdbcType=VARCHAR},
+			</if>
+			<if test="thirdPic != null">
+				#{thirdPic,jdbcType=VARCHAR},
+			</if>
+			<if test="fourPic != null">
+				#{fourPic,jdbcType=VARCHAR},
+			</if>
+			<if test="fivePic != null">
+				#{fivePic,jdbcType=VARCHAR},
+			</if>
+			<if test="sixPic != null">
+				#{sixPic,jdbcType=VARCHAR},
+			</if>
+			<if test="about != null">
+				#{about,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByBusinessId" parameterType="com.mouchina.moumou_server.entity.member.BusinessShop">
+		update business_shop
+		<set>
+			<if test="businessId != null">
+				business_id = #{businessId,jdbcType=BIGINT},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifyTime != null">
+				modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="shopSign != null">
+				shop_sign = #{shopSign,jdbcType=VARCHAR},
+			</if>
+			<if test="firstPic != null">
+				first_pic = #{firstPic,jdbcType=VARCHAR},
+			</if>
+			<if test="secondPic != null">
+				second_pic = #{secondPic,jdbcType=VARCHAR},
+			</if>
+			<if test="thirdPic != null">
+				third_pic = #{thirdPic,jdbcType=VARCHAR},
+			</if>
+			<if test="fourPic != null">
+				four_pic = #{fourPic,jdbcType=VARCHAR},
+			</if>
+			<if test="fivePic != null">
+				five_pic = #{fivePic,jdbcType=VARCHAR},
+			</if>
+			<if test="sixPic != null">
+				six_pic = #{sixPic,jdbcType=VARCHAR},
+			</if>
+			<if test="about != null">
+				about = #{about,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where business_id = #{businessId,jdbcType=BIGINT}
+	</update>
+	
+	<update id="updateByBusinessIdTemp" parameterType="com.mouchina.moumou_server.entity.member.BusinessShop">
+		update business_shop_temp
+		<set>
+			<if test="businessId != null">
+				business_id = #{businessId,jdbcType=BIGINT},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifyTime != null">
+				modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="shopSign != null">
+				shop_sign = #{shopSign,jdbcType=VARCHAR},
+			</if>
+			<if test="firstPic != null">
+				first_pic = #{firstPic,jdbcType=VARCHAR},
+			</if>
+			<if test="secondPic != null">
+				second_pic = #{secondPic,jdbcType=VARCHAR},
+			</if>
+			<if test="thirdPic != null">
+				third_pic = #{thirdPic,jdbcType=VARCHAR},
+			</if>
+			<if test="fourPic != null">
+				four_pic = #{fourPic,jdbcType=VARCHAR},
+			</if>
+			<if test="fivePic != null">
+				five_pic = #{fivePic,jdbcType=VARCHAR},
+			</if>
+			<if test="sixPic != null">
+				six_pic = #{sixPic,jdbcType=VARCHAR},
+			</if>
+			<if test="about != null">
+				about = #{about,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where business_id = #{businessId,jdbcType=BIGINT}
+	</update>
+
+	<update id="updateByPrimaryKeySelectiveTemp" parameterType="com.mouchina.moumou_server.entity.member.BusinessShop">
+		update business_shop_temp
+		<set>
+			<if test="businessId != null">
+				business_id = #{businessId,jdbcType=BIGINT},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifyTime != null">
+				modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="shopSign != null">
+				shop_sign = #{shopSign,jdbcType=VARCHAR},
+			</if>
+			<if test="firstPic != null">
+				first_pic = #{firstPic,jdbcType=VARCHAR},
+			</if>
+			<if test="secondPic != null">
+				second_pic = #{secondPic,jdbcType=VARCHAR},
+			</if>
+			<if test="thirdPic != null">
+				third_pic = #{thirdPic,jdbcType=VARCHAR},
+			</if>
+			<if test="fourPic != null">
+				four_pic = #{fourPic,jdbcType=VARCHAR},
+			</if>
+			<if test="fivePic != null">
+				five_pic = #{fivePic,jdbcType=VARCHAR},
+			</if>
+			<if test="sixPic != null">
+				six_pic = #{sixPic,jdbcType=VARCHAR},
+			</if>
+			<if test="about != null">
+				about = #{about,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<select id="selectModel" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		moumou.business_shop
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="businessId != null">
+				and business_id = #{businessId,jdbcType=BIGINT}
+			</if>
+			<if test="userId != null">
+				and user_id = #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="createTime != null">
+				and create_time = #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="modifyTime != null">
+				and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="state != null">
+				and state = #{state,jdbcType=INTEGER}
+			</if>
+			<if test="shopSign != null">
+				and shop_sign = #{shopSign,jdbcType=VARCHAR}
+			</if>
+			<if test="firstPic != null">
+				and first_pic = #{firstPic,jdbcType=VARCHAR}
+			</if>
+			<if test="secondPic != null">
+				and second_pic = #{secondPic,jdbcType=VARCHAR}
+			</if>
+			<if test="thirdPic != null">
+				and third_pic = #{thirdPic,jdbcType=VARCHAR}
+			</if>
+			<if test="fourPic != null">
+				and four_pic = #{fourPic,jdbcType=VARCHAR}
+			</if>
+			<if test="fivePic != null">
+				and five_pic = #{fivePic,jdbcType=VARCHAR}
+			</if>
+			<if test="sixPic != null">
+				and six_pic = #{sixPic,jdbcType=VARCHAR}
+			</if>
+			<if test="about != null">
+				and about = #{about,jdbcType=VARCHAR}
+			</if>
+			<if test="remark != null">
+				and remark = #{remark,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectModelTemp" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		moumou.business_shop_temp
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="businessId != null">
+				and business_id = #{businessId,jdbcType=BIGINT}
+			</if>
+			<if test="userId != null">
+				and user_id = #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="createTime != null">
+				and create_time = #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="modifyTime != null">
+				and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="state != null">
+				and state = #{state,jdbcType=INTEGER}
+			</if>
+			<if test="shopSign != null">
+				and shop_sign = #{shopSign,jdbcType=VARCHAR}
+			</if>
+			<if test="firstPic != null">
+				and first_pic = #{firstPic,jdbcType=VARCHAR}
+			</if>
+			<if test="secondPic != null">
+				and second_pic = #{secondPic,jdbcType=VARCHAR}
+			</if>
+			<if test="thirdPic != null">
+				and third_pic = #{thirdPic,jdbcType=VARCHAR}
+			</if>
+			<if test="fourPic != null">
+				and four_pic = #{fourPic,jdbcType=VARCHAR}
+			</if>
+			<if test="fivePic != null">
+				and five_pic = #{fivePic,jdbcType=VARCHAR}
+			</if>
+			<if test="sixPic != null">
+				and six_pic = #{sixPic,jdbcType=VARCHAR}
+			</if>
+			<if test="about != null">
+				and about = #{about,jdbcType=VARCHAR}
+			</if>
+			<if test="remark != null">
+				and remark = #{remark,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectList" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		moumou.business_shop_temp
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="businessId != null">
+				and business_id = #{businessId,jdbcType=BIGINT}
+			</if>
+			<if test="userId != null">
+				and user_id = #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="createTime != null">
+				and create_time = #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="modifyTime != null">
+				and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="state != null">
+				and state = #{state,jdbcType=INTEGER}
+			</if>
+			<if test="shopSign != null">
+				and shop_sign = #{shopSign,jdbcType=VARCHAR}
+			</if>
+			<if test="firstPic != null">
+				and first_pic = #{firstPic,jdbcType=VARCHAR}
+			</if>
+			<if test="secondPic != null">
+				and second_pic = #{secondPic,jdbcType=VARCHAR}
+			</if>
+			<if test="thirdPic != null">
+				and third_pic = #{thirdPic,jdbcType=VARCHAR}
+			</if>
+			<if test="fourPic != null">
+				and four_pic = #{fourPic,jdbcType=VARCHAR}
+			</if>
+			<if test="fivePic != null">
+				and five_pic = #{fivePic,jdbcType=VARCHAR}
+			</if>
+			<if test="sixPic != null">
+				and six_pic = #{sixPic,jdbcType=VARCHAR}
+			</if>
+			<if test="about != null">
+				and about = #{about,jdbcType=VARCHAR}
+			</if>
+			<if test="remark != null">
+				and remark = #{remark,jdbcType=VARCHAR}
+			</if>
+			<if test="createTimegt != null">
+				and create_time <![CDATA[  >= ]]> #{createTimegt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createTimelt != null">
+				and create_time <![CDATA[  <= ]]> #{createTimelt,jdbcType=TIMESTAMP}
+			</if>
+		</where>
+		<if test="order != null">
+      		<![CDATA[  order by  ${order} ]]>
+		</if>
+	</select>
+	
+	<select id="selectPageListTemp" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		moumou.business_shop_temp
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="businessId != null">
+				and business_id = #{businessId,jdbcType=BIGINT}
+			</if>
+			<if test="userId != null">
+				and user_id = #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="createTime != null">
+				and create_time = #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="modifyTime != null">
+				and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="state != null">
+				and state = #{state,jdbcType=INTEGER}
+			</if>
+			<if test="shopSign != null">
+				and shop_sign = #{shopSign,jdbcType=VARCHAR}
+			</if>
+			<if test="firstPic != null">
+				and first_pic = #{firstPic,jdbcType=VARCHAR}
+			</if>
+			<if test="secondPic != null">
+				and second_pic = #{secondPic,jdbcType=VARCHAR}
+			</if>
+			<if test="thirdPic != null">
+				and third_pic = #{thirdPic,jdbcType=VARCHAR}
+			</if>
+			<if test="fourPic != null">
+				and four_pic = #{fourPic,jdbcType=VARCHAR}
+			</if>
+			<if test="fivePic != null">
+				and five_pic = #{fivePic,jdbcType=VARCHAR}
+			</if>
+			<if test="sixPic != null">
+				and six_pic = #{sixPic,jdbcType=VARCHAR}
+			</if>
+			<if test="remark != null">
+				and remark = #{remark,jdbcType=VARCHAR}
+			</if>
+			<if test="about != null">
+				and about = #{about,jdbcType=VARCHAR}
+			</if>
+			<if test="createTimegt != null">
+				and create_time <![CDATA[  >= ]]> #{createTimegt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createTimelt != null">
+				and create_time <![CDATA[  <= ]]> #{createTimelt,jdbcType=TIMESTAMP}
+			</if>
+		</where>
+		<if test="order != null">
+      		<![CDATA[  order by  ${order} ]]>
+		</if>
+		<if test="page != null">
+      		<![CDATA[  limit #{page.begin}, #{page.end} ]]>
+		</if>
+	</select>
+	
+	<select id="selectCountTemp" resultType="int" parameterType="java.util.Map">
+		select
+		count(1)
+		from
+		moumou.business_shop_temp
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="businessId != null">
+				and business_id = #{businessId,jdbcType=BIGINT}
+			</if>
+			<if test="userId != null">
+				and user_id = #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="createTime != null">
+				and create_time = #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="modifyTime != null">
+				and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="state != null">
+				and state = #{state,jdbcType=INTEGER}
+			</if>
+			<if test="shopSign != null">
+				and shop_sign = #{shopSign,jdbcType=VARCHAR}
+			</if>
+			<if test="firstPic != null">
+				and first_pic = #{firstPic,jdbcType=VARCHAR}
+			</if>
+			<if test="secondPic != null">
+				and second_pic = #{secondPic,jdbcType=VARCHAR}
+			</if>
+			<if test="thirdPic != null">
+				and third_pic = #{thirdPic,jdbcType=VARCHAR}
+			</if>
+			<if test="fourPic != null">
+				and four_pic = #{fourPic,jdbcType=VARCHAR}
+			</if>
+			<if test="fivePic != null">
+				and five_pic = #{fivePic,jdbcType=VARCHAR}
+			</if>
+			<if test="sixPic != null">
+				and six_pic = #{sixPic,jdbcType=VARCHAR}
+			</if>
+			<if test="about != null">
+				and about = #{about,jdbcType=VARCHAR}
+			</if>
+			<if test="remark != null">
+				and remark = #{remark,jdbcType=VARCHAR}
+			</if>
+			<if test="createTimegt != null">
+				and create_time <![CDATA[  >= ]]> #{createTimegt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createTimelt != null">
+				and create_time <![CDATA[  <= ]]> #{createTimelt,jdbcType=TIMESTAMP}
+			</if>
+		</where>
+		<if test="order != null">
+      		<![CDATA[  order by  ${order} ]]>
+		</if>
+	</select>
+	
+</mapper>

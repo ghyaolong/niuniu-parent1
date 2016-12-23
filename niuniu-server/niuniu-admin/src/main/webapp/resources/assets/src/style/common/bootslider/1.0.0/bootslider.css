@@ -1,0 +1,659 @@
+/*
+    Plugin: Bootslider
+    Plugin Website: http://themes.grozav.com/bootslider
+
+    Author: Alex GROZAV
+    Author Website: http://grozav.com
+*/
+.bootslider {
+	zoom: 1;
+	z-index: 1;
+	display: block;
+	position: relative;
+	overflow: hidden;
+	width: 460px;
+}
+
+.bootslider:before, .bootslider:after {
+	content: "\0020";
+	display: block;
+	height: 0;
+	overflow: hidden;
+}
+
+.bootslider:after {
+	clear: both;
+}
+
+.bootslider .bs-loader {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 999;
+	background: #000;
+	display: block;
+}
+
+.bootslider .bs-loader #loader {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -15px;
+	margin-top: -15px;
+}
+
+.bootslider .bs-container {
+	display: block;
+	position: relative;
+}
+
+.bootslider .bs-container .bs-slide {
+	width: 100%;
+	z-index: 0;
+	top: 0;
+	left: 0;
+	margin: 0;
+	display: none;
+	position: relative;
+}
+
+.bootslider .bs-container .bs-slide .bs-foreground {
+	top: 0;
+	left: 0;
+	margin: 0;
+	z-index: 3;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+.bootslider .bs-container .bs-slide .bs-foreground [data-animate-in] {
+	display: none;
+}
+
+.bootslider .bs-container .bs-slide .bs-foreground [data-animate-in].visible
+	{
+	display: block;
+}
+
+.bootslider .bs-container .bs-slide .bs-foreground iframe {
+	z-index: 10;
+}
+
+.bootslider .bs-container .bs-slide .bs-foreground .bs-video-fullscreen
+	{
+	top: 0;
+	left: 0;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.bootslider .bs-container .bs-slide .bs-foreground .heading {
+	color: #fff;
+	font-size: 72px;
+}
+
+@media screen and (max-width: 767px) {
+	.bootslider .bs-container .bs-slide .bs-foreground .heading {
+		font-size: 36px;
+	}
+}
+
+.bootslider .bs-container .bs-slide .bs-background {
+	top: 0;
+	left: 0;
+	margin: 0;
+	z-index: 2;
+	width: 100%;
+	position: relative;
+}
+
+.bootslider .bs-container .bs-slide .bs-background img {
+	display: block;
+	width: 460px;
+	height: 460px;
+}
+
+.bootslider .bs-container .bs-slide.active {
+	z-index: 1;
+}
+
+.bootslider .bs-container .bs-slide.visible {
+	display: block;
+}
+
+.bootslider .bs-progress {
+	height: 5px;
+}
+
+.bootslider .bs-thumbnails {
+	width: 100%;
+	display: block;
+	position: relative;
+}
+
+.bootslider .bs-thumbnails ul {
+	margin: 0;
+	padding: 0;
+	position: relative;
+	background: #000;
+}
+
+.bootslider .bs-thumbnails ul .bs-thumbnail {
+	float: left;
+	display: block;
+	position: relative;
+	margin: 0;
+	background: #000;
+	z-index: 0;
+}
+
+.bootslider .bs-thumbnails ul .bs-thumbnail img {
+	width: 100%;
+	height: 60px;
+	filter: alpha(opacity = 30);
+	-moz-opacity: 0.3;
+	-khtml-opacity: 0.3;
+	opacity: 0.3;
+}
+
+.bootslider .bs-thumbnails ul .active img {
+	filter: alpha(opacity = 100);
+	-moz-opacity: 1;
+	-khtml-opacity: 1;
+	opacity: 1;
+}
+
+.bootslider .bs-pagination .pagination {
+	margin: 20px 0 20px 0;
+}
+
+.bootslider .bs-pagination .active a {
+	z-index: 0;
+	background: #e74c3c;
+	border-color: #e74c3c;
+}
+
+.bootslider .bs-pagination .active a:hover {
+	color: #fff;
+}
+
+.bootslider .bs-pagination a:hover {
+	color: #e74c3c;
+}
+
+.bootslider .bs-next {
+	z-index: 5;
+}
+
+.bootslider .bs-prev {
+	z-index: 5;
+}
+
+/* 
+Color Classes
+================================
+*/
+.turquoise {
+	background-color: #1abc9c;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.turquoise {
+	background-color: #17a689;
+}
+
+.text-turquoise, .text-turquoise * {
+	color: #1abc9c;
+}
+
+.green-sea {
+	background-color: #16a085;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.green-sea {
+	background-color: #138a72;
+}
+
+.text-green-sea, .text-green-sea * {
+	color: #16a085;
+}
+
+.emerald {
+	background-color: #2ecc71;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.emerald {
+	background-color: #29b765;
+}
+
+.text-emerald, .text-emerald * {
+	color: #2ecc71;
+}
+
+.nephritis {
+	background-color: #27ae60;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.nephritis {
+	background-color: #229955;
+}
+
+.text-nephritis, .text-nephritis * {
+	color: #27ae60;
+}
+
+.peter-river {
+	background-color: #3498db;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.peter-river {
+	background-color: #258cd1;
+}
+
+.text-peter-river, .text-peter-river * {
+	color: #3498db;
+}
+
+.belize-hole {
+	background-color: #2980b9;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.belize-hole {
+	background-color: #2472a4;
+}
+
+.text-belize-hole, .text-belize-hole * {
+	color: #2980b9;
+}
+
+.amethyst {
+	background-color: #9b59b6;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.amethyst {
+	background-color: #8f4bab;
+}
+
+.text-amethyst, .text-amethyst * {
+	color: #9b59b6;
+}
+
+.wisteria {
+	background-color: #8e44ad;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.wisteria {
+	background-color: #7f3d9b;
+}
+
+.text-wisteria, .text-wisteria * {
+	color: #8e44ad;
+}
+
+.wet-ashpalt {
+	background-color: #34495e;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.wet-ashpalt {
+	background-color: #2b3c4e;
+}
+
+.text-wet-ashpalt, .text-wet-ashpalt * {
+	color: #34495e;
+}
+
+.midnight-blue {
+	background-color: #2c3e50;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.midnight-blue {
+	background-color: #233140;
+}
+
+.text-midnight-blue, .text-midnight-blue * {
+	color: #2c3e50;
+}
+
+.sun-flower {
+	background-color: #f1c40f;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.sun-flower {
+	background-color: #dab10d;
+}
+
+.text-sun-flower, .text-sun-flower * {
+	color: #f1c40f;
+}
+
+.orange {
+	background-color: #f39c12;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.orange {
+	background-color: #e08e0b;
+}
+
+.text-orange, .text-orange * {
+	color: #f39c12;
+}
+
+.carrot {
+	background-color: #e67e22;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.carrot {
+	background-color: #d67118;
+}
+
+.text-carrot, .text-carrot * {
+	color: #e67e22;
+}
+
+.pumpkin {
+	background-color: #d35400;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.pumpkin {
+	background-color: #b94a00;
+}
+
+.text-pumpkin, .text-pumpkin * {
+	color: #d35400;
+}
+
+.alizarin {
+	background-color: #e74c3c;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.alizarin {
+	background-color: #e43725;
+}
+
+.text-alizarin, .text-alizarin * {
+	color: #e74c3c;
+}
+
+.pomegranate {
+	background-color: #c0392b;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.pomegranate {
+	background-color: #ab3326;
+}
+
+.text-pomegranate, .text-pomegranate * {
+	color: #c0392b;
+}
+
+.clouds {
+	background-color: #ecf0f1;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.clouds {
+	background-color: #dde4e6;
+}
+
+.text-clouds, .text-clouds * {
+	color: #ecf0f1;
+}
+
+.silver {
+	background-color: #bdc3c7;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.silver {
+	background-color: #afb6bb;
+}
+
+.text-silver, .text-silver * {
+	color: #bdc3c7;
+}
+
+.concrete {
+	background-color: #95a5a6;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.concrete {
+	background-color: #87999a;
+}
+
+.text-concrete, .text-concrete * {
+	color: #95a5a6;
+}
+
+.asbestos {
+	background-color: #7f8c8d;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.asbestos {
+	background-color: #727f80;
+}
+
+.text-asbestos, .text-asbestos * {
+	color: #7f8c8d;
+}
+
+.white {
+	background-color: white;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.white {
+	background-color: #f2f2f2;
+}
+
+.text-white, .text-white * {
+	color: white;
+}
+
+.black {
+	background-color: black;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.black {
+	background-color: black;
+}
+
+.text-black, .text-black * {
+	color: black;
+}
+
+.custom {
+	background-color: #123123;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+a:hover.custom {
+	background-color: #0b1e16;
+}
+
+.text-custom, .text-custom * {
+	color: #123123;
+}
+
+.absolute {
+	position: absolute;
+}
+
+.image-layer {
+	width: 100%;
+	height: auto;
+}
+
+.bootslider .bs-container .bs-slide .bs-foreground .heading {
+	font-weight: 300;
+}
+
+.bootslider .bs-progress {
+	border-radius: 0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+}
+
+.bootslider .bs-thumbnails {
+	z-index: 0;
+	position: relative;
+}
+
+.bootslider .bs-thumbnails ul .bs-thumbnail {
+	background: #e74c3c;
+	margin: 0 0 20px 0;
+}
+
+.bootslider .bs-thumbnails ul .bs-thumbnail img {
+	filter: alpha(opacity = 60);
+	-moz-opacity: 0.6;
+	-khtml-opacity: 0.6;
+	opacity: 0.6;
+}
+
+.bootslider .bs-thumbnails ul .active img {
+	filter: alpha(opacity = 100);
+	-moz-opacity: 1;
+	-khtml-opacity: 1;
+	opacity: 1;
+}
+
+.bootslider .bs-pagination {
+	margin: 0 0 20px 0;
+}
+
+.bootslider .bs-pagination ul li {
+	margin: 0 5px;
+	padding: 0 !important;
+	width: 20px;
+	height: 20px;
+}
+
+.bootslider .bs-pagination ul li a {
+	text-indent: -10000px;
+	width: 20px;
+	height: 20px;
+	display: block;
+	border: 1px solid #e74c3c;
+}
+
+.bootslider .bs-pagination .active {
+	padding: 0 !important;
+}
+
+.bootslider .bs-pagination .active a {
+	background: #e74c3c;
+}
+
+.bootslider .bs-controls {
+	width: 140px;
+	margin: 0px auto;
+}
+
+.bootslider .bs-controls .bs-next {
+	width: 60px;
+	height: 60px;
+	line-height: 60px;
+	display: block;
+	color: #fff;
+	float: right;
+}
+
+.bootslider .bs-controls .bs-prev {
+	width: 60px;
+	height: 60px;
+	line-height: 60px;
+	display: block;
+	color: #fff;
+	float: left;
+}

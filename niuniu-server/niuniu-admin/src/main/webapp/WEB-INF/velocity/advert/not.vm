@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>哞哞管理后台</title>
+    #parse('layout/thems/default/common/base.vm')
+</head>
+<body>
+<!-- Header -->
+    #parse('layout/thems/default/header.vm')
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        var pageNav="advert_not_list";
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+        #parse('layout/thems/default/left.vm')
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <script type="text/javascript">
+                    try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+                </script>
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="#">首页</a>
+                    </li>
+                    <li class="active">未通过广告</li>
+                </ul><!-- .breadcrumb -->
+
+                <div class="nav-search" id="nav-search">
+                    <form class="form-search">
+                        <span class="input-icon">
+                            <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                            <i class="icon-search nav-search-icon"></i>
+                        </span>
+                    </form>
+                </div><!-- #nav-search -->
+            </div>
+
+            <div class="page-content">
+                <div class="page-header">
+                    <h1>
+                        未通过审核列表
+                        <small>
+                            <i class="icon-double-angle-right"></i>
+                            查看
+                        </small>
+                    </h1>
+                </div><!-- /.page-header -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="table-header">
+                            未通过审核列表
+                        </div>
+                        <div class="table-responsive">
+                            <div role="grid" class="dataTables_wrapper" id="sample-table-2_wrapper">
+                                <table class="table table-striped table-bordered table-hover dataTable" id="sample-table-2" aria-describedby="sample-table-2_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 100px;">广告名称</th>
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 100px;">广告内容</th>
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 80px;">广告类型</th>
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 80px;">红包类型</th>
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 80px;">红包数量</th>
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 80px;">总金额</th>
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 80px;">城市</th>
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 80px;">区县</th>
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 80px;">省份</th>
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 80px;">距离</th>
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 80px;">性别</th>
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 100px;">年龄段</th>
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 100px;">开始时间</th>
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 100px;">结束时间</th>
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 100px;">创建时间</th>
+                                        <th class="hidden-480" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 100px;">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="theacertbody" role="alert" aria-live="polite" aria-relevant="all">
+                                    </tbody>
+                                </table>
+                                <ul class="pagination">
+                                </ul>
+                                <div/>
+                                <div>
+                                </div>
+                            </div><!-- /.row -->
+                        </div><!-- /.page-content -->
+                    </div><!-- /.main-content -->
+                </div><!-- /.main-container-inner -->
+                <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+                    <i class="icon-double-angle-up icon-only bigger-110"></i>
+                </a>
+            </div>
+            #parse('layout/thems/default/setting.vm')
+            <!-- ========== CONTENT END ========== -->
+            <!-- ========== FOOTER START ========== -->
+            #parse('layout/thems/default/footer.vm')
+            <!-- ========== FOOTER END ========== -->
+            <!-- 配置文件 -->
+            <script type="text/javascript">
+                window.ajaxUrl=_contentPath+'/advert/list/queryNot.json?begin=';
+                seajs.use("advert-list");
+            </script>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">广告内容清单</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" class="form-horizontal">
+                                <table class="table table-bordered" id="sample-table-2" >
+                                    <thead>
+                                    <tr role="row">
+                                        <th class="hidden-480 sorting" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >内容配图</th>
+                                        <th class="hidden-480 sorting" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >内容描述</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="refoundtbody" role="alert" aria-live="polite" aria-relevant="all">
+
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="examineModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">审核</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" id="examineId" value="0" />
+                            <button type="button" class="btn btn-success">通过</button>
+                            <button type="button" class="btn btn-danger">不通过</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</body>
+</html>

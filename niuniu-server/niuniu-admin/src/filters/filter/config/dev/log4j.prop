@@ -1,0 +1,3 @@
+log4j.service.level=debug
+log4j.standard.level=debug
+log4j.logger.org.springframework.security=DEBUG

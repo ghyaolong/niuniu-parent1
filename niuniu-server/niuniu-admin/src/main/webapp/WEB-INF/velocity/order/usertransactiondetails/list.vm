@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>哞哞科技管理后台</title>
+	#parse('layout/thems/default/common/base.vm')
+  <link href="${contentPath}/resources/assets/src/style/common/bootstrao-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Header -->
+#parse('layout/thems/default/header.vm')
+
+	<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				var pageNav="order_pay_list";
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+				#parse('layout/thems/default/left.vm')
+
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="#">首页</a>
+							</li>
+							<li class="active">订单管理</li>
+						</ul><!-- .breadcrumb -->
+
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="icon-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- #nav-search -->
+					</div>
+
+					<div class="page-content">
+						<div class="page-header">
+							<h1>
+								用户交易明细
+								<small>
+									<i class="icon-double-angle-right"></i>
+									 查看
+								</small>
+							</h1>
+						</div><!-- /.page-header -->
+
+						<div class="row">
+							
+							<div class="col-xs-12">
+										<div class="table-header">
+											用户交易明细
+										</div>
+
+										<div class="table-responsive">
+											<div role="grid" class="dataTables_wrapper" id="sample-table-2_wrapper">
+                                                <div class="row">
+                                                    <div class="col-sm-1">
+                                                        <div class="input-group m-b">
+                                                            <div class="input-group-btn">
+                                                                <button type="button" class="btn btn-white dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                                                                    2016 <span class="caret"></span>
+                                                                </button>
+                                                                <ul class="dropdown-menu" role="menu" id="yearDropDown" data-chk="">
+                                                                    <li data-val="2015">
+                                                                        <a href="javascript:void(0);">2015</a>
+                                                                    </li>
+                                                                    <li class="active" data-val="2016">
+                                                                        <a href="javascript:void(0);">2016</a>
+                                                                    </li>
+                                                                    <li data-val="2017">
+                                                                        <a href="javascript:void(0);">2017</a>
+                                                                    </li>
+                                                                    <li data-val="2018">
+                                                                        <a href="javascript:void(0);">2018</a>
+                                                                    </li>
+                                                                    <li data-val="2019">
+                                                                        <a href="javascript:void(0);">2019</a>
+                                                                    </li>
+                                                                    <li data-val="2020">
+                                                                        <a href="javascript:void(0);">2020</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+													 <div class="col-sm-2">
+														<input  placeholder="开始时间"  type="text" data-date-format="yyyy-mm-dd hh:ii:ss" id="id-date-picker-3" class="form-control date-picker">
+													 </div>
+													 <div class="col-sm-2">												
+														<input  placeholder="结束时间"  type="text" data-date-format="yyyy-mm-dd hh:ii:ss" id="id-date-picker-4" class="form-control date-picker">
+													 </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="input-group m-b">
+                                                            <div class="input-group-btn">
+                                                                
+																
+																<button type="button" class="btn btn-white dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                                                                    订单号 <span class="caret"></span>
+                                                                </button>
+																
+																
+																<ul class="dropdown-menu searchDropDown" role="menu">
+                                                                    <li data-hid="orderNo" class="active"><a href="javascript:void(0);">订单号</a></li>
+                                                                    <li data-hid="userPhone"><a href="javascript:void(0);">手机号</a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <input type="text" class="form-control" placeholder="Search" value="" id="searchValue">
+															<span class="input-group-btn">
+																<button class="btn btn-sm btn-primary" type="button" id="serchBtn" data-fild="orderNo">Go!</button>
+															</span>
+															<span class="input-group-btn">
+																<button class="btn btn-sm btn-primary" style="margin-left: 20px;" type="button" id="exportBtn" data-fild="orderNo">导出</button>
+															</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+												<table class="table table-striped table-bordered table-hover dataTable" id="sample-table-2" aria-describedby="sample-table-2_info">
+												<thead>
+													<tr role="row">
+														<th class="center sorting_disabled" role="columnheader" rowspan="1" colspan="1" style="width: 56px;" aria-label="">
+															<label>
+																<input type="checkbox" class="ace">
+																<span class="lbl"></span>
+															</label>
+														</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >用户标识</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >用户手机号</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >交易时间</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >用户昵称</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >交易类型</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >交易金额</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >交易订单号</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >支付类型</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >钱袋余额</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >福袋余额</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >交易状态</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >当前钱袋余额</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >当前福袋余额</th>
+													</tr>
+												</thead>
+												
+												
+											<tbody id="theacertbody" role="alert" aria-live="polite" aria-relevant="all">
+											</table>
+                                                <ul class="pagination">
+                                                </ul>
+											 <div/>
+											 #foreach($data in $skillMap.entrySet())
+												<input type="hidden" id="skillId${data.key}" value="${data.value.name}">
+											 #end
+											 <div>
+									</div>
+									备注：由于之前数据原因，钱袋和福袋的流水余额数据在持续开发中，暂提供查询当前时刻的用户余额。
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+				
+		
+			</div><!-- /.main-container-inner -->
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div>
+		
+#parse('layout/thems/default/setting.vm')
+
+<!-- ========== CONTENT END ========== -->
+
+<!-- ========== FOOTER START ========== -->
+#parse('layout/thems/default/footer.vm')
+<!-- ========== FOOTER END ========== -->
+<!-- 配置文件 -->
+
+<script type="text/javascript">
+ 	seajs.use("order-usertransactiondetails-list");
+</script>
+
+</body>
+</html>

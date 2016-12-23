@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>标准网页</title>
+<meta name="renderer" content="webkit">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+<meta name="format-detection" content="telephone=no,address=no,email=no" />
+<meta name="mobileOptimized" content="width" />
+<meta name="handheldFriendly" content="true" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<script type="text/javascript" src="js/config.js"></script>
+</head>
+<body>
+
+	<div class="mpages mfudai">
+
+		<!--绘制画布-->
+		<div class="canvers">
+			<canvas id="canvers"
+				style="width: 100%; height: 100%; display: none;"> </canvas>
+		</div>
+
+		<div class="mfudai_haobao" style="display: none;">
+			<div class="close openclose"></div>
+			<div class="guanbi"></div>
+			<!--头像-->
+			<div class="shop">
+				<img src="images/fudai1.jpg"><br> <span></span>
+			</div>
+			<div class="an">
+				<a href="javascript:void(0);" onclick="go();"></a>
+			</div>
+		</div>
+
+		<div class="content">
+			<img src="images/fudai1.jpg" class="tx"> <span class="niujiao"></span>
+			<ul class="list">139****4796刚刚开启了88元
+			</ul>
+		</div>
+
+		<div class="anniu">
+			<img src="images/anniu.png">
+		</div>
+	</div>
+
+
+
+</body>
+</html>
+
+<script>
+
+
+//如果浏览器传了loginKey就用传的，没有传就用缓存中的
+loginKey = getUrlParams("loginKey");
+if(loginKey!="" && loginKey!=undefined){
+	store.set("loginKey",loginKey);
+}else{
+	loginKey = store.get("loginKey");
+}
+
+//如果浏览器传了loginKey就用传的，没有传就用缓存中的
+type = getUrlParams("type");
+if(type!="" && type!=undefined){
+	store.set("type",type);
+}else{
+	type = store.get("type");
+}
+
+
+
+//加载用户信息
+var data = {}
+var paramsData = {}
+paramsData['api'] = 'userinfo';
+paramsData['debug'] = true;
+paramsData['type'] = 'get';
+paramsData['funSuccess'] = function(data){
+	store.set("userinfo",data.info);
+	if(data.info.userAvatar!="")$(".tx").attr("src",data.info.avatar);//头像
+};
+paramsData['loginKey'] = store.get("loginKey");	
+comajax(paramsData);
+
+
+
+
+// 加载纹理图片  
+var bark = new Image();  
+bark.src = "images/jinbi.png"; 
+// 图片加载完后，将其显示在canvas 上  
+bark.onload = function () {  
+    drawTrails();  
+}  
+var w = 32,h=20;
+
+function drawTrails() {  
+    var canvas = document.getElementById('canvers');  
+    var context = canvas.getContext('2d');  
+  
+    var temp = [12,14,16];       
+    for(k=0;k<5;k++){           	
+    
+    	for(j=0;j<10;j++){
+    		
+    		var ww = temp[Math.floor(Math.random()*3)];  
+    	    var hh = h/w * ww;
+    		
+    		 var cuoweih = 0;
+    		 if(k%2==0){
+    		 	if(j%2==0) cuoweih=20;
+    		 }else{
+    		 	if(j%2!=0) cuoweih=20;
+    		 }
+    		 
+    		 
+             context.drawImage(bark,j*30,k+20*k+cuoweih,ww,hh);
+    	}            	
+    }
+  
+}  
+
+$(".anniu").off().click(function(){
+	
+	//加载商家信息
+	var paramsData = {}
+	paramsData['api'] = 'advert';
+	paramsData['debug'] = true;
+	paramsData['type'] = 'get';
+	paramsData['funSuccess'] = function(data){	
+		//mess_tusi(data.errorCode+"<br>"+store.get("loginKey"));
+		store.set("business",data.business);
+		store.set("advertContent",data.advertContent);	
+		store.set("advertId",data.advertId);	
+		store.set("website",data.website);
+		store.set("isFans",data.isFans);
+	    if(data.business!=undefined && data.business!=""){
+	    	 $(".shop span").text(data.business.businessName);//商家名称
+	    	 $(".shop img").attr("src",data.business.businssCredentialsUp);//商家图片
+	    }	   
+
+	};
+	paramsData['loginKey'] = store.get("loginKey");	
+	comajax(paramsData);
+
+	
+	
+	var temph = $("#canvers").height()+"px";
+	$("#canvers").show().css("margin-top","-"+temph).stop().animate({"margin-top":temph},2500,'easeOutCubic');
+	setTimeout(function(){
+		open = new opendivAll({'divclassname':'mfudai_haobao',"isshowclose":'0',"edgestyle":0});
+	},1000)
+});
+
+function go(){
+	if(errorCode=="100101" || errorCode=="200001" ){
+		mess_tanchuang("没有获取到福袋",function(){
+	        //window.location.href="shop.html";
+		    open.close();
+	    })
+	}else{
+		window.location.href="shop.html";
+	}
+}
+
+
+var shuju=[];
+shuju.push("139****5423刚刚开启了18元");
+shuju.push("157****4240刚刚开启了22元");
+shuju.push("133****8632刚刚开启了5元");
+shuju.push("153****7252刚刚开启了12元");
+shuju.push("187****4002刚刚开启了30元");
+shuju.push("159****3521刚刚开启了42元");
+shuju.push("131****6522刚刚开启了55元");
+shuju.push("177****2463刚刚开启了24元");
+shuju.push("156****1022刚刚开启了10元");
+shuju.push("154****7924刚刚开启了2元");
+shuju.push("183****8536刚刚开启了8元");
+shuju.push("138****7070刚刚开启了14元");
+shuju.push("157****1050刚刚开启了23元");
+shuju.push("144****2854刚刚开启了4元");
+shuju.push("159****5927刚刚开启了6元");
+shuju.push("189****1025刚刚开启了14元");
+shuju.push("153****4752刚刚开启了65元");
+$(".list").html(shuju[Math.floor(Math.random()*shuju.length)]);
+
+$(".mfudai").css({"height":$(window).height()+"px"});
+//alert($(window).height());
+</script>
+

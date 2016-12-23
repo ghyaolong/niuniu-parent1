@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>邀请好友</title>
+<meta name="renderer" content="webkit">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+<meta name="format-detection" content="telephone=no,address=no,email=no" />
+<meta name="mobileOptimized" content="width" />
+<meta name="handheldFriendly" content="true" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<script type="text/javascript" src="js/config.js"></script>
+</head>
+<body>
+
+	<div class="mpages userinfo">
+
+		<ul class="itme">
+			<li class="title">性别</li>
+			<li class="con sex"><a value="2">女</a> <a value="1">男</a></li>
+		</ul>
+
+		<ul class="itme">
+			<li class="title">婚否</li>
+			<li class="con hunyin"><a value="1">已婚</a> <a value="0">未婚</a> <a
+				value="2">保密</a></li>
+		</ul>
+
+		<ul class="itme">
+			<li class="title">年龄</li>
+			<li class="con1 age"><a value="1">10岁以下</a> <a value="2">10-20</a>
+				<a value="3">20-30</a> <a value="4">30-40</a> <br> <a value="5">40-50</a>
+				<a value="6">60岁以上</a></li>
+		</ul>
+
+		<ul class="itme" style="border: 0px;">
+			<li class="title">月薪</li>
+			<li class="con1 yuexin"><a value="1">2K以下</a> <a value="2">2-4K</a>
+				<a value="3">4-6K</a> <a value="4">6-8K</a> <a value="5">8-10K</a> <a
+				value="6">10K以上</a></li>
+		</ul>
+
+		<ul class="jinru">
+			<img src="images/jinru.png" class="imgwidth userupd">
+		</ul>
+
+	</div>
+
+</body>
+</html>
+<script>
+	$(".itme").on("click","a",function(){
+		$(this).parent().find(".active").removeClass("active");
+		$(this).addClass("active");
+	})
+	
+$(".userupd").click(function(){
+	var sex = $(".sex a.active").attr("value");
+	var hunyin = $(".hunyin a.active").attr("value");
+	var age = $(".age a.active").attr("value");
+	var yuexin  = $(".yuexin a.active").attr("value");
+	
+	if(sex=="" || sex==undefined) return mess_tusi("请选择性别");
+	if(hunyin=="" || hunyin==undefined) return mess_tusi("请选择婚姻状况");
+	if(age=="" || age==undefined) return mess_tusi("请选择年龄");
+	if(yuexin=="" || yuexin==undefined) return mess_tusi("请选择月薪");	
+	
+	
+	showloaddinghtml5(1);
+	var paramsData = {}
+	paramsData['api'] = 'userupd';
+	paramsData['debug'] = true;
+	paramsData['funSuccess'] = function(data){
+		showloaddinghtml5(0);
+		if(data.result==1){
+			 window.location.href= 'http://appurl.cc/136962';
+		}else{
+			return showerror(data.errorCode);	
+			//window.location.href= 'http://appurl.cc/136962';		
+		}
+       
+	};
+	paramsData['loginKey'] = store.get("loginKey");
+	paramsData['sex'] = sex;
+	paramsData['married'] = hunyin;
+	paramsData['ageGroup'] = age;
+	paramsData['salary'] = yuexin;
+	
+	console.log(paramsData);
+	comajax(paramsData);
+	
+	
+});
+	
+</script>

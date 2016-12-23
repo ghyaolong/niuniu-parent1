@@ -1,0 +1,12 @@
+base.resource.url=http://resupload.banjiajia.cn
+base.resource.video.path=/moumou/resource/video
+reimburse.tencent.cert.url=/zy/product/bjj/oms/cert/apiclient_cert.p12
+reimburse.alipay.notify.url=http://test7.eachbaby.com/admin/order/userremiburse/ali_notify.html
+withdrawal.alipay.notify.url=http://test7.eachbaby.com/admin/welfare/withdrawal/ali_notify.html
+alipay.notify.url=http://moumou.oddzone.cn/notify/alipay_notify
+weixin.notify.url=http://moumou.oddzone.cn/notify/weixinpay_notify
+weixin.mch_appid=wx11062cf326bb09bb
+weixin.mchid=1315715001
+weixin.check_name=NO_CHECK
+weixin.spbill_create_ip=117.33.106.44
+weixin.signkey=mmc201603201200xKxLx4o8PJ1afCtk9

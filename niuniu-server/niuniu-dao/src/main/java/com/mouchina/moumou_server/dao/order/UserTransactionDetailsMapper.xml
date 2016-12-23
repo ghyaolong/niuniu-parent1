@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.mouchina.moumou_server.dao.order.UserTransactionDetailsMapper">
+	<resultMap id="BaseResultMap"
+		type="com.mouchina.moumou_server.entity.order.UserTransactionDetails">
+		<result column="order_no" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="pay_state" property="tradeState" jdbcType="VARCHAR" />
+		<result column="create_time" property="tradeTime" jdbcType="TIMESTAMP" />
+		<result column="deal_price" property="tradeAmount" jdbcType="INTEGER" />
+		<result column="order_type" property="tradeType" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="pay_way" property="payType" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap id="ExportBaseResultMap"
+		type="com.mouchina.moumou_server.entity.vo.UserTransactionDetailsVo">
+		<result column="order_no" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="pay_state" property="tradeState" jdbcType="VARCHAR" />
+		<result column="create_time" property="tradeTime" jdbcType="VARCHAR" />
+		<result column="deal_price" property="tradeAmount" jdbcType="INTEGER" />
+		<result column="order_type" property="tradeType" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="pay_way" property="payType" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		a.order_no,
+		case when po.pay_state = 1 then '未支付'
+		when
+		po.pay_state = 2 then '支付成功'
+		when po.pay_state = 3 then '支付失败'
+		when
+		po.pay_state = 4 then '用户取消'
+		when po.pay_state = 5 then '支付完成'
+		when
+		po.pay_state = 6 then '退款申请'
+		when po.pay_state = 7 then '退款完成'
+		end
+		pay_state,
+		a.create_time, +a.deal_price,
+		1 as order_type, a.user_id,
+		po.pay_way
+	</sql>
+
+	<sql id="Withdrawl_History_Base_Column_List">
+		withdrawl_history_order_no as order_no,
+		case when state = 1
+		then '提现申请'
+		when state = 2 then '提现完成'
+		when state = 3 then '提现成功'
+		when
+		state = 4 then '提现中'
+		end pay_state, create_time,
+		-price as deal_price, 2
+		as order_type, user_id, withdrawal_channel as
+		pay_way
+	</sql>
+
+	<sql id="Export_Base_Column_List">
+		a.order_no,
+		case when po.pay_state = 1 then '未支付'
+		when
+		po.pay_state = 2 then '支付成功'
+		when po.pay_state = 3 then '支付失败'
+		when
+		po.pay_state = 4 then '用户取消'
+		when po.pay_state = 5 then '支付完成'
+		when
+		po.pay_state = 6 then '退款申请'
+		when po.pay_state = 7 then '退款完成'
+		end
+		pay_state,
+		DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%i:%s') as
+		create_time,
+		IFNULL(a.deal_price,0)/100 as deal_price,
+		'充值' as
+		order_type, a.user_id,
+		case when po.pay_way = 1 then '支付宝'
+		when
+		po.pay_way = 2 then '微信'
+		end pay_way
+	</sql>
+
+	<sql id="Export_Withdrawl_History_Base_Column_List">
+		withdrawl_history_order_no as order_no,
+		case when state = 1
+		then '提现申请'
+		when state = 2 then '提现完成'
+		when state = 3 then '提现成功'
+		when
+		state = 4 then '提现中'
+		end pay_state, DATE_FORMAT(create_time,'%Y-%m-%d
+		%H:%i:%s') as
+		create_time,
+		IFNULL(-price,0)/100 as deal_price, '提现' as
+		order_type, user_id,
+		case when withdrawal_channel = 1 then '支付宝'
+		when
+		withdrawal_channel = 2 then '微信'
+		end pay_way
+	</sql>
+
+	<sql id="userTransactionDetailsJoins">
+		LEFT JOIN pay_order_${tableNum} po ON a.order_no =
+		po.order_no
+	</sql>
+
+	<select id="selectPageList" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		moumou.orders_${tableNum} a
+		<include refid="userTransactionDetailsJoins" />
+		<where>
+			<if test="id != null">
+				and a.id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="tradeNo != null">
+				and a.order_no like
+				concat('%',#{tradeNo,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="createTimegt != null">
+				and a.create_time <![CDATA[  >= ]]>
+				#{createTimegt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createTimelt != null">
+				and a.create_time <![CDATA[  <= ]]>
+				#{createTimelt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userId != null">
+				and a.user_id= #{userId,jdbcType=BIGINT}
+			</if>
+		</where>
+		union
+		select
+		<include refid="Withdrawl_History_Base_Column_List" />
+		from
+		moumou.withdrawal_history_order
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="tradeNo != null">
+				and withdrawl_history_order_no like
+				concat('%',#{tradeNo,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="createTimegt != null">
+				and create_time <![CDATA[  >= ]]>
+				#{createTimegt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createTimelt != null">
+				and create_time <![CDATA[  <= ]]>
+				#{createTimelt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userId != null">
+				and user_id= #{userId,jdbcType=BIGINT}
+			</if>
+		</where>
+		<if test="order != null">
+      <![CDATA[  order by  ${order} ]]>
+		</if>
+		<if test="page != null">
+      <![CDATA[  limit #{page.begin}, #{page.end} ]]>
+		</if>
+	</select>
+	<select id="selectCount" resultType="int" parameterType="java.util.Map">
+
+		select sum(num) from (
+		select
+		count(1) num
+		from
+		moumou.orders_${tableNum}
+		a
+		<include refid="userTransactionDetailsJoins" />
+		<where>
+			<if test="id != null">
+				and a.id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="tradeNo != null">
+				and a.order_no like
+				concat('%',#{tradeNo,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="createTimegt != null">
+				and a.create_time <![CDATA[  >= ]]>
+				#{createTimegt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createTimelt != null">
+				and a.create_time <![CDATA[  <= ]]>
+				#{createTimelt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userId != null">
+				and a.user_id= #{userId,jdbcType=BIGINT}
+			</if>
+		</where>
+
+		union
+
+		select
+		count(1) num
+		from
+		moumou.withdrawal_history_order
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="tradeNo != null">
+				and withdrawl_history_order_no like
+				concat('%',#{tradeNo,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="createTimegt != null">
+				and create_time <![CDATA[  >= ]]>
+				#{createTimegt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createTimelt != null">
+				and create_time <![CDATA[  <= ]]>
+				#{createTimelt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userId != null">
+				and user_id= #{userId,jdbcType=BIGINT}
+			</if>
+		</where>
+		) b
+	</select>
+
+	<select id="exportPageList" resultMap="ExportBaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Export_Base_Column_List" />
+		from
+		moumou.orders_${tableNum} a
+		<include refid="userTransactionDetailsJoins" />
+		<where>
+			<if test="id != null">
+				and a.id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="tradeNo != null">
+				and a.order_no like
+				concat('%',#{tradeNo,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="createTimegt != null">
+				and a.create_time <![CDATA[  >= ]]>
+				#{createTimegt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createTimelt != null">
+				and a.create_time <![CDATA[  <= ]]>
+				#{createTimelt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userId != null">
+				and a.user_id= #{userId,jdbcType=BIGINT}
+			</if>
+		</where>
+		union
+		select
+		<include refid="Export_Withdrawl_History_Base_Column_List" />
+		from
+		moumou.withdrawal_history_order
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="tradeNo != null">
+				and withdrawl_history_order_no like
+				concat('%',#{tradeNo,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="createTimegt != null">
+				and create_time <![CDATA[  >= ]]>
+				#{createTimegt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createTimelt != null">
+				and create_time <![CDATA[  <= ]]>
+				#{createTimelt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userId != null">
+				and user_id= #{userId,jdbcType=BIGINT}
+			</if>
+		</where>
+		<if test="order != null">
+      <![CDATA[  order by  ${order} ]]>
+		</if>
+		<if test="page != null">
+      <![CDATA[  limit #{page.begin}, #{page.end} ]]>
+		</if>
+	</select>
+
+</mapper>

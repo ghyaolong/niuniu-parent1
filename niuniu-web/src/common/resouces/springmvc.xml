@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/mvc 
+    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/task 
+	http://www.springframework.org/schema/task/spring-task-4.0.xsd
+    ">
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:environment.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- anntion 自动扫描 -->
+	<aop:aspectj-autoproxy />
+	<task:annotation-driven />
+	<context:annotation-config />
+	<context:component-scan base-package="com.mouchina.**" />
+	<mvc:annotation-driven conversion-service="conversionService" />
+
+	<bean id="conversionService"
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	</bean>
+
+	<!-- springmvc 文件上传 -->
+	<bean id="multipartResolver" class="com.mouchina.web.base.rewrite.CustomMultipartResolver">
+		<property name="maxUploadSize">
+			<value>55242880</value>
+		</property>
+	</bean>
+
+
+
+
+	<!-- 错误处理 -->
+	<bean id="exceptionResolver"
+		class="com.mouchina.web.base.exception.CustomSimpleMappingExceptionResolver">
+		<property name="defaultErrorView">
+			<value>common/error</value>
+		</property>
+
+		<property name="warnLogCategory">
+			<value>org.springframework.web.servlet.handler.SimpleMappingExceptionResolver
+			</value>
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="ignoreAcceptHeader" value="true" />
+		<property name="defaultContentType" value="application/json" />
+
+		<property name="defaultViews">
+			<list>
+				<bean
+					class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+					<property name="contentType" value="application/json"></property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+
+	<!--注解代码扫描 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="order" value="0" />
+	</bean>
+
+	<mvc:interceptors>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.mouchina.web.base.interceptor.ApiRequestInterceptor">
+				<property name="appIoskey" value="${moumou.app.ios.key}" />
+				<property name="appAndroidkey" value="${moumou.app.android.key}" />
+			</bean>
+		</mvc:interceptor>
+
+	</mvc:interceptors>
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/pages/" />
+		<property name="suffix" value=".html" />
+		<property name="contentType" value="text/html; charset=utf-8" />
+	</bean>
+
+	<!-- 定时任务 -->
+	<import resource="springschedule.xml" />
+
+
+</beans>

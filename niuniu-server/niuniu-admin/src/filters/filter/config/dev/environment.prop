@@ -1,0 +1,5 @@
+base.resource.url=http://res.mouchina.com
+reimburse.tencent.cert.url=/zy/product/bjj/cert/apiclient_cert.p12
+reimburse.alipay.notify.url=http://test7.eachbaby.com/order/userremiburse/ali_notify.html
+withdrawal.alipay.notify.url=http://localhost:8082/welfare/withdrawal/ali_notify.html
+testpay.alipay.notify.url=http://localhost:8082/order/test_pay/ali_notify.html

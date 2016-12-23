@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans        
+    http://www.springframework.org/schema/beans/spring-beans.xsd        
+    http://code.alibabatech.com/schema/dubbo        
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="moumou-web" />
+	<!-- 使用multicast广播注册中心暴露发现服务地址 -->
+	<!-- <dubbo:registry address="multicast://224.5.6.7:1234" /> -->
+	<dubbo:registry address="${dubbo.registry.address}" />
+
+	<dubbo:reference id="userVerifyService"
+		interface="com.mouchina.moumou_server_interface.member.UserVerifyService" />
+	<!-- 用户等级配置service -->
+	<dubbo:reference id="userLevelConfigService"
+		interface="com.mouchina.moumou_server_interface.member.UserLevelConfigService" />
+	<!-- 充值等级配置service -->
+	<dubbo:reference id="rechargeConfigService"
+		interface="com.mouchina.moumou_server_interface.order.RechargeConfigService" />
+	<!-- 捐款记录配置service -->
+	<dubbo:reference id="userDonationService"
+		interface="com.mouchina.moumou_server_interface.advert.UserDonationService" />
+	<!-- 提现配置service -->
+	<dubbo:reference id="withDrawalConfigService"
+		interface="com.mouchina.moumou_server_interface.order.WithDrawalConfigService" />
+	<dubbo:reference id="payOrderService"
+		interface="com.mouchina.moumou_server_interface.pay.PayOrderService" />
+
+	<dubbo:reference id="orderService"
+		interface="com.mouchina.moumou_server_interface.order.OrderService" />
+
+	<dubbo:reference id="reimburseService"
+		interface="com.mouchina.moumou_server_interface.pay.ReimburseService" />
+
+	<dubbo:reference id="cashFlowService"
+		interface="com.mouchina.moumou_server_interface.pay.CashFlowService" />
+
+	<dubbo:reference id="smsTemplateService"
+		interface="com.mouchina.moumou_server_interface.message.SmsTemplateService" />
+
+	<dubbo:reference id="systemService"
+		interface="com.mouchina.moumou_server_interface.system.SystemService" />
+	<dubbo:reference id="userAgentService"
+		interface="com.mouchina.moumou_server_interface.member.UserAgentService" />
+	<dubbo:reference id="orderQueryService"
+		interface="com.mouchina.moumou_server_interface.order.OrderQueryService" />
+
+	<dubbo:reference id="advertService"
+		interface="com.mouchina.moumou_server_interface.advert.AdvertService" />
+	<dubbo:reference id="userInviteService"
+		interface="com.mouchina.moumou_server_interface.social.UserInviteService" />
+	<dubbo:reference id="usersRelationService"
+		interface="com.mouchina.moumou_server_interface.social.UsersRelationService" />
+	<dubbo:reference id="businessService"
+		interface="com.mouchina.moumou_server_interface.member.BusinessService" />
+	<dubbo:reference id="orderBillService"
+		interface="com.mouchina.moumou_server_interface.member.OrderBillService" />
+	<dubbo:reference id="withdrawalsService"
+		interface="com.mouchina.moumou_server_interface.order.WithdrawalsService" />
+	<dubbo:reference id="userAssetsService"
+		interface="com.mouchina.moumou_server_interface.member.UserAssetsService" />
+	<!--反馈 -->
+	<dubbo:reference id="FeedBackService"
+		interface="com.mouchina.moumou_server_interface.social.FeedBackService" />
+	<dubbo:reference id="userCommentService"
+		interface="com.mouchina.moumou_server_interface.social.UserCommentService" />
+	<dubbo:reference id="userIncomeService"
+		interface="com.mouchina.moumou_server_interface.income.UserIncomeService" />
+	<dubbo:reference id="agentIncomeService" interface="com.mouchina.moumou_server_interface.income.AgentIncomeService" />
+
+	<!-- 区域信息查询 -->
+	<dubbo:reference id="areaService" interface="com.mouchina.moumou_server_interface.system.AreaService" />
+		
+	<!-- 整点宝箱、签到功能、每日任务 -->
+	<dubbo:reference id="signConfigService" interface="com.mouchina.moumou_server_interface.award.SignConfigService"/>
+	<dubbo:reference id="signHistoryService" interface="com.mouchina.moumou_server_interface.award.SignHistoryService"/>
+	<dubbo:reference id="treasureBoxConfigService" interface="com.mouchina.moumou_server_interface.award.TreasureBoxConfigService"/>
+	<dubbo:reference id="treasureAwardHistoryService" interface="com.mouchina.moumou_server_interface.award.TreasureAwardHistoryService"/>
+	<dubbo:reference id="treasureAwardHistoryServiceNew" interface="com.mouchina.moumou_server_interface.award.TreasureAwardHistoryServiceNew"/>
+	<dubbo:reference id="taskHistoryService" interface="com.mouchina.moumou_server_interface.award.TaskHistoryService"/>
+	<dubbo:reference id="taskConfigService" interface="com.mouchina.moumou_server_interface.award.TaskConfigService"/>
+	<!-- 优惠券 -->
+	<dubbo:reference id="businessCouponService" interface="com.mouchina.moumou_server_interface.advert.BusinessCouponService"/>
+	<!-- 营销数据 -->
+	<dubbo:reference id="businessMarketingService" interface="com.mouchina.moumou_server_interface.particular.BusinessMarketingService"/>
+	<!-- 数据详情 -->
+	<dubbo:reference id="userParticularService" interface="com.mouchina.moumou_server_interface.particular.UserParticularService"/>	
+
+	<!-- 系统消息 -->
+	<dubbo:reference id="systemMessageService" interface="com.mouchina.moumou_server_interface.system.SystemMessageService"/>
+
+	<!-- 红包服务 -->
+	<dubbo:reference id="redEnvelopeService" interface="com.mouchina.moumou_server_interface.redEnvelope.RedEnvelopeService"/>
+	<!-- 活动配置 -->
+	<dubbo:reference id="activityConfigService" interface="com.mouchina.moumou_server_interface.activityConfig.ActivityConfigService"/>
+	
+	<!-- 商户店铺信息 -->
+	<dubbo:reference id="businessShopService" interface="com.mouchina.moumou_server_interface.member.BusinessShopService"/>
+	
+	<!-- 维护申请代理商记录信息 -->
+	<dubbo:reference id="userAgentApplicationRecordService" interface="com.mouchina.moumou_server_interface.member.UserAgentApplicationRecordService"/>
+
+</beans>

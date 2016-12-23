@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>哞哞管理后台</title>
+	#parse('layout/thems/default/common/base.vm')
+	<script type="text/javascript">
+		var userRoles=new Array();
+		#foreach($userRole in $userRoles)
+        	userRoles.push($userRole.id);
+		#end
+	</script>
+</head>
+<body>
+
+<!-- Header -->
+#parse('layout/thems/default/header.vm')
+
+	<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				var pageNav="PERMISSION_TEACHER_ADD";
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+				#parse('layout/thems/default/left.vm')
+
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="#">首页</a>
+							</li>
+							<li class="active">代理商管理</li>
+						</ul><!-- .breadcrumb -->
+
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="icon-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- #nav-search -->
+					</div>
+
+					<div class="page-content">
+						<div class="page-header">
+							<h1>
+								代理商信息
+								<small>
+									<i class="icon-double-angle-right"></i>
+									 查看
+								</small>
+							</h1>
+						</div><!-- /.page-header -->
+
+						<div class="row">
+							<div class="col-xs-12">
+								<div class="col-xs-12 col-sm-9">
+															<h4 class="blue">
+																<span class="middle">$!{teacherExtInfo.teacher.name}</span>
+
+																
+															</h4>
+
+															<div class="profile-user-info">
+																<div class="profile-info-row">
+																	<div class="profile-info-name"> 用户id </div>
+
+																	<div class="profile-info-value">
+																		<span>$!{agentVo.userId}</span>
+																	</div>
+																</div>
+															 	<div class="profile-info-row">
+																	<div class="profile-info-name"> 手机 </div>
+
+																	<div class="profile-info-value">
+																		<span>$!{agentVo.phone}</span>
+																	</div>
+																</div>
+																
+																<div class="profile-info-row">
+																	<div class="profile-info-name"> 用户名 </div>
+
+																	<div class="profile-info-value">
+																		<span>$!{agentVo.userName}</span>
+																	</div>
+																</div>
+																
+															    <div class="profile-info-row">
+																	<div class="profile-info-name"> 代理状态 </div>
+
+																	<div class="profile-info-value">
+																		#if("$!{agentVo.state}"=="0")
+																		<span>锁定</span>
+																		#else
+																		<span>正常</span>
+																		#end
+																	</div>
+																</div>
+																
+																<div class="profile-info-row">
+																	<div class="profile-info-name"> 代理等级 </div>
+
+																	<div class="profile-info-value">
+																		#if("$!{agentVo.agentLevel}"=="1")
+																		<span>官方管理商</span>
+																	#elseif("$!{agentVo.agentLevel}"=="2")
+																			<span>区县代理商</span>
+																		
+																	#elseif("$!{agentVo.agentLevel}"=="3")
+																		<span>中心代理商</span>
+																	#elseif("$!{agentVo.agentLevel}"=="4")
+																		<span>星级代理商</span>
+																	#end
+															
+																	</div>
+																</div>
+
+																
+																<div class="profile-info-row">
+																	<div class="profile-info-name"> 创建时间 </div>
+
+																	<div class="profile-info-value">
+																		<span>$!date.format("yyyy-MM-dd HH:mm:ss",$!{agentVo.createTime})</span>
+																	</div>
+																</div>
+																<div class="profile-info-row">
+																	<div class="profile-info-name"> 修改时间 </div>
+
+																	<div class="profile-info-value">
+																		<span>$!date.format("yyyy-MM-dd HH:mm:ss",$!{agentVo.updateTime})</span>
+																	</div>
+																</div>
+
+															</div>
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+				#parse('layout/thems/default/setting.vm')
+			</div><!-- /.main-container-inner -->
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div>
+
+
+<!-- ========== CONTENT END ========== -->
+
+<!-- ========== FOOTER START ========== -->
+#parse('layout/thems/default/footer.vm')
+<!-- ========== FOOTER END ========== -->
+<!-- 配置文件 -->
+<script id="CashFlow-Template" type="text/x-handlebars-template">
+    {{#each data}}
+        <div class="feed-element">
+            <a class="pull-left" href="{{linkOrder triggerNo}}" target="_blank">
+                {{cashFlowType cashFlowType}} {{price}}元
+            </a>
+            <div class="media-body">
+                <small class="pull-right">余额:{{balance}}</small>
+                <strong>{{cashFlowTitle}}</strong><br>
+                <small class="text-muted">{{createTime}}</small>
+            </div>
+        </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    seajs.use("members-agent-show");
+</script>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:b="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	<!--登录页面不过滤 -->
+	<http pattern="/account/login.html" security="none" />
+	<http pattern="/task/**" security="none" />
+	<!--静态资源不过滤 -->
+	<http pattern="/resources/**" security="none" />
+	<http pattern="/timing/**" security="none" />
+	<http auto-config="true">
+		<form-login login-page="/account/login.html?msg=login"
+			authentication-failure-url="/account/login.html?msg=error"
+			always-use-default-target="true" default-target-url="/index.html" />
+		<!--访问/admin.jsp资源的用户必须具有ROLE_ADMIN的权限 -->
+		<!-- <intercept-url pattern="/admin.jsp" access="ROLE_ADMIN" /> -->
+		<!--访问/**资源的用户必须具有ROLE_USER的权限 -->
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+		<!--<logout logout-success-url="/account/login?msg=logout" /> -->
+		<session-management>
+			<concurrency-control max-sessions="1"
+				error-if-maximum-exceeded="false" />
+		</session-management>
+		<!--增加一个filter，这点与 Acegi是不一样的，不能修改默认的filter了， 这个filter位于FILTER_SECURITY_INTERCEPTOR之前 -->
+		<custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+		<csrf disabled="true" />
+	</http>
+	<!--<authentication-manager> -->
+	<!--<authentication-provider> -->
+	<!--<user-service> -->
+	<!--<user name="admin" password="123456" authorities="ROLE_USER" /> -->
+	<!--</user-service> -->
+	<!--</authentication-provider> -->
+	<!--</authentication-manager> -->
+	<!-- 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性 -->
+	<b:bean id="myFilter"
+		class="com.mouchina.admin.security.MyFilterSecurityInterceptor">
+		<!-- 用户拥有的权限 -->
+		<b:property name="authenticationManager" ref="myAuthenticationManager" />
+		<!-- 用户是否拥有所请求资源的权限 -->
+		<b:property name="accessDecisionManager" ref="myAccessDecisionManager" />
+		<!-- 资源与权限对应关系 -->
+		<b:property name="securityMetadataSource" ref="mySecurityMetadataSource" />
+	</b:bean>
+	<!-- 实现了UserDetailsService的Bean -->
+	<authentication-manager alias="myAuthenticationManager">
+		<authentication-provider user-service-ref="myUserDetailServiceImpl">
+			<password-encoder hash="md5"></password-encoder>
+			<!-- 登入 密码 采用MD5加密 -->
+			<!--<password-encoder hash="md5" ref="passwordEncoder"> -->
+			<!--</password-encoder> -->
+		</authentication-provider>
+	</authentication-manager>
+	<!-- 验证用户请求资源 是否拥有权限 -->
+	<b:bean id="myAccessDecisionManager" class="com.mouchina.admin.security.MyAccessDecisionManager">
+	</b:bean>
+	<!-- 获取用户登入角色信息 -->
+	<b:bean id="myUserDetailServiceImpl" class="com.mouchina.admin.security.MyUserDetailService">
+	</b:bean>
+	<!-- 系统运行时加载 系统要拦截的资源 与用户请求时要过滤的资源 -->
+	<b:bean id="mySecurityMetadataSource"
+		class="com.mouchina.admin.security.MyInvocationSecurityMetadataSource">
+		<b:constructor-arg name="loginService" ref="loginService"></b:constructor-arg>
+	</b:bean>
+	<!-- 用户的密码加密或解密 -->
+	<b:bean id="passwordEncoder"
+		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+
+	<b:bean id="loginService"
+		class="com.mouchina.admin.service.impl.permission.LoginServiceSupport"></b:bean>
+</b:beans>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/mvc 
+    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd
+   	http://www.directwebremoting.org/schema/spring-dwr   
+	http://www.directwebremoting.org/schema/spring-dwr-4.0.xsd
+	http://www.springframework.org/schema/task 
+	http://www.springframework.org/schema/task/spring-task-4.0.xsd
+    ">
+	<!--②异步线程执行器 -->
+	<bean id="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="10" />
+		<property name="maxPoolSize" value="30" />
+	</bean>
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:mysql-jdbc.properties</value>
+				<value>classpath:cache.properties</value>
+				<value>classpath:pay.properties</value>
+				<value>classpath:mongodb.properties</value>
+				<value>classpath:redis.properties</value>
+				<value>classpath:mail.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!--①账户邮件服务器 -->
+	<bean id="accountMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${account.mail.smtp.host}" />
+		<property name="username" value="${account.mail.smtp.username}" />
+		<property name="password" value="${account.mail.smtp.password}" />
+		<property name="port" value="${account.mail.smtp.port}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.timeout">${account.mail.smtp.timeout}</prop>
+				<prop key="mail.smtp.auth">${account.mail.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${account.mail.smtp.starttls.enable}</prop>
+				<prop key="mail.smtp.socketFactory.port">${account.mail.smtp.port}</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.smtp.socketFactory.fallback">false</prop>
+			</props>
+		</property>
+	</bean>
+	<!--①商户邮件服务器 -->
+	<bean id="businessMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${business.mail.smtp.host}" />
+		<property name="username" value="${business.mail.smtp.username}" />
+		<property name="password" value="${business.mail.smtp.password}" />
+		<property name="port" value="${business.mail.smtp.port}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.timeout">${business.mail.smtp.timeout}</prop>
+				<prop key="mail.smtp.auth">${business.mail.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${business.mail.smtp.starttls.enable}</prop>
+				<prop key="mail.smtp.socketFactory.port">${business.mail.smtp.port}</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.smtp.socketFactory.fallback">false</prop>
+			</props>
+		</property>
+	</bean>
+	<!--①商户邮件服务器 -->
+	<bean id="businessSpecialistMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${business.specialist.mail.smtp.host}" />
+		<property name="username" value="${business.specialist.mail.smtp.username}" />
+		<property name="password" value="${business.specialist.mail.smtp.password}" />
+		<property name="port" value="${business.specialist.mail.smtp.port}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.timeout">${business.specialist.mail.smtp.timeout}</prop>
+				<prop key="mail.smtp.auth">${business.specialist.mail.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${business.specialist.mail.smtp.starttls.enable}
+				</prop>
+				<prop key="mail.smtp.socketFactory.port">${business.specialist.mail.smtp.port}</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.smtp.socketFactory.fallback">false</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="systemSecureMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${system.secure.mail.smtp.host}" />
+		<property name="username" value="${system.secure.mail.smtp.username}" />
+		<property name="password" value="${system.secure.mail.smtp.password}" />
+		<property name="port" value="${system.secure.mail.smtp.port}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.timeout">${system.secure.mail.smtp.timeout}</prop>
+				<prop key="mail.smtp.auth">${system.secure.mail.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${system.secure.mail.smtp.starttls.enable}</prop>
+				<prop key="mail.smtp.socketFactory.port">${system.secure.mail.smtp.port}</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.smtp.socketFactory.fallback">false</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="inviteMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${invite.mail.smtp.host}" />
+		<property name="username" value="${invite.mail.smtp.username}" />
+		<property name="password" value="${invite.mail.smtp.password}" />
+		<property name="port" value="${invite.mail.smtp.port}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.timeout">${invite.mail.smtp.timeout}</prop>
+				<prop key="mail.smtp.auth">${invite.mail.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${invite.mail.smtp.starttls.enable}</prop>
+				<prop key="mail.smtp.socketFactory.port">${invite.mail.smtp.port}</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.smtp.socketFactory.fallback">false</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="servicerMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${servicer.mail.smtp.host}" />
+		<property name="username" value="${servicer.mail.smtp.username}" />
+		<property name="password" value="${servicer.mail.smtp.password}" />
+		<property name="port" value="${servicer.mail.smtp.port}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.timeout">${servicer.mail.smtp.timeout}</prop>
+				<prop key="mail.smtp.auth">${servicer.mail.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${servicer.mail.smtp.starttls.enable}</prop>
+				<prop key="mail.smtp.socketFactory.port">${servicer.mail.smtp.port}</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.smtp.socketFactory.fallback">false</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="noReplyMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${no-reply.mail.smtp.host}" />
+		<property name="username" value="${no-reply.mail.smtp.username}" />
+		<property name="password" value="${no-reply.mail.smtp.password}" />
+		<property name="port" value="${no-reply.mail.smtp.port}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.timeout">${no-reply.mail.smtp.timeout}</prop>
+				<prop key="mail.smtp.auth">${no-reply.mail.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${no-reply.mail.smtp.starttls.enable}</prop>
+				<prop key="mail.smtp.socketFactory.port">${no-reply.mail.smtp.port}</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.smtp.socketFactory.fallback">false</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

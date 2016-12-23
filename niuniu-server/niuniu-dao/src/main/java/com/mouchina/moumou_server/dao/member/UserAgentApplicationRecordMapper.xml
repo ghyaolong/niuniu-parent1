@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mouchina.moumou_server.dao.member.UserAgentApplicationRecordMapper">
+  <resultMap id="BaseResultMap" type="com.mouchina.moumou_server.entity.member.UserAgentApplicationRecord">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="application_name" jdbcType="VARCHAR" property="applicationName" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="agent_level" jdbcType="INTEGER" property="agentLevel" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="visit_state" jdbcType="INTEGER" property="visitState" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, application_name, phone_number, agent_level, province, city, area, visit_state, create_time, 
+    modify_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_agent_application_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_agent_application_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.mouchina.moumou_server.entity.member.UserAgentApplicationRecord">
+    insert into user_agent_application_record (id, user_id, application_name, 
+      phone_number, agent_level, province, city, 
+      area, visit_state, create_time, 
+      modify_time)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{applicationName,jdbcType=VARCHAR}, 
+      #{agentLevel,jdbcType=INTEGER},
+      #{phoneNumber,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{area,jdbcType=VARCHAR}, #{visitState,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mouchina.moumou_server.entity.member.UserAgentApplicationRecord">
+    insert into user_agent_application_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="applicationName != null">
+        application_name,
+      </if>
+      <if test="phoneNumber != null">
+        phone_number,
+      </if>
+      <if test="agentLevel != null">
+      	agent_level,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="visitState != null">
+        visit_state,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="applicationName != null">
+        #{applicationName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="agentLevel != null">
+      	#{agentLevel,jdbcType=INTEGER},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="visitState != null">
+        #{visitState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mouchina.moumou_server.entity.member.UserAgentApplicationRecord">
+    update user_agent_application_record
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="applicationName != null">
+        application_name = #{applicationName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="agentLevel != null">
+      	agent_level = #{agentLevel,jdbcType=INTEGER},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="visitState != null">
+        visit_state = #{visitState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mouchina.moumou_server.entity.member.UserAgentApplicationRecord">
+    update user_agent_application_record
+    set user_id = #{userId,jdbcType=BIGINT},
+      application_name = #{applicationName,jdbcType=VARCHAR},
+      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      agent_level = #{agentLevel,jdbcType=INTEGER},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      visit_state = #{visitState,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectModel" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		user_agent_application_record
+		<where>
+			  <if test="userId != null">
+		        and user_id = #{userId,jdbcType=BIGINT}
+		      </if>
+		      <if test="applicationName != null">
+		        and application_name = #{applicationName,jdbcType=VARCHAR}
+		      </if>
+		      <if test="phoneNumber != null">
+		        and phone_number = #{phoneNumber,jdbcType=VARCHAR}
+		      </if>
+		      <if test="agentLevel != null">
+		      	and agent_level = #{agentLevel,jdbcType=INTEGER}
+		      </if>
+		      <if test="province != null">
+		        and province = #{province,jdbcType=VARCHAR}
+		      </if>
+		      <if test="city != null">
+		        and city = #{city,jdbcType=VARCHAR}
+		      </if>
+		      <if test="area != null">
+		        and area = #{area,jdbcType=VARCHAR}
+		      </if>
+		      <if test="visitState != null">
+		        and visit_state = #{visitState,jdbcType=INTEGER}
+		      </if>
+		      <if test="createTime != null">
+		        and create_time = #{createTime,jdbcType=TIMESTAMP}
+		      </if>
+		      <if test="modifyTime != null">
+		        and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+		      </if>
+		</where>
+		<if test="order != null">
+      		<![CDATA[  order by  ${order} ]]>
+		</if>
+	</select>
+</mapper>

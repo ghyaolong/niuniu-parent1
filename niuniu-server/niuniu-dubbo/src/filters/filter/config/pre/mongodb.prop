@@ -1,0 +1,8 @@
+# MongoDB
+mpbroker.mongodb.host=192.168.101.101
+mpbroker.mongodb.port=27017
+mpbroker.mongodb.username=365wosAdm
+mpbroker.mongodb.password=machao123
+mpbroker.mongodb.poolsize=10
+mpbroker.mongodb.blocksize=10
+mpbroker.mongodb.db=365wos_img

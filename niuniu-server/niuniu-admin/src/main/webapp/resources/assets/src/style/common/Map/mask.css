@@ -1,0 +1,38 @@
+#div_show {
+	height: 400px;
+	left: 80px;
+	position: fixed;
+	top: 88px;
+	width: 1180px;
+	z-index: -100;
+}
+
+.div_show_title {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#12a3f4',
+		endColorstr='#0e86c9', GradientType=0);
+	clear: both;
+	display: block;
+	background: rgb(14, 134, 201);
+	color: #FFFFFF;
+	font-weight: 700;
+	position: relative;
+	height: 30px;
+	width: 100%;
+}
+
+.div_show_font {
+	color: #FFFFFF;
+	float: left;
+	font-weight: 700;
+	margin: 0.4em 0 0.4em 10px;
+}
+
+.div_show_btn {
+	float: right;
+	margin: 0.4em 10px 0.4em 0;
+}
+
+#div_hotelmap {
+	height: 360px;
+	border: 5px solid white;
+}

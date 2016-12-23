@@ -1,0 +1,15 @@
+#base.resource.url=http://api.mouchina.com
+#reimburse.tencent.cert.url=/zy/product/bjj/oms/cert/apiclient_cert.p12
+#reimburse.alipay.notify.url=http://test7.eachbaby.com/admin/order/userremiburse/ali_notify.html
+#withdrawal.alipay.notify.url=http://test7.eachbaby.com/admin/welfare/withdrawal/ali_notify.html
+base.resource.url=http://res.mouchina.com
+#base.resource.url=https://res3.mouchina.com
+base.resource.video.path=/moumou/resource/video
+alipay.notify.url=http://test.mouchina.com/notify/alipay_notify
+weixin.notify.url=http://test.mouchina.com/notify/weixinpay_notify
+weixin.mch_appid=wx11062cf326bb0fdsfs
+weixin.mchid=1215715052
+weixin.check_name=NO_CHECK
+weixin.spbill_create_ip=10.105.241.119
+weixin.signkey=mmc201603201200xKxLx4o8PJ1afCtk9
+weixin.cert_path=/moumou/web/moumou_cert/apiclient_cert.p12

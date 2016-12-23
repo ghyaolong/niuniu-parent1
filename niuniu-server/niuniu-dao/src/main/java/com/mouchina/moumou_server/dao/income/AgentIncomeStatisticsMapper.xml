@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mouchina.moumou_server.dao.income.AgentIncomeStatisticsMapper">
+	<resultMap id="BaseResultMap"
+		type="com.mouchina.moumou_server.entity.income.AgentIncomeStatistics">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="user_id" jdbcType="BIGINT" property="userId" />
+		<result column="income_user_id" jdbcType="BIGINT" property="incomeUserId" />
+		<result column="agent_level" jdbcType="INTEGER" property="agentLevel" />
+		<result column="income_type" jdbcType="INTEGER" property="incomeType" />
+		<result column="income_amount" jdbcType="DECIMAL" property="incomeAmount" />
+		<result column="income_date" jdbcType="DATE" property="incomeDate" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	
+	<resultMap id="IncomeStatisticsBaseResultMap"
+		type="com.mouchina.moumou_server.entity.vo.AgentIncomeStatisticsVo">
+		<result column="income_date" jdbcType="DATE" property="incomeDate" />
+		<result column="income_user_id" jdbcType="BIGINT" property="incomeUserId" />
+		<result column="agent_level" jdbcType="VARCHAR" property="agentLevel" />
+		<result column="businessTotallIncome" jdbcType="DOUBLE" property="businessTotallIncome" />
+		<result column="oneLevelBusinessIncome" jdbcType="DOUBLE" property="oneLevelBusinessIncome" />
+		<result column="twoLevelBusinessIncome" jdbcType="DOUBLE" property="twoLevelBusinessIncome" />
+		<result column="threeLevelBusinessIncome" jdbcType="DOUBLE" property="threeLevelBusinessIncome" />
+		<result column="agentArea" jdbcType="VARCHAR" property="agentArea" />
+		<result column="areaIncome" jdbcType="DOUBLE" property="areaIncome" />
+		<result column="starAgentIncome" jdbcType="DOUBLE" property="starAgentIncome" />
+		<result column="centreAgentIncome" jdbcType="DOUBLE" property="centreAgentIncome" />
+		<result column="promotionAgentIncome" jdbcType="DOUBLE" property="promotionAgentIncome" />
+		<result column="countyAgentIncome" jdbcType="DOUBLE" property="countyAgentIncome" />
+		<result column="totalIncome" jdbcType="DOUBLE" property="totalIncome" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, user_id, income_user_id, agent_level, income_type, income_amount, income_date,
+		create_time
+	</sql>
+	
+	<sql id="IncomeStatistics_Base_Column_List">
+		h.income_date, h.income_user_id, h.agent_level,
+		CAST((h.one + h.two + h.three) AS DECIMAL(10,3)) businessTotallIncome,
+		CAST(h.four AS DECIMAL(10,3)) areaIncome,
+		CAST((h.six + h.seven) AS DECIMAL(10,3)) promotionAgentIncome,
+		CAST(h.five AS DECIMAL(10,3)) countyAgentIncome,
+		CAST((h.one + h.two + h.three + h.four + h.five + h.six + h.seven) AS DECIMAL(10,3)) totalIncome
+	</sql>
+	
+	<sql id="IncomeStatistics_Base_Column_List_Base">
+		income_date, income_user_id, agent_level,
+		sum(case income_type when 1 then IFNULL(income_amount,0) ELSE 0 end)/100 one,
+		sum(case income_type when 2 then IFNULL(income_amount,0) ELSE 0 end)/100 two,
+		sum(case income_type when 3 then IFNULL(income_amount,0) ELSE 0 end)/100 three,
+		sum(case income_type when 4 then IFNULL(income_amount,0) ELSE 0 end)/100 four,
+		sum(case income_type when 5 then IFNULL(income_amount,0) ELSE 0 end)/100 five,
+		sum(case income_type when 6 then IFNULL(income_amount,0) ELSE 0 end)/100 six,
+		sum(case income_type when 7 then IFNULL(income_amount,0) ELSE 0 end)/100 seven
+	</sql>
+	
+	<sql id="IncomeStatistics_Base_Column_List11">
+		income_date, income_user_id, agent_level, businessTotallIncome, oneLevelBusinessIncome, 
+		twoLevelBusinessIncome, threeLevelBusinessIncome, agentArea, areaIncome, starAgentIncome,
+		centreAgentIncome, promotionAgentIncome, countyAgentIncome, totalIncome
+	</sql>
+	
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from agent_income_statistics
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from agent_income_statistics
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insertSelective"
+		parameterType="com.mouchina.moumou_server.entity.income.AgentIncomeStatistics">
+		insert into agent_income_statistics
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="incomeUserId != null">
+				income_user_id,
+			</if>
+			<if test="agentLevel != null">
+				agent_level,
+			</if>
+			<if test="incomeType != null">
+				income_type,
+			</if>
+			<if test="incomeAmount != null">
+				income_amount,
+			</if>
+			<if test="incomeDate != null">
+				income_date,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="incomeUserId != null">
+				#{incomeUserId,jdbcType=BIGINT},
+			</if>
+			<if test="agentLevel != null">
+				#{agentLevel,jdbcType=INTEGER},
+			</if>
+			<if test="incomeType != null">
+				#{incomeType,jdbcType=INTEGER},
+			</if>
+			<if test="incomeAmount != null">
+				#{incomeAmount,jdbcType=INTEGER},
+			</if>
+			<if test="incomeDate != null">
+				#{incomeDate,jdbcType=DATE},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+		<selectKey resultType="java.lang.Long" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS ID
+		</selectKey>
+	</insert>
+	
+	<select id="selectPageList" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		moumou.agent_income_statistics
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="userId != null">
+				and user_id= #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="incomeUserId != null">
+				and income_user_id= #{incomeUserId,jdbcType=BIGINT}
+			</if>
+			<if test="agentLevel != null">
+				and agent_level= #{agentLevel,jdbcType=INTEGER}
+			</if>
+			<if test="incomeType != null">
+				and income_type= #{incomeType,jdbcType=INTEGER}
+			</if>
+			<if test="incomeAmount != null">
+				and income_amount= #{incomeAmount,jdbcType=INTEGER}
+			</if>
+			<if test="incomeDate != null">
+				and income_date= #{incomeDate,jdbcType=DATE}
+			</if>
+			<if test="createTime != null">
+				and create_time= #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="incomeDategt != null">
+				and income_date <![CDATA[  >= ]]> #{incomeDategt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="incomeDatelt != null">
+				and income_date <![CDATA[  <= ]]> #{incomeDatelt,jdbcType=TIMESTAMP}
+			</if>
+		</where>
+		<if test="order != null">
+      		<![CDATA[  order by  ${order} ]]>
+		</if>
+		<if test="page != null">
+      		<![CDATA[  limit #{page.begin}, #{page.end} ]]>
+		</if>
+	</select>
+	<select id="selectCount" parameterType="java.util.Map"
+		resultType="int">
+		select
+		count(1)
+		from
+		moumou.agent_income_statistics
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="userId != null">
+				and user_id= #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="incomeUserId != null">
+				and income_user_id= #{incomeUserId,jdbcType=BIGINT}
+			</if>
+			<if test="agentLevel != null">
+				and agent_level= #{agentLevel,jdbcType=INTEGER}
+			</if>
+			<if test="incomeType != null">
+				and income_type= #{incomeType,jdbcType=INTEGER}
+			</if>
+			<if test="incomeAmount != null">
+				and income_amount= #{incomeAmount,jdbcType=INTEGER}
+			</if>
+			<if test="incomeDate != null">
+				and income_date= #{incomeDate,jdbcType=DATE}
+			</if>
+			<if test="createTime != null">
+				and create_time= #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="incomeDategt != null">
+				and income_date <![CDATA[  >= ]]> #{incomeDategt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="incomeDatelt != null">
+				and income_date <![CDATA[  <= ]]> #{incomeDatelt,jdbcType=TIMESTAMP}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectIncomePageList" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		id, user_id, envent_id, sum(amout) as amout, sum(source_amount)
+		as
+		source_amount, state, envent_name, create_time, count(1) as
+		event_user_id,
+		income_type,income_date
+		from
+		moumou.agent_income
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="userId != null">
+				and user_id= #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="enventId != null">
+				and envent_id= #{enventId,jdbcType=BIGINT}
+			</if>
+			<if test="amout != null">
+				and amout= #{amout,jdbcType=INTEGER}
+			</if>
+			<if test="sourceAmount != null">
+				and source_amount= #{sourceAmount,jdbcType=INTEGER}
+			</if>
+			<if test="state != null">
+				and state= #{state,jdbcType=TINYINT}
+			</if>
+			<if test="enventName != null">
+				and envent_name= #{enventName,jdbcType=VARCHAR}
+			</if>
+			<if test="createTime != null">
+				and create_time= #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="eventUserId != null">
+				and event_user_id= #{eventUserId,jdbcType=BIGINT}
+			</if>
+			<if test="incomeType != null">
+				and income_type= #{incomeType,jdbcType=TINYINT}
+			</if>
+			<if test="incomeDate != null">
+				and income_date= #{incomeDate,jdbcType=DATE}
+			</if>
+			<if test="incomeDategt != null">
+				and income_date >= #{incomeDategt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="incomeDatelt != null">
+				and income_date <![CDATA[  <= ]]>
+				#{incomeDatelt,jdbcType=TIMESTAMP}
+			</if>
+		</where>
+		<if test="order != null">
+      <![CDATA[  order by  ${order} ]]>
+		</if>
+		<if test="group != null">
+      <![CDATA[  group by  ${group} ]]>
+		</if>
+
+		<if test="page != null">
+      <![CDATA[  limit #{page.begin}, #{page.end} ]]>
+		</if>
+	</select>
+
+
+	<select id="selectIncomeCount" parameterType="java.util.Map"
+		resultType="int">
+		select
+		COUNT(DISTINCT user_id)
+		from
+		moumou.agent_income
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="userId != null">
+				and user_id= #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="enventId != null">
+				and envent_id= #{enventId,jdbcType=BIGINT}
+			</if>
+			<if test="amout != null">
+				and amout= #{amout,jdbcType=INTEGER}
+			</if>
+			<if test="sourceAmount != null">
+				and source_amount= #{sourceAmount,jdbcType=INTEGER}
+			</if>
+			<if test="state != null">
+				and state= #{state,jdbcType=TINYINT}
+			</if>
+			<if test="enventName != null">
+				and envent_name= #{enventName,jdbcType=VARCHAR}
+			</if>
+			<if test="createTime != null">
+				and create_time= #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="eventUserId != null">
+				and event_user_id= #{eventUserId,jdbcType=BIGINT}
+			</if>
+			<if test="incomeType != null">
+				and income_type= #{incomeType,jdbcType=TINYINT}
+			</if>
+			<if test="incomeDate != null">
+				and income_date= #{incomeDate,jdbcType=DATE}
+			</if>
+
+			<if test="incomeDategt != null">
+				and income_date >= #{incomeDategt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="incomeDatelt != null">
+				and income_date <![CDATA[  <= ]]>
+				#{incomeDatelt,jdbcType=TIMESTAMP}
+			</if>
+
+
+			<if test="group != null">
+      		<![CDATA[  group by  ${group} ]]>
+			</if>
+
+
+		</where>
+	</select>
+
+
+	<select id="selectMonthIncomeCount" parameterType="java.util.Map"
+		resultType="int">
+		select
+		COUNT(DISTINCT user_id)
+		from
+		moumou.agent_income
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="userId != null">
+				and user_id= #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="enventId != null">
+				and envent_id= #{enventId,jdbcType=BIGINT}
+			</if>
+			<if test="amout != null">
+				and amout= #{amout,jdbcType=INTEGER}
+			</if>
+			<if test="sourceAmount != null">
+				and source_amount= #{sourceAmount,jdbcType=INTEGER}
+			</if>
+			<if test="state != null">
+				and state= #{state,jdbcType=TINYINT}
+			</if>
+			<if test="enventName != null">
+				and envent_name= #{enventName,jdbcType=VARCHAR}
+			</if>
+			<if test="createTime != null">
+				and create_time= #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="eventUserId != null">
+				and event_user_id= #{eventUserId,jdbcType=BIGINT}
+			</if>
+			<if test="incomeType != null">
+				and income_type= #{incomeType,jdbcType=TINYINT}
+			</if>
+			<if test="incomeDate != null">
+				and income_date= #{incomeDate,jdbcType=DATE}
+			</if>
+
+			<if test="incomeDategt != null">
+				and income_date >= #{incomeDategt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="incomeDatelt != null">
+				and income_date <![CDATA[  <= ]]>
+				#{incomeDatelt,jdbcType=TIMESTAMP}
+			</if>
+
+			<if test="group != null">
+      		<![CDATA[  group by  ${group} ]]>
+			</if>
+
+
+		</where>
+	</select>
+
+
+	<select id="selectMonthIncomePageList" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		id, user_id, envent_id, sum(amout) as amout, sum(source_amount)
+		as
+		source_amount, state, envent_name, create_time, count(1) as
+		event_user_id,
+		income_type,DATE_FORMAT(income_date,'%Y-%m-01')
+		income_date
+		from
+		moumou.agent_income
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="userId != null">
+				and user_id= #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="enventId != null">
+				and envent_id= #{enventId,jdbcType=BIGINT}
+			</if>
+			<if test="amout != null">
+				and amout= #{amout,jdbcType=INTEGER}
+			</if>
+			<if test="sourceAmount != null">
+				and source_amount= #{sourceAmount,jdbcType=INTEGER}
+			</if>
+			<if test="state != null">
+				and state= #{state,jdbcType=TINYINT}
+			</if>
+			<if test="enventName != null">
+				and envent_name= #{enventName,jdbcType=VARCHAR}
+			</if>
+			<if test="createTime != null">
+				and create_time= #{createTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="eventUserId != null">
+				and event_user_id= #{eventUserId,jdbcType=BIGINT}
+			</if>
+			<if test="incomeType != null">
+				and income_type= #{incomeType,jdbcType=TINYINT}
+			</if>
+			<if test="incomeDate != null">
+				and income_date= #{incomeDate,jdbcType=DATE}
+			</if>
+
+			<if test="incomeDategt != null">
+				and income_date >= #{incomeDategt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="incomeDatelt != null">
+				and income_date <![CDATA[  <= ]]>
+				#{incomeDatelt,jdbcType=TIMESTAMP}
+			</if>
+
+		</where>
+		<if test="order != null">
+      <![CDATA[  order by  ${order} ]]>
+		</if>
+		<if test="group != null">
+      <![CDATA[  group by user_id  ]]>
+		</if>
+
+		<if test="page != null">
+      <![CDATA[  limit #{page.begin}, #{page.end} ]]>
+		</if>
+	</select>
+
+	<select id="selectSubAgent" resultType="String" parameterType="java.util.Map">
+    <![CDATA[
+    	select SUBSTR(getChildList(#{userId}),3,LENGTH(getChildList(#{userId}))) from dual
+     ]]>
+	</select>
+	<select id="selectStatisticsAgent"
+		resultType="com.mouchina.moumou_server.entity.vo.AgentStatisticsVo"
+		parameterType="java.util.Map">
+	<![CDATA[
+		SELECT
+		income_date as incomDate,
+		count(DISTINCT detail.user_id) as countSeller,
+		sum(source_amount) /100 as money,
+		sum(amout) / 100 as myMoney,
+		count(DISTINCT detail.user_id) as countSmallSeller,
+		sum(source_amount  / 100)	as smallSellerMoney,
+		sum(amout / 100) as mySellerMoney,
+		sum(amout / 100) as	sum
+		FROM
+		agent_income_detail detail 
+	]]>
+		<if test="ids != null">
+			WHERE
+			detail.user_id in
+			<foreach collection="ids" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+
+		</if>
+		GROUP BY detail.income_date
+		order by detail.income_date DESC
+		<if test="page != null">
+      		<![CDATA[  limit #{page.begin}, #{page.end} ]]>
+		</if>
+	</select>
+	<select id="selectStatisticsListCount" resultType="int"
+		parameterType="java.util.Map">
+    <![CDATA[
+    select count(1) from (
+    	SELECT
+			count(1)
+		FROM
+			agent_income_detail detail
+	 ]]>
+		<if test="ids != null">
+			WHERE
+			detail.user_id in
+			<foreach collection="ids" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		GROUP BY
+		detail.income_date
+		) h
+	</select>
+	
+	<select id="selectAgentIncomeStatisticsPageList" parameterType="java.util.Map"
+		resultMap="IncomeStatisticsBaseResultMap">
+		select
+		<include refid="IncomeStatistics_Base_Column_List" />
+		from (
+			select
+			<include refid="IncomeStatistics_Base_Column_List_Base" />
+			from 
+			moumou.agent_income_statistics
+			<where>
+				<if test="incomeUserId != null">
+					and income_user_id= #{incomeUserId,jdbcType=BIGINT}
+				</if>
+				<if test="incomeDategt != null">
+					and income_date <![CDATA[  >= ]]> #{incomeDategt,jdbcType=TIMESTAMP}
+				</if>
+				<if test="incomeDatelt != null">
+					and income_date <![CDATA[  <= ]]> #{incomeDatelt,jdbcType=TIMESTAMP}
+				</if>
+			</where>
+			<if test="group != null">
+				<![CDATA[  group by  ${group} ]]>
+			</if>
+			<if test="order != null">
+	      		<![CDATA[  order by  ${order} ]]>
+			</if>
+		) h
+		<if test="page != null">
+      		<![CDATA[  limit #{page.begin}, #{page.end} ]]>
+		</if>
+	</select>
+	
+	<select id="selectAgentIncomeStatisticsCount" parameterType="java.util.Map"
+		resultType="int">
+		select
+		count(1)
+		from (
+			select
+			<include refid="IncomeStatistics_Base_Column_List_Base" />
+			from 
+			moumou.agent_income_statistics
+			<where>
+				<if test="incomeUserId != null">
+					and income_user_id= #{incomeUserId,jdbcType=BIGINT}
+				</if>
+				<if test="incomeDategt != null">
+					and income_date <![CDATA[  >= ]]> #{incomeDategt,jdbcType=TIMESTAMP}
+				</if>
+				<if test="incomeDatelt != null">
+					and income_date <![CDATA[  <= ]]> #{incomeDatelt,jdbcType=TIMESTAMP}
+				</if>
+			</where>
+			<if test="group != null">
+				<![CDATA[  group by  ${group} ]]>
+			</if>
+			<if test="order != null">
+	      		<![CDATA[  order by  ${order} ]]>
+			</if>
+		) h
+	</select>
+	
+	<select id="selectBusinessCount" parameterType="java.util.Map"
+		resultType="int">
+		<![CDATA[
+    		select count(1) from (
+				select h.new_user_id from (
+					select b.new_user_id from (
+						select new_user_id from user_invite b where user_id = #{incomeUserId,jdbcType=BIGINT} 
+							and DATE_FORMAT(create_time,'%Y-%m-%d') <= #{incomeDate,jdbcType=DATE} ) a, 
+							user_invite b where a.new_user_id = b.user_id and DATE_FORMAT(b.create_time,'%Y-%m-%d') <= #{incomeDate,jdbcType=DATE} ) d , 
+							user_invite h where d.new_user_id = h.user_id and DATE_FORMAT(h.create_time,'%Y-%m-%d') <= #{incomeDate,jdbcType=DATE}
+				UNION 
+				select b.new_user_id from (
+					select new_user_id from user_invite b where user_id = #{incomeUserId,jdbcType=BIGINT} 
+						and DATE_FORMAT(create_time,'%Y-%m-%d') <= #{incomeDate,jdbcType=DATE} ) a, user_invite b where a.new_user_id = b.user_id
+						and DATE_FORMAT(b.create_time,'%Y-%m-%d') <= #{incomeDate,jdbcType=DATE}
+				UNION 
+				select new_user_id from user_invite b where user_id = #{incomeUserId,jdbcType=BIGINT} 
+					and DATE_FORMAT(create_time,'%Y-%m-%d') <= #{incomeDate,jdbcType=DATE}
+				UNION 
+				select user_id as new_user_id from user_agent where parent_id = #{incomeUserId,jdbcType=BIGINT} 
+					and DATE_FORMAT(create_time,'%Y-%m-%d') <= #{incomeDate,jdbcType=DATE}
+			) h
+	 	]]>
+	</select>
+	
+	<select id="selectAreaAdvertCount" parameterType="java.util.Map"
+		resultType="int">
+		<![CDATA[
+    		select count(DISTINCT user_id) from area_business_statistics 
+    		where stat_date <= #{incomeDate,jdbcType=DATE} and county_code = #{countyCode,jdbcType=VARCHAR}
+	 	]]>
+	</select>
+	
+	<select id="selectExpandAgentCount" parameterType="java.util.Map"
+		resultType="int">
+		<![CDATA[
+    		select count(1) from (
+				select b.user_id from (
+					select new_user_id from user_invite where user_id = #{incomeUserId,jdbcType=BIGINT} 
+						and DATE_FORMAT(create_time,'%Y-%m-%d') <= #{incomeDate,jdbcType=DATE} ) a, user_agent b where a.new_user_id = b.user_id 
+						and DATE_FORMAT(b.create_time,'%Y-%m-%d') <= #{incomeDate,jdbcType=DATE}
+				UNION
+				select user_id as new_user_id from user_agent where parent_id = #{incomeUserId,jdbcType=BIGINT}
+					and DATE_FORMAT(create_time,'%Y-%m-%d') <= #{incomeDate,jdbcType=DATE}
+			) h
+	 	]]>
+	</select>
+	
+	<delete id="deleteAgentIncomeByMap" parameterType="java.util.Map">
+		delete from agent_income_statistics
+		where income_date = #{incomeDate,jdbcType=DATE}
+		and income_type = #{incomeType,jdbcType=TINYINT}
+	</delete>
+	
+	<select id="selectRecommendedCount" parameterType="java.util.Map"
+		resultType="int">
+		<![CDATA[
+    		select count(1) from (
+				select b.user_id from (
+					select new_user_id from user_invite where user_id = #{incomeUserId,jdbcType=BIGINT} 
+						and DATE_FORMAT(create_time,'%Y-%m-%d') <= #{incomeDate,jdbcType=DATE} ) a, user_agent b where 
+						a.new_user_id = b.user_id and b.agent_level = #{agentLevel,jdbcType=TINYINT}
+						and DATE_FORMAT(b.create_time,'%Y-%m-%d') <= #{incomeDate,jdbcType=DATE}
+				UNION
+				select user_id as new_user_id from user_agent where parent_id = #{incomeUserId,jdbcType=BIGINT} and agent_level = #{agentLevel,jdbcType=TINYINT}
+					and DATE_FORMAT(create_time,'%Y-%m-%d') <= #{incomeDate,jdbcType=DATE}
+			) h
+	 	]]>
+	</select>
+	
+</mapper>

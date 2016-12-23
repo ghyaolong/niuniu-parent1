@@ -1,0 +1,4 @@
+redis.serverList=192.168.10.41:6379
+redis.maxIdle=30
+redis.maxWaitMillis=100000
+redis.reqeuirePass=aP9b5#@38

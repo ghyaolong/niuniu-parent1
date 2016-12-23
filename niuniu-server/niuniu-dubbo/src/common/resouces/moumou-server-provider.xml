@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans        
+    http://www.springframework.org/schema/beans/spring-beans.xsd        
+    http://code.alibabatech.com/schema/dubbo        
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="bjj-server-provider" />
+	<!-- 使用multicast广播注册中心暴露服务地址 -->
+	<!-- <dubbo:registry address="multicast://224.5.6.7:1234" /> -->
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<dubbo:registry address="${dubbo.registry.address}" />
+	<!-- 用dubbo协议在20880端口暴露服务 -->
+	<dubbo:protocol name="${dubbo.protocol.name}" port="${dubbo.protocol.port}" />
+ <!---->
+
+	<!-- 声明需要暴露的服务接口 -->
+	<dubbo:service ref="userVerifyService" timeout="60000"
+		retries="0"
+		interface="com.mouchina.moumou_server_interface.member.UserVerifyService"></dubbo:service>
+	<dubbo:service ref="payOrderService" timeout="60000"
+		retries="0" interface="com.mouchina.moumou_server_interface.pay.PayOrderService"></dubbo:service>
+	<dubbo:service ref="orderService" timeout="60000"
+		retries="0" interface="com.mouchina.moumou_server_interface.order.OrderService"></dubbo:service>
+	<dubbo:service ref="rseimburseService" timeout="60000"
+		retries="0" interface="com.mouchina.moumou_server_interface.pay.ReimburseService"></dubbo:service>
+	<dubbo:service ref="cashFlowService" timeout="60000"
+		retries="0" interface="com.mouchina.moumou_server_interface.pay.CashFlowService"></dubbo:service>
+	<!--短信模版服务 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.message.SmsTemplateService"
+		ref="smsTemplateService" timeout="60000" retries="0"></dubbo:service>
+	<!--系统服务 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.system.SystemService"
+		ref="systemService" timeout="60000" retries="0"></dubbo:service>
+	<!-- 用户配置信息服务 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.member.UserLevelConfigService"
+		ref="userLevelConfigService" timeout="60000" retries="0"></dubbo:service>
+	<!-- 充值赠送配置信息服务 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.order.RechargeConfigService"
+		ref="rechargeConfigService" timeout="60000" retries="0"></dubbo:service>
+	<!-- 捐款记录服务 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.advert.UserDonationService"
+		ref="userDonationService" timeout="60000" retries="0"></dubbo:service>
+	<!-- 提现配置信息服务 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.order.WithDrawalConfigService"
+		ref="withDrawalConfigService" timeout="60000" retries="0"></dubbo:service>
+	<!--广告服务 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.advert.AdvertService"
+		ref="advertService" timeout="60000" retries="0"></dubbo:service>
+
+	<!--运营活动 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.activityConfig.ActivityConfigService"
+		ref="activityConfigServiceSupport" timeout="60000" retries="0" />
+	<!--用户邀请服务 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.social.UserInviteService"
+		ref="userInviteService" timeout="60000" retries="0"></dubbo:service>
+	<!--用户关系服务 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.social.UsersRelationService"
+		ref="usersRelationService" timeout="60000" retries="0"></dubbo:service>
+	<!--商户服务 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.member.BusinessService"
+		ref="businessService" timeout="60000" retries="0"></dubbo:service>
+	<!--代理商服务 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.member.UserAgentService"
+		ref="userAgentService" timeout="60000" retries="0"></dubbo:service>
+	<!--提现服务 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.order.WithdrawalsService"
+		ref="withdrawalService" timeout="60000" retries="0"></dubbo:service>
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.member.UserAssetsService"
+		ref="userAssetsService" timeout="60000" retries="0"></dubbo:service>
+	<!--订单查询服务 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.order.OrderQueryService"
+		ref="orderQueryService" timeout="60000" retries="0"></dubbo:service>
+	<!--发票相关 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.member.OrderBillService"
+		ref="orderBillService" timeout="60000" retries="0"></dubbo:service>
+	<!--反馈相关 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.social.FeedBackService"
+		ref="feedBackService" timeout="60000" retries="0"></dubbo:service>
+
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.permission.MenuService"
+		ref="menuService" timeout="60000" retries="0"></dubbo:service>
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.permission.RoleService"
+		ref="roleService" timeout="60000" retries="0"></dubbo:service>
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.permission.PermissionService"
+		ref="permissionService" timeout="60000" retries="0"></dubbo:service>
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.permission.RolePermissionService"
+		ref="rolePermissionService" timeout="60000" retries="0"></dubbo:service>
+
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.income.UserIncomeService"
+		ref="userIncomeService" timeout="60000" retries="0"></dubbo:service>
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.income.AgentIncomeService"
+		ref="agentIncomeService" timeout="60000" retries="0"></dubbo:service>
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.social.UserCommentService"
+		ref="userCommentService" timeout="60000" retries="0"></dubbo:service>
+
+	<!-- 活动奖励日志记录相关服务 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.income.UserIncomeAwardService"
+		ref="userIncomeAwardService" timeout="60000" retries="0"></dubbo:service>
+
+	<!-- 财务统计报表 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.order.UserTransactionDetailsService"
+		ref="userTransactionDetailsService" timeout="60000" retries="0"></dubbo:service>
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.order.UserLuckyBagDetailsService"
+		ref="userLuckyBagDetailsService" timeout="60000" retries="0"></dubbo:service>
+
+	<!-- 区域信息查询 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.system.AreaService"
+		ref="areaService" timeout="60000" retries="0"></dubbo:service>
+
+	<!-- 整点宝箱、签到功能、每日任务 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.award.SignConfigService"
+		ref="signConfigServiceSupport" timeout="60000" retries="0" />
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.award.SignHistoryService"
+		ref="signHistoryServiceSupport" timeout="60000" retries="0" />
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.award.TreasureBoxConfigService"
+		ref="treasureBoxConfigServiceSupport" timeout="60000" retries="0" />
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.award.TreasureAwardHistoryService"
+		ref="treasureAwardHistoryServiceSupport" timeout="60000" retries="0" />
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.award.TreasureAwardHistoryServiceNew"
+		ref="treasureAwardHistoryServiceSupportNew" timeout="60000" retries="0" />
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.award.TaskConfigService"
+		ref="taskConfigServiceSupport" timeout="60000" retries="0" />
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.award.TaskHistoryService"
+		ref="taskHistoryServiceSupport" timeout="60000" retries="0" />
+	<!-- 优惠券 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.advert.BusinessCouponService"
+		ref="businessCouponServiceSupport" timeout="60000" retries="0" />
+	<!-- 营销数据 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.particular.BusinessMarketingService"
+		ref="businessMarketingServiceSupport" timeout="60000" retries="0" />
+	<!-- 数据详情 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.particular.UserParticularService"
+		ref="userParticularServiceSupport" timeout="60000" retries="0" />
+		
+	<!-- 红包信息 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.redEnvelope.RedEnvelopeService"
+		ref="redEnvelopeServiceSupport" timeout="60000" retries="0" />
+	<!-- 系统消息 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.system.SystemMessageService"
+		ref="systemMessageService" timeout="60000" retries="0" />
+
+	<!-- 商户店铺相关 -->
+	<dubbo:service
+		interface="com.mouchina.moumou_server_interface.member.BusinessShopService"
+		ref="businessShopService" timeout="60000" retries="0" />
+		
+	<!-- 用户申请代理商记录服务 -->
+	<dubbo:service interface="com.mouchina.moumou_server_interface.member.UserAgentApplicationRecordService"
+		ref="userAgentApplicationRecordService" timeout="60000" retries="0" />
+	
+	<!-- 和本地bean一样实现服务 -->
+	<bean id="userVerifyService"
+		class="com.mouchina.moumou_server_dubbo.provider.member.UserVerifyServiceSupport" />
+	<bean id="payOrderService"
+		class="com.mouchina.moumou_server_dubbo.provider.pay.PayOrderServiceSupport" />
+	<bean id="orderService"
+		class="com.mouchina.moumou_server_dubbo.provider.order.OrderServiceSupport" />
+	<bean id="rseimburseService"
+		class="com.mouchina.moumou_server_dubbo.provider.pay.ReimburseServiceSupport" />
+	<bean id="cashFlowService"
+		class="com.mouchina.moumou_server_dubbo.provider.pay.CashFlowServiceSupport"></bean>
+	<bean id="smsTemplateService"
+		class="com.mouchina.moumou_server_dubbo.provider.message.SmsTemplateServiceSupport" />
+	<bean id="systemService"
+		class="com.mouchina.moumou_server_dubbo.provider.system.SystemServiceSupport" />
+	<!-- 用户配置信息服务实现 -->
+	<bean id="userLevelConfigService"
+		class="com.mouchina.moumou_server_dubbo.provider.member.UserLevelConfigServiceSupport" />
+	<!-- 提现配置信息服务实现 -->
+	<bean id="withDrawalConfigService"
+		class="com.mouchina.moumou_server_dubbo.provider.order.WithDrawalConfigServiceSupport" />
+	<!-- 充值配置信息服务实现 -->
+	<bean id="rechargeConfigService"
+		class="com.mouchina.moumou_server_dubbo.provider.order.RechargeConfigServiceSupport" />
+	<!-- 捐款记录服务实现 -->
+	<bean id="userDonationService"
+		class="com.mouchina.moumou_server_dubbo.provider.advert.UserDonationServiceSupport" />
+	<bean id="advertService"
+		class="com.mouchina.moumou_server_dubbo.provider.advert.AdvertServiceSupport" />
+
+	<bean id="userInviteService"
+		class="com.mouchina.moumou_server_dubbo.provider.social.UserInviteServiceSupport" />
+	<bean id="usersRelationService"
+		class="com.mouchina.moumou_server_dubbo.provider.social.UsersRelationServiceSupport" />
+	<bean id="businessService"
+		class="com.mouchina.moumou_server_dubbo.provider.member.BusinessServiceSupport" />
+	<bean id="userAgentService"
+		class="com.mouchina.moumou_server_dubbo.provider.member.UserAgentServiceSupport" />
+	<bean id="withdrawalService"
+		class="com.mouchina.moumou_server_dubbo.provider.order.WithdrawalsServiceSupport" />
+	<bean id="userAssetsService"
+		class="com.mouchina.moumou_server_dubbo.provider.member.UserAssetsServiceSupport" />
+	<bean id="orderQueryService"
+		class="com.mouchina.moumou_server_dubbo.provider.order.OrderQueryServiceSupport" />
+	<bean id="orderBillService"
+		class="com.mouchina.moumou_server_dubbo.provider.member.OrderBillServiceSupport" />
+	<bean id="feedBackService"
+		class="com.mouchina.moumou_server_dubbo.provider.social.FeedBackServiceSupport" />
+	<bean id="userCommentService"
+		class="com.mouchina.moumou_server_dubbo.provider.social.UserCommentServiceSupport" />
+	<bean id="menuService"
+		class="com.mouchina.moumou_server_dubbo.provider.permission.MenuServiceSupport"></bean>
+	<bean id="roleService"
+		class="com.mouchina.moumou_server_dubbo.provider.permission.RoleServiceSupport"></bean>
+	<bean id="permissionService"
+		class="com.mouchina.moumou_server_dubbo.provider.permission.PermissionServiceSupport"></bean>
+	<bean id="rolePermissionService"
+		class="com.mouchina.moumou_server_dubbo.provider.permission.RolePermissionServiceSupport"></bean>
+	<bean id="userIncomeService"
+		class="com.mouchina.moumou_server_dubbo.provider.income.UserIncomeServiceSupport" />
+	<bean id="agentIncomeService"
+		class="com.mouchina.moumou_server_dubbo.provider.income.AgentIncomeServiceSupport" />
+
+
+
+
+	<!-- 活动奖励日志记录相关服务实现类 -->
+	<bean id="userIncomeAwardService"
+		class="com.mouchina.moumou_server_dubbo.provider.income.UserIncomeAwardServiceSupport" />
+
+	<!-- 财务统计报表 -->
+	<bean id="userTransactionDetailsService"
+		class="com.mouchina.moumou_server_dubbo.provider.order.UserTransactionDetailsServiceSupport" />
+	<bean id="userLuckyBagDetailsService"
+		class="com.mouchina.moumou_server_dubbo.provider.order.UserLuckyBagDetailsServiceSupport" />
+
+	<!-- 区域信息查询 -->
+	<bean id="areaService"
+		class="com.mouchina.moumou_server_dubbo.provider.system.AreaServiceSupport" />
+
+	<!-- 商户店铺信息 -->
+	<bean id="businessShopService"
+		class="com.mouchina.moumou_server_dubbo.provider.member.BusinessShopServiceSupport" />
+
+	<!-- 系统消息 -->
+	<bean id="systemMessageService"
+		class="com.mouchina.moumou_server_dubbo.provider.system.SystemMessageServiceSupport" />
+
+	<!-- 申请代理商记录  -->
+	<bean id="userAgentApplicationRecordService"
+		class="com.mouchina.moumou_server_dubbo.provider.member.UserAgentApplicationRecordServiceSupport"/>
+</beans>

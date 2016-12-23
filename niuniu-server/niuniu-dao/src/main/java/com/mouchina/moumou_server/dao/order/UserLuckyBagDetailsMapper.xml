@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mouchina.moumou_server.dao.order.UserLuckyBagDetailsMapper" >
+  <resultMap id="BaseResultMap" type="com.mouchina.moumou_server.entity.order.UserLuckyBagDetails" >
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="create_time" property="issueTime" jdbcType="TIMESTAMP" />
+    <result column="red_envelope_amount" property="luckyBagAmount" jdbcType="INTEGER" />
+    <result column="red_envelope_count" property="luckyBagNumber" jdbcType="INTEGER" />
+    <result column="price" property="refundAmount" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER"/>
+  </resultMap>
+  
+  <resultMap id="ExportBaseResultMap" type="com.mouchina.moumou_server.entity.vo.UserLuckyBagDetailsVo" >
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="create_time" property="issueTime" jdbcType="VARCHAR" />
+    <result column="red_envelope_amount" property="luckyBagAmount" jdbcType="INTEGER" />
+    <result column="red_envelope_count" property="luckyBagNumber" jdbcType="INTEGER" />
+    <result column="price" property="refundAmount" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="VARCHAR"/>
+  </resultMap>
+ 
+  <sql id="Base_Column_List" >
+    a.id, a.user_id, a.create_time, 
+    a.red_envelope_amount, a.red_envelope_count, 
+    case when a.red_envelope_amount - b.send_red_envelope_amount >0 then 2 else 1 end as state 
+  </sql>
+  
+  <sql id="Export_Base_Column_List" >
+    a.id, a.user_id, DATE_FORMAT(a.create_time,'%Y-%m-%d %H:%i:%s') as create_time, 
+    IFNULL(a.red_envelope_amount,0)/100 as red_envelope_amount,
+    a.red_envelope_count, 
+    case when a.red_envelope_amount - b.send_red_envelope_amount >0 then '未领完' else '已领完' end as state
+  </sql>
+  
+  <sql id="userLuckyBagDetailsJoinsOne">
+	advert a, advert_statistics b where a.id = b.advert_id
+  </sql>
+  
+  <sql id="userLuckyBagDetailsJoinsTwo">
+	) h LEFT JOIN user_cash_flow_${tableNum} uc on uc.trigger_no= h.id
+  </sql>
+  
+  <select id="selectPageList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select * from (
+    select h.*, uc.price from (
+    select 
+    	<include refid="Base_Column_List" />
+    from 
+    <include refid="userLuckyBagDetailsJoinsOne"/>
+    <include refid="userLuckyBagDetailsJoinsTwo"/>
+    <where >
+      <if test="stateType != null" >
+         and uc.cash_flow_type = #{stateType,jdbcType=INTEGER} 
+         or uc.cash_flow_type is null
+      </if>
+    </where>
+    <if test="order != null" >
+      <![CDATA[  order by  ${order} ]]>
+		</if>
+		) g
+		<where>
+			<if test="createTimegt != null">
+				and g.create_time <![CDATA[  >= ]]>
+				#{createTimegt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createTimelt != null">
+				and g.create_time <![CDATA[  <= ]]>
+				#{createTimelt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userId != null">
+				and g.user_id= #{userId,jdbcType=BIGINT}
+			</if>
+		</where>
+		<if test="page != null">
+      <![CDATA[  limit #{page.begin}, #{page.end} ]]>
+		</if>
+	</select>
+
+	<select id="selectCount" resultType="int" parameterType="java.util.Map">
+		select count(1) from (
+		select h.user_id, h.create_time from (
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="userLuckyBagDetailsJoinsOne" />
+		<include refid="userLuckyBagDetailsJoinsTwo" />
+		<where>
+			<if test="stateType != null">
+				and uc.cash_flow_type = #{stateType,jdbcType=INTEGER}
+				or
+				uc.cash_flow_type is null
+			</if>
+		</where>
+		) g
+		<where>
+			<if test="createTimegt != null">
+				and g.create_time <![CDATA[  >= ]]>
+				#{createTimegt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createTimelt != null">
+				and g.create_time <![CDATA[  <= ]]>
+				#{createTimelt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userId != null">
+				and g.user_id= #{userId,jdbcType=BIGINT}
+			</if>
+		</where>
+	</select>
+
+	<select id="exportPageList" resultMap="ExportBaseResultMap"
+		parameterType="java.util.Map">
+		select * from (
+		select h.*, IFNULL(uc.price,0)/100 as price from(
+		select
+		<include refid="Export_Base_Column_List" />
+		from
+		<include refid="userLuckyBagDetailsJoinsOne" />
+		<include refid="userLuckyBagDetailsJoinsTwo" />
+		<where>
+			<if test="stateType != null">
+				and uc.cash_flow_type = #{stateType,jdbcType=INTEGER}
+				or
+				uc.cash_flow_type is null
+			</if>
+		</where>
+		<if test="order != null">
+      <![CDATA[  order by  ${order} ]]>
+		</if>
+		) g
+		<where>
+			<if test="createTimegt != null">
+				and g.create_time <![CDATA[  >= ]]>
+				#{createTimegt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createTimelt != null">
+				and g.create_time <![CDATA[  <= ]]>
+				#{createTimelt,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userId != null">
+				and g.user_id= #{userId,jdbcType=BIGINT}
+			</if>
+		</where>
+		<if test="page != null">
+      <![CDATA[  limit #{page.begin}, #{page.end} ]]>
+		</if>
+	</select>
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/mvc 
+    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/task 
+	http://www.springframework.org/schema/task/spring-task-4.0.xsd
+    ">
+
+	<!-- anntion 自动扫描 -->
+	<aop:aspectj-autoproxy />
+	<task:annotation-driven />
+	<context:annotation-config />
+	<context:component-scan base-package="com.mouchina.**" />
+	<mvc:annotation-driven conversion-service="conversionService" />
+
+	<bean id="conversionService"
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	</bean>
+
+	<!-- springmvc 文件上传 -->
+	<bean id="multipartResolver" class="com.mouchina.admin.base.rewrite.CustomMultipartResolver">
+		<property name="maxUploadSize">
+			<value>55242880</value>
+		</property>
+	</bean>
+
+	<!-- 错误处理 -->
+	<bean id="exceptionResolver"
+		class="com.mouchina.admin.base.exception.CustomSimpleMappingExceptionResolver">
+		<property name="defaultErrorView">
+			<value>common/error</value>
+		</property>
+
+		<property name="warnLogCategory">
+			<value>org.springframework.web.servlet.handler.SimpleMappingExceptionResolver
+			</value>
+		</property>
+	</bean>
+	<bean id="velocityConfigurer"
+		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="resourceLoaderPath" value="/WEB-INF/velocity/" />
+		<property name="velocityProperties">
+			<props>
+				<prop key="input.encoding">utf-8</prop>
+				<prop key="output.encoding">utf-8</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+		<property name="prefix" value="" />
+		<property name="suffix" value=".vm" />
+		<property name="contentType">
+			<value>text/html;charset=UTF-8</value>
+		</property>
+		<property name="toolboxConfigLocation" value="/WEB-INF/classes/toolbox.xml" />
+	</bean>
+
+
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="ignoreAcceptHeader" value="true" />
+		<property name="defaultContentType" value="text/html" />
+		<property name="mediaTypes">
+			<map>
+				<entry key="json" value="text/plain" />
+				<entry key="j" value="application/json" />
+			</map>
+		</property>
+		<!-- 这里是是否启用参数支持，默认就是true,例如 /user/{userid}?format=json -->
+		<property name="favorParameter" value="false" />
+		<!-- 这里是是否启用扩展名支持，默认就是true,例如 /user/{userid}.json -->
+		<property name="favorPathExtension" value="true"></property>
+
+		<property name="defaultViews">
+			<list>
+				<!-- for application/json -->
+				<bean
+					class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+					<property name="contentType" value="text/plain"></property>
+				</bean>
+				<bean
+					class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+					<property name="contentType" value="application/json"></property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!--注解代码扫描 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="order" value="0" />
+	</bean>
+
+
+
+	<!-- 定时任务 -->
+	<import resource="springschedule.xml" />
+
+
+</beans>

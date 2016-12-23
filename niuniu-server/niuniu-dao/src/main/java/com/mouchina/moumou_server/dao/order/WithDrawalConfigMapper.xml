@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mouchina.moumou_server.dao.order.WithDrawalConfigMapper">
+  <resultMap id="BaseResultMap" type="com.mouchina.moumou_server.entity.order.WithDrawalConfig">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="min_amount" jdbcType="INTEGER" property="minAmount" />
+    <result column="max_amount" jdbcType="INTEGER" property="maxAmount" />
+    <result column="max_with_drawal_ratio" jdbcType="DOUBLE" property="maxWithDrawalRatio" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, min_amount, max_amount, max_with_drawal_ratio
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from with_drawal_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectList" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from with_drawal_config
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="minAmount != null">
+				and min_amount= #{minAmount,jdbcType=INTEGER}
+			</if>
+			<if test="max_Amount != null">
+				and max_amount= #{max_Amount,jdbcType=INTEGER}
+			</if>
+			<if test="maxWithDrawalRatio != null">
+				and max_with_drawal_ratio= #{maxWithDrawalRatio,jdbcType=DOUBLE}
+			</if>
+		</where>
+		<if test="order != null">
+      <![CDATA[  order by  ${order} ]]>
+		</if>
+	</select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from with_drawal_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.mouchina.moumou_server.entity.order.WithDrawalConfig">
+    insert into with_drawal_config (id, min_amount, max_amount, 
+      max_with_drawal_ratio)
+    values (#{id,jdbcType=BIGINT}, #{minAmount,jdbcType=INTEGER}, #{maxAmount,jdbcType=INTEGER}, 
+      #{maxWithDrawalRatio,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mouchina.moumou_server.entity.order.WithDrawalConfig">
+    insert into with_drawal_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="minAmount != null">
+        min_amount,
+      </if>
+      <if test="maxAmount != null">
+        max_amount,
+      </if>
+      <if test="maxWithDrawalRatio != null">
+        max_with_drawal_ratio,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="minAmount != null">
+        #{minAmount,jdbcType=INTEGER},
+      </if>
+      <if test="maxAmount != null">
+        #{maxAmount,jdbcType=INTEGER},
+      </if>
+      <if test="maxWithDrawalRatio != null">
+        #{maxWithDrawalRatio,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mouchina.moumou_server.entity.order.WithDrawalConfig">
+    update with_drawal_config
+    <set>
+      <if test="minAmount != null">
+        min_amount = #{minAmount,jdbcType=INTEGER},
+      </if>
+      <if test="maxAmount != null">
+        max_amount = #{maxAmount,jdbcType=INTEGER},
+      </if>
+      <if test="maxWithDrawalRatio != null">
+        max_with_drawal_ratio = #{maxWithDrawalRatio,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mouchina.moumou_server.entity.order.WithDrawalConfig">
+    update with_drawal_config
+    set min_amount = #{minAmount,jdbcType=INTEGER},
+      max_amount = #{maxAmount,jdbcType=INTEGER},
+      max_with_drawal_ratio = #{maxWithDrawalRatio,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

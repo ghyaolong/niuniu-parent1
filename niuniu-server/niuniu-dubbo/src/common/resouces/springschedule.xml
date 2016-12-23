@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/mvc 
+    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd
+   	http://www.directwebremoting.org/schema/spring-dwr   
+	http://www.directwebremoting.org/schema/spring-dwr-4.0.xsd
+    ">
+	<bean name="quartzScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<!--延时启动 -->
+		<property name="startupDelay" value="10" />
+		<!-- 普通触发器 ：触发器列表，（可以配置多个任务） -->
+		<property name="triggers">
+			<list>
+
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

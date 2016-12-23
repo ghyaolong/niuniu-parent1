@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>哞哞科技管理后台</title>
+	#parse('layout/thems/default/common/base.vm')
+  <link href="${contentPath}/resources/assets/src/style/common/bootstrao-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+</head>
+<body>
+	<!-- Header -->
+	#parse('layout/thems/default/header.vm')
+	<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				var pageNav="order_pay_list";
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+				#parse('layout/thems/default/left.vm')
+
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="#">首页</a>
+							</li>
+							<li class="active">代理商管理</li>
+						</ul><!-- .breadcrumb -->
+
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="icon-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- #nav-search -->
+					</div>
+
+					<div class="page-content">
+						<div class="page-header">
+							<h1>
+								成交金额提成收益
+								<small>
+									<i class="icon-double-angle-right"></i>
+									 查看
+								</small>
+							</h1>
+						</div><!-- /.page-header -->
+
+						<div class="row">
+							
+							<div class="col-xs-12">
+										<div class="table-header">
+											成交金额提成收益列表
+										</div>
+
+										<div class="table-responsive">
+											<div role="grid" class="dataTables_wrapper" id="sample-table-2_wrapper">
+                                                <div class="row">
+													 <div class="col-sm-2">
+														<input  placeholder="开始日期"  type="text" data-date-format="yyyy-mm-dd" id="id-date-picker-3" class="form-control date-picker">
+													 </div>
+													 <div class="col-sm-2">												
+														<input  placeholder="结束日期"  type="text" data-date-format="yyyy-mm-dd" id="id-date-picker-4" class="form-control date-picker">
+													 </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="input-group m-b">
+                                                            <div class="input-group-btn">
+                                                                
+																<button type="button" class="btn btn-white dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                                                                   		 手机号 <span class="caret"></span>
+                                                                </button>
+																
+																<ul class="dropdown-menu searchDropDown" role="menu">
+                                                                    <li data-hid="userPhone" class="active"><a href="javascript:void(0);">手机号</a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <input type="text" class="form-control" placeholder="Search" value="" id="searchValue">
+															<span class="input-group-btn">
+																<button class="btn btn-sm btn-primary" type="button" id="serchBtn" data-fild="userPhone">Go!</button>
+															</span>
+															<span class="input-group-btn">
+																<button class="btn btn-sm btn-primary" style="margin-left: 20px;" type="button" id="exportBtn" data-fild="userPhone">导出</button>
+															</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+												<table class="table table-striped table-bordered table-hover dataTable" id="sample-table-2" aria-describedby="sample-table-2_info">
+												  <thead>
+													<tr role="row">
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >统计日期</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >用户ID</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >手机号码</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >用户昵称</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >推荐代理类型</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >被推荐人ID</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >被推荐人手机号码</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >被推荐人昵称</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >提成金额</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >结算标志</th>
+														<th class="hidden-480 " role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >操作</th>
+													</tr>
+												</thead>
+												<tbody id="theacertbody" role="alert" aria-live="polite" aria-relevant="all">
+												</tbody>
+											  </table>
+                                                <ul class="pagination">
+                                                </ul>
+											 <div/>
+										<div>
+									</div>
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+				
+			</div><!-- /.main-container-inner -->
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div>
+		
+	#parse('layout/thems/default/setting.vm')
+	
+	<!-- ========== CONTENT END ========== -->
+	
+	<!-- ========== FOOTER START ========== -->
+	#parse('layout/thems/default/footer.vm')
+	<!-- ========== FOOTER END ========== -->
+	<!-- 配置文件 -->
+	
+	<script type="text/javascript">
+	 	seajs.use("members-agent-commission-list");
+	</script>
+
+	<div class="modal fade" id="examineModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title" id="myModalLabel">结算</h4>
+	            </div>
+	            <div class="modal-footer">
+	                <input type="hidden" id="examineId" value="0" />
+	                <button type="button" class="btn btn-success">结算</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+</body>
+</html>

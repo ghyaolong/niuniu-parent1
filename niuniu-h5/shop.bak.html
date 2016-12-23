@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>标准网页</title>
+<meta name="renderer" content="webkit">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+<meta name="format-detection" content="telephone=no,address=no,email=no" />
+<meta name="mobileOptimized" content="width" />
+<meta name="handheldFriendly" content="true" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<script type="text/javascript" src="js/config.js"></script>
+<style>
+body {
+	overflow: hidden;
+}
+</style>
+
+</head>
+<body class="shop">
+
+
+	<div class="main-carousel"></div>
+
+
+
+
+
+	<div class="myshop">
+		<span class="icon"></span> <span class="shopname">我的网店</span>
+	</div>
+	<div class="fudaian">
+		<span class="icon"></span> <span class="time"></span>
+	</div>
+	<div class="jinbidiaoluo"></div>
+
+
+	<div class="anlist" style="display: none;">
+		<div class="item gz">关注</div>
+		<div class="item sc">收藏</div>
+		<div class="item pl" onclick="plclick()" id="plbuttons">评论</div>
+		<div class="item fd" onclick="pdclick()" id="fdbuttons"
+			style="line-height: 0.25rem; height: 0.60rem; padding-top: 0.20rem;">
+			领取福<br>袋
+		</div>
+	</div>
+	<div class="zhezhao" style="display: none;"></div>
+
+</body>
+</html>
+
+<script>  
+ $(".fudaian .icon").click(function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    $(".zhezhao").show();
+    $(".anlist").addClass("anlist_donghua").show();
+   
+    
+     $(".zhezhao").off().click(function(){
+     	$(".zhezhao").hide();
+      	$(".anlist").hide().removeClass("anlist_donghua");   
+     })
+});
+  
+
+$(function(){
+	$(".carousel-cell").css({"width":$(window).width()+"px","height":$(window).height()+"px"});	
+	var $carousel = $('.main-carousel').flickity({
+       cellAlign: 'left',
+       prevNextButtons: false,
+       pageDots: false
+    });
+	$carousel.on( 'dragStart', function( event, pointer ) {
+	    $(".jinbidiaoluo").removeClass("jinbidiaoluo_donghua");	
+	})
+	$carousel.on( 'dragEnd', function( event, pointer ) {
+	   $(".jinbidiaoluo").addClass("jinbidiaoluo_donghua");	
+	})
+})
+
+var advertContent={};
+
+//var advertContent_temp = {"photo":["http://res.mouchina.com/image/2016/05/20/18/05/8077a8e5b0fe4927a0f75b372de276e9.jpg","http://res.mouchina.com/image/2016/05/20/18/05/dd123f96cc5f4242b8499c48821e6702.jpg","http://res.mouchina.com/image/2016/05/20/18/05/f1d1c5c8edc24e58bdb16820869ae6d5.jpg","http://res.mouchina.com/image/2016/05/20/18/05/f1d1c5c8edc24e58bdb16820869ae6d5.jpg","http://res.mouchina.com/image/2016/05/20/18/05/f1d1c5c8edc24e58bdb16820869ae6d5.jpg","http://res.mouchina.com/image/2016/05/20/18/05/f1d1c5c8edc24e58bdb16820869ae6d5.jpg"],"content":"图呜呜呜呜呜呜呜呜呜呜呜呜无语"};
+//var advertContent_temp = [{"url":"http://res.mouchina.com/image/2016/05/20/18/05/8077a8e5b0fe4927a0f75b372de276e9.jpg","represent":"asdfasdfasdfasfasdfsdf"},{"url":"http://res.mouchina.com/image/2016/05/20/18/05/8077a8e5b0fe4927a0f75b372de276e9.jpg","represent":"asdfasdfasdfasfasdfsdf"},{"url":"http://res.mouchina.com/image/2016/05/20/18/05/8077a8e5b0fe4927a0f75b372de276e9.jpg","represent":"asdfasdfasdfasfasdfsdf"}];
+var advertContent_temp = JSON.parse(store.get("advertContent"));
+
+if(advertContent_temp.photo == undefined){
+	var strs_photo = [];
+	var strs_con = [];
+	$.map(advertContent_temp, function(item) {
+		strs_photo.push(item['url']);
+		strs_con.push(item['represent']);
+	});
+	advertContent.photo = strs_photo;
+	advertContent.content = strs_con;
+}else{
+	advertContent = advertContent_temp;
+}
+
+var photo  = advertContent.photo;
+var content = advertContent.content;
+
+console.log(advertContent);
+console.log(photo);
+console.log(content);
+
+//显示广告内容
+if(photo!="" && photo!=undefined){		
+$.map(photo, function(item,index) {	
+
+    var strs = "";
+	strs += '  <div class="carousel-cell">';
+  	strs += '  <img src="'+item+'" class="shopbg">';	
+    strs += '  <div class="showtp">';   
+	strs += '  <img src="'+item+'">';
+	strs += '  <ul class="text">';
+	strs += '  <p class="left">';
+	strs += '  '+((typeof(content)=="object") ? content[index]:content)+'';
+    strs += '  </p>';
+	strs += '  <p class="right">';
+	strs += (index+1)+'/'+photo.length;
+	strs += '  </p>';
+	strs += '  </ul>';	
+	strs += '  </div>	';	
+    strs += '  </div>';
+    
+    $(".main-carousel").append(strs);
+});
+}
+
+
+//关注
+$(".anlist .gz").click(function(){
+	
+	var isFans = store.get("isFans");	
+	if(isFans=="" || isFans==undefined) isFans = 0;
+	if(isFans==1) return mess_tusi("您已经关注过了");
+	
+	var paramsData = {}
+	paramsData['api'] = 'guanzhu';
+	paramsData['debug'] = true;
+	paramsData['type'] = "get";	
+	paramsData['funSuccess'] = function(data){		
+	    if(data.result==1){
+	    	mess_tanchuang("关注成功");
+	    }else{
+	    	return mess_tusi("关注失败");
+	    }
+	};
+	paramsData['loginKey'] = store.get("loginKey");	
+	var business = store.get("business");
+	paramsData['businessId'] = business.id;	
+	comajax(paramsData);
+})
+
+
+//收藏
+$(".anlist .sc").click(function(){
+	var paramsData = {}
+	paramsData['api'] = 'collect';
+	paramsData['debug'] = true;
+	paramsData['type'] = "get";
+	paramsData['funSuccess'] = function(data){
+		if(data.result==1){
+	    	mess_tanchuang("收藏成功");
+	    }else{
+	    	return mess_tusi("收藏失败");
+	    }
+	};
+	paramsData['loginKey'] = store.get("loginKey");	
+	paramsData['advertId'] = store.get("advertId");	
+	comajax(paramsData);
+})
+
+//评论
+function plclick(){
+    var advertId = store.get("advertId");
+	var userinfo = store.get("userinfo"); 
+	if (store.get("type")=="android") {
+		//调用android程序中的方法，并传递参数
+        var name = "1&"+advertId+"&"+userinfo.avatar+"&"+userinfo.nickName;
+        window.AndroidWebView.showInfoFromJs(name);
+	}
+}
+//领取福袋
+function pdclick(){	
+    if (store.get("type")=="android") { 
+    	var business = store.get("business");
+	   //调用android程序中的方法，并传递参数
+       var name = "2&"+store.get("advertId")+"&"+business.id+"&"+store.get("loginkey");
+       window.AndroidWebView.showInfoFromJs(name);
+	}
+
+}
+
+//我的网店连接
+if(store.get("website")){
+	var website = JSON.parse(store.get("website"));
+	$(".shopname").html(website.siteName);
+	$(".myshop").click(function(){	
+		if(website!=undefined && website!=""){	   
+			window.location.href="http://"+website.site;
+			return "";			
+		}
+		return mess_tusi("商户数据有误");
+	})
+}
+
+
+
+function daojishi(classname,time,fun){
+	var $obj = $("."+classname);
+	$obj.html(time);
+	var ttt = setInterval(function(){	
+		var time = parseInt($obj.html());
+		$obj.html(time-1);	
+		
+		if(time-1==0){
+			clearInterval(ttt);
+			fun();
+		}
+		
+	},1000);
+}
+daojishi("time",5,function(){
+	$(".time").hide();
+})
+
+
+
+
+
+function setupWebViewJavascriptBridge(callback) {
+	    if (store.get("type")=="android") return false;
+        if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+        if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+        window.WVJBCallbacks = [callback];
+        var WVJBIframe = document.createElement('iframe');
+        WVJBIframe.style.display = 'none';
+        WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+        document.documentElement.appendChild(WVJBIframe);
+        setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+    }
+
+//注册一个js调用oc的方法
+    setupWebViewJavascriptBridge(function(bridge) {
+
+		bridge.registerHandler('testJavascriptHandler', function(data, responseCallback) {			
+			var responseData = { 'Javascript Says':'Right back atcha!' }			
+			responseCallback(responseData)
+		})	
+
+
+        var userinfo = store.get("userinfo");
+		var callbackButton = document.getElementById('plbuttons');		
+		callbackButton.onclick = function(e) {			
+			e.preventDefault()	
+//			js调用ios代码
+			bridge.callHandler('toBusinessHome', {'button':'1','advertId': store.get("advertId"),'avatar': userinfo.avatar,'nickname': userinfo.nickName}, function(response) {
+				
+			})
+		}
+		
+		var business = store.get("business");
+		var callbackButton1 = document.getElementById('fdbuttons');		
+		callbackButton1.onclick = function(e) {
+			e.preventDefault();
+			bridge.callHandler('toBusinessHome', {'button':'2','advertId': store.get("advertId"),'businessId':business.id,'loginkey': store.get("loginkey")}, function(response) {
+				
+			})
+		}
+		
+	})
+
+
+
+</script>

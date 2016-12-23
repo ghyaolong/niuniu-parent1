@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mouchina.moumou_server.dao.order.RechargeConfigMapper">
+  <resultMap id="BaseResultMap" type="com.mouchina.moumou_server.entity.order.RechargeConfig">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="exchange_coins" jdbcType="INTEGER" property="exchangeCoins" />
+    <result column="additional_coins" jdbcType="INTEGER" property="additionalCoins" />
+    <result column="hot_flag" jdbcType="TINYINT" property="hotFlag" />
+    <result column="recharge_money" jdbcType="INTEGER" property="rechargeMoney" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, exchange_coins, additional_coins, hot_flag, recharge_money
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from recharge_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectList" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		recharge_config
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="exchangeCoins != null">
+				and exchange_coins= #{exchangeCoins,jdbcType=INTEGER}
+			</if>
+			<if test="additionalCoins != null">
+				and additional_coins= #{additionalCoins,jdbcType=INTEGER}
+			</if>
+			<if test="hotFlag != null">
+				and hot_flag= #{hotFlag,jdbcType=TINYINT}
+			</if>
+			<if test="rechargeMoney != null">
+				and recharge_money= #{rechargeMoney,jdbcType=INTEGER}
+			</if>
+		</where>
+		<if test="order != null">
+      <![CDATA[  order by  ${order} ]]>
+		</if>
+	</select>
+  
+  <select id="selectCount" resultType="int" parameterType="java.util.Map">
+		select
+		count(1)
+		from
+		recharge_config
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="exchangeCoins != null">
+				and exchange_coins= #{exchangeCoins,jdbcType=INTEGER}
+			</if>
+			<if test="additionalCoins != null">
+				and additional_coins= #{additionalCoins,jdbcType=INTEGER}
+			</if>
+			<if test="hotFlag != null">
+				and hot_flag= #{hotFlag,jdbcType=TINYINT}
+			</if>
+			<if test="rechargeMoney != null">
+				and recharge_money= #{rechargeMoney,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
+  
+  	<select id="selectPageList" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		recharge_config
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="exchangeCoins != null">
+				and exchange_coins= #{exchangeCoins,jdbcType=INTEGER}
+			</if>
+			<if test="additionalCoins != null">
+				and additional_coins= #{additionalCoins,jdbcType=INTEGER}
+			</if>
+			<if test="hotFlag != null">
+				and hot_flag= #{hotFlag,jdbcType=TINYINT}
+			</if>
+			<if test="rechargeMoney != null">
+				and recharge_money= #{rechargeMoney,jdbcType=INTEGER}
+			</if>
+		</where>
+		<if test="order != null">
+      <![CDATA[  order by  ${order} ]]>
+		</if>
+		<if test="page != null">
+      <![CDATA[  limit #{page.begin}, #{page.end} ]]>
+		</if>
+	</select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from recharge_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.mouchina.moumou_server.entity.order.RechargeConfig">
+    insert into recharge_config (id, exchange_coins, additional_coins, 
+      hot_flag, recharge_money)
+    values (#{id,jdbcType=BIGINT}, #{exchangeCoins,jdbcType=INTEGER}, #{additionalCoins,jdbcType=INTEGER}, 
+      #{hotFlag,jdbcType=TINYINT}, #{rechargeMoney,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mouchina.moumou_server.entity.order.RechargeConfig">
+    insert into recharge_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="exchangeCoins != null">
+        exchange_coins,
+      </if>
+      <if test="additionalCoins != null">
+        additional_coins,
+      </if>
+      <if test="hotFlag != null">
+        hot_flag,
+      </if>
+      <if test="rechargeMoney != null">
+        recharge_money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="exchangeCoins != null">
+        #{exchangeCoins,jdbcType=INTEGER},
+      </if>
+      <if test="additionalCoins != null">
+        #{additionalCoins,jdbcType=INTEGER},
+      </if>
+      <if test="hotFlag != null">
+        #{hotFlag,jdbcType=TINYINT},
+      </if>
+      <if test="rechargeMoney != null">
+        #{rechargeMoney,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mouchina.moumou_server.entity.order.RechargeConfig">
+    update recharge_config
+    <set>
+      <if test="exchangeCoins != null">
+        exchange_coins = #{exchangeCoins,jdbcType=INTEGER},
+      </if>
+      <if test="additionalCoins != null">
+        additional_coins = #{additionalCoins,jdbcType=INTEGER},
+      </if>
+      <if test="hotFlag != null">
+        hot_flag = #{hotFlag,jdbcType=TINYINT},
+      </if>
+      <if test="rechargeMoney != null">
+        recharge_money = #{rechargeMoney,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mouchina.moumou_server.entity.order.RechargeConfig">
+    update recharge_config
+    set exchange_coins = #{exchangeCoins,jdbcType=INTEGER},
+      additional_coins = #{additionalCoins,jdbcType=INTEGER},
+      hot_flag = #{hotFlag,jdbcType=TINYINT},
+      recharge_money = #{rechargeMoney,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,9 @@
+#set($contentPath = $request.getContextPath())
+<script type="text/javascript">
+  var _contentPath="$contentPath";
+</script>
+<link rel="stylesheet" href="$contentPath/resources/assets/sea-modules/banjiajia/1.0.0/style/template/main.css">
+
+
+
+

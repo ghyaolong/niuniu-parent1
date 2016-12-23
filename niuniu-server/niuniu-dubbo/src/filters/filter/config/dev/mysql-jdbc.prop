@@ -1,0 +1,12 @@
+jdbc.driver=com.mysql.jdbc.Driver
+#jdbc.password=2kj%n2s8cwjq#bv8
+jdbc.password=Develop_mysql!
+jdbc.username=develop
+#jdbc.url=jdbc:mysql://120.26.214.247:3906/moumou?useUnicode=true&amp;characterEncoding=UTF-8
+jdbc.url=jdbc:mysql://172.16.9.96:3906/moumou?useUnicode=true&amp;characterEncoding=UTF-8
+pool.minIdle=10
+pool.maxActive=50
+pool.initialSize=10
+pool.maxWait=60000
+pool.timeBetweenEvictionRunsMillis=60000
+pool.minEvictableIdleTimeMillis=300000

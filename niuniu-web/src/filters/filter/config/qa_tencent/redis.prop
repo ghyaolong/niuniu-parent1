@@ -1,0 +1,4 @@
+redis.serverList=10.105.241.119:6379
+redis.maxIdle=10
+redis.maxWaitMillis=10000
+redis.reqeuirePass=7788yigou

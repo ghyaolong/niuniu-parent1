@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>哞哞科技管理后台</title>
+    #parse('layout/thems/default/common/base.vm')
+</head>
+<body>
+    <!-- Header -->
+    #parse('layout/thems/default/header.vm')
+    <div class="main-container" id="main-container">
+        <script type="text/javascript">
+            var pageNav="PERMISSION_ORDER_LIST";
+            try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+        </script>
+        <div class="main-container-inner">
+            <a class="menu-toggler" id="menu-toggler" href="#">
+                <span class="menu-text"></span>
+            </a>
+            #parse('layout/thems/default/left.vm')
+            <div class="main-content">
+                <div class="breadcrumbs" id="breadcrumbs">
+                    <script type="text/javascript">
+                        try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+                    </script>
+
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="icon-home home-icon"></i>
+                            <a href="#">首页</a>
+                        </li>
+                        <li class="active">订单管理</li>
+                    </ul><!-- .breadcrumb -->
+
+                    <div class="nav-search" id="nav-search">
+                        <form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="icon-search nav-search-icon"></i>
+								</span>
+                        </form>
+                    </div><!-- #nav-search -->
+                </div>
+                <div id="wrapper">
+                    <div class="wrapper wrapper-content animated fadeInRight">
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>账户信息</h5>
+                                        <div class="ibox-tools">
+                                            <a class="collapse-link">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+                                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                                                <i class="fa fa-wrench"></i>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-user">
+                                                <li><a href="#">Config option 1</a>
+                                                </li>
+                                                <li><a href="#">Config option 2</a>
+                                                </li>
+                                            </ul>
+                                            <a class="close-link">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="col-sm-6">
+                                            <dl class="dl-horizontal">
+                                                <dt>用户ID:</dt>
+                                                <dd>$!users.id</dd>
+                                                <dt>手机号码:</dt>
+                                                <dd>$!users.phone</dd>
+                                                <dt>昵称:</dt>
+                                                <dd>$!users.nickName</dd>
+                                            </dl>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <dl class="dl-horizontal">
+                                                <dt>姓名:</dt>
+                                                <dd>$!users.name</dd>
+                                                <dt>性别:</dt>
+                                                <dd>
+                                                    #if($!users.sex==1)
+                                                        男
+                                                    #else
+                                                        女
+                                                    #end
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>订单信息</h5>
+                                        <div class="ibox-tools">
+                                            <a class="collapse-link">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+                                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                                                <i class="fa fa-wrench"></i>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-user">
+                                                <li><a href="#">Config option 1</a>
+                                                </li>
+                                                <li><a href="#">Config option 2</a>
+                                                </li>
+                                            </ul>
+                                            <a class="close-link">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="col-sm-6">
+                                            <dl class="dl-horizontal">
+                                                <dt>服务性质:</dt>
+                                                <dd>$!orderView.Order.title</dd>
+                                                <dt>订单流水:</dt>
+                                                <dd>$!orderView.Order.orderNo</dd>
+                                                <dt>支付流水:</dt>
+                                                <dd>$!orderView.Order.payNo</dd>
+                                                <dt>品类数:</dt>
+                                                <dd>$!orderView.Order.goodsCount</dd>
+                                                <dt>下单时间:</dt>
+                                                <dd>$!date.format('yyyy-MM-dd HH:mm:ss ',$!orderView.Order.createTime)</dd>
+                                                <dt>完成时间:</dt>
+                                                <dd>$!date.format('yyyy-MM-dd HH:mm:ss ',$!orderView.Order.finshiTime)</dd>
+                                                #set($Double = 0.0)
+                                                #set($oriPrice=$Double.parseDouble("$!{orderView.Order.originalPirce}"))
+                                                #set($disPrice=$Double.parseDouble("$!{orderView.Order.discountPrice}"))
+                                                #set($deuctPrice=$Double.parseDouble("$!{orderView.Order.integrationDeductPrice}"))
+                                                #set($op=$oriPrice / 100)
+                                                #set($dp=$disPrice / 100)
+                                                #set($dep=$deuctPrice / 100)
+                                                <dt>原始金额:</dt>
+                                                <dd>$number.format("#0.00",$op)</dd>
+                                                <dt>折扣金额:</dt>
+                                                <dd>$number.format("#0.00",$!{dp})</dd>
+                                                <dt>积分抵扣:</dt>
+                                                <dd>$number.format("#0.00",$!{dep})</dd>
+                                            </dl>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <dl class="dl-horizontal">
+                                                <dt>&nbsp;</dt>
+                                                <dd>&nbsp;</dd>
+                                                <dt>订单状态:</dt>
+                                                <dd>$!orderStateMap.get($!orderView.Order.orderState)</dd>
+                                                <dt>订单来源:</dt>
+                                                <dd>
+                                                    #if($!orderView.Order.paySource==1)
+                                                        IOS
+                                                    #end
+                                                    #if($!orderView.Order.paySource==2)
+                                                        Android
+                                                    #end
+                                                    #if($!orderView.Order.paySource==3)
+                                                        微信
+                                                    #end
+                                                    #if($!orderView.Order.paySource==4)
+                                                        WEB
+                                                    #end
+                                                </dd>
+                                                <dt>订单地址:</dt>
+                                                <dd>$!{orderView.orderAddress.address}$!{orderView.orderAddress.doorplate}</dd>
+                                                <dt>购买总数量:</dt>
+                                                <dd>$!orderView.Order.goodsTotalCount</dd>
+                                                <dt>修改时间:</dt>
+                                                <dd>$!date.format('yyyy-MM-dd HH:mm:ss ',$!orderView.Order.modifyTime)</dd>
+                                                #set($dealPrice=$Double.parseDouble("$!{orderView.Order.dealPrice}"))
+                                                #set($odp=$dealPrice / 100)
+                                                #set($cashPrice=$Double.parseDouble("$!{orderView.Order.cashCouponDeductPrice}"))
+                                                #set($cp=$cashPrice / 100)
+                                                <dt>成交金额:</dt>
+                                                <dd>$number.format("#0.00",$odp)</dd>
+                                                <dt>优惠券抵扣:</dt>
+                                                <dd>$number.format("#0.00",$cp)</dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>订单明细</h5>
+                                        <div class="ibox-tools">
+                                            <a class="collapse-link">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </a>
+                                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                                                <i class="fa fa-wrench"></i>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-user">
+                                                <li><a href="#">Config option 1</a>
+                                                </li>
+                                                <li><a href="#">Config option 2</a>
+                                                </li>
+                                            </ul>
+                                            <a class="close-link">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>流水</th>
+                                                    <th>服务</th>
+                                                    <th>状态</th>
+                                                    <th>数量</th>
+                                                    <th>单价</th>
+                                                    <th>总价</th>
+                                                    <th>开始</th>
+                                                    <th>结束</th>
+                                                    <th>老师</th>
+                                                    <th>评价</th>
+                                                    <th>描述</th>
+                                                    <th>备注</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            #set($i=1)
+                                            #foreach($orderDetail in $!orderView.ordersDetails)
+                                                <tr>
+                                                    <td>$i</td>
+                                                    <td>$!orderDetail.orderDetailNo</td>
+                                                    <td>$!orderDetail.title</td>
+                                                    #set($Integer=0)
+                                                    #set($!num=$Integer.parseInt($!orderDetail.orderState))
+                                                    $!num
+                                                    <td>
+                                                        #foreach($orderState in $!orderDetailState.entrySet())
+                                                            #if($!orderState.key==$!orderDetail.orderState)
+                                                                $!orderState.value
+                                                            #end
+                                                        #end
+                                                    </td>
+                                                    <td>$!orderDetail.goodsCount</td>
+                                                    #set($unitPirce=$Double.parseDouble("$!{orderDetail.unitPirce}"))
+                                                    #set($up=$unitPirce / 100)
+                                                    #set($countPrice=$Double.parseDouble("$!{orderDetail.countPrice}"))
+                                                    #set($cp=$countPrice / 100)
+                                                    <td>$number.format("#0.00",$up)</td>
+                                                    <td>$number.format("#0.00",$cp)</td>
+                                                    <td>$!date.format('yyyy-MM-dd HH:mm:ss ',$!orderDetail.startTime)</td>
+                                                    <td>$!date.format('yyyy-MM-dd HH:mm:ss ',$!orderDetail.endTime)</td>
+                                                    <td>$!orderDetail.teacherName</td>
+                                                    <td>
+                                                       #if($!{orderDetail.isComment}==0)
+                                                           未评价
+                                                       #else
+                                                           已评价
+                                                       #end
+                                                    </td>
+                                                    <td>$!orderDetail.orderDesc</td>
+                                                    <td>$!orderDetail.orderBak</td>
+                                                </tr>
+                                                #set($i=$i+1)
+                                            #end
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    #parse('layout/thems/default/setting.vm')
+
+<!-- ========== CONTENT END ========== -->
+
+<!-- ========== FOOTER START ========== -->
+    #parse('layout/thems/default/footer.vm')
+<!-- ========== FOOTER END ========== -->
+<!-- 配置文件 -->
+<script type="text/javascript">
+    seajs.use("order-order-detail");
+</script>
+
+</body>
+</html>

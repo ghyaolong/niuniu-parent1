@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>标准网页</title>
+<meta name="renderer" content="webkit">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+<meta name="format-detection" content="telephone=no,address=no,email=no" />
+<meta name="mobileOptimized" content="width" />
+<meta name="handheldFriendly" content="true" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<script type="text/javascript" src="js/config.js"></script>
+<style>
+body {
+	overflow: hidden;
+}
+</style>
+
+</head>
+<body class="shop">
+
+
+	<div class="main-carousel"></div>
+
+	<!--
+http://ihaobaba.com/niuniu/shop.html?loginKey=1e0012799ee191659d5e84cb2517aad86fa60772_3&advertId=6
+-->
+
+
+
+</body>
+</html>
+
+<script>  
+
+//如果浏览器传了loginKey就用传的，没有传就用缓存中的
+loginKey = getUrlParams("loginKey");
+if(loginKey!="" && loginKey!=undefined){
+	store.set("loginKey",loginKey);
+}else{
+	loginKey = store.get("loginKey");
+}
+
+advertId = getUrlParams("advertId");
+if(advertId!="" && advertId!=undefined){
+	store.set("advertId",advertId);
+}else{
+	advertId = store.get("advertId");
+}
+
+
+
+//加载用户信息
+ $.ajax({
+             type: "GET",
+             url: originAPI+"/business/advert/searchAdvertById?loginKey="+loginKey+"&advertId="+advertId,
+             data: {},
+             dataType: "json",
+             success: function(data){
+			       
+                    var advertContent = JSON.parse(data.advert.advertContent);	
+ 					
+					var photo  = advertContent.photo;
+					var content = advertContent.content;
+					$(document).attr("title",data.advert.advertName);
+					console.log(photo);
+					console.log(content);
+
+					//显示广告内容
+					if(photo!="" && photo!=undefined){		
+					$.map(photo, function(item,index) {	
+
+						var strs = "";
+						strs += '  <div class="carousel-cell">';
+						strs += '  <img src="'+item+'" class="shopbg">';	
+						strs += '  <div class="showtp">';   
+						strs += '  <img src="'+item+'">';
+						strs += '  <ul class="text">';
+						strs += '  <p class="left">';
+						strs += '  '+((typeof(content)=="object") ? content[index]:content)+'';
+						strs += '  </p>';
+						strs += '  <p class="right">';
+						strs += (index+1)+'/'+photo.length;
+						strs += '  </p>';
+						strs += '  </ul>';	
+						strs += '  </div>	';	
+						strs += '  </div>';
+						
+						$(".main-carousel").append(strs);
+					});
+					}
+
+
+	$(".carousel-cell").css({"width":$(window).width()+"px","height":$(window).height()+"px"});	
+	var $carousel = $('.main-carousel').flickity({
+       cellAlign: 'left',
+       prevNextButtons: false,
+       pageDots: false
+    });
+	$carousel.on( 'dragStart', function( event, pointer ) {
+	    $(".jinbidiaoluo").removeClass("jinbidiaoluo_donghua");	
+	})
+	$carousel.on( 'dragEnd', function( event, pointer ) {
+	   $(".jinbidiaoluo").addClass("jinbidiaoluo_donghua");	
+	})
+
+
+
+
+
+			 }
+})
+
+
+
+
+/*****
+
+//加载商家信息
+ajaxrun(originAPI+"/business/advert/info/"+advertId+"?loginKey="+loginKey,{},function(data){
+	
+	var advertContent = JSON.parse(data.advert.advertContent);	
+	
+
+
+		var photo  = advertContent.photo;
+		var content = advertContent.content;
+
+		console.log(photo);
+		console.log(content);
+
+		//显示广告内容
+		if(photo!="" && photo!=undefined){		
+		$.map(photo, function(item,index) {	
+
+			var strs = "";
+			strs += '  <div class="carousel-cell">';
+			strs += '  <img src="'+item+'" class="shopbg">';	
+			strs += '  <div class="showtp">';   
+			strs += '  <img src="'+item+'">';
+			strs += '  <ul class="text">';
+			strs += '  <p class="left">';
+			strs += '  '+((typeof(content)=="object") ? content[index]:content)+'';
+			strs += '  </p>';
+			strs += '  <p class="right">';
+			strs += (index+1)+'/'+photo.length;
+			strs += '  </p>';
+			strs += '  </ul>';	
+			strs += '  </div>	';	
+			strs += '  </div>';
+			
+			$(".main-carousel").append(strs);
+		});
+		}
+
+
+})
+***/
+
+
+
+
+
+
+
+
+
+</script>

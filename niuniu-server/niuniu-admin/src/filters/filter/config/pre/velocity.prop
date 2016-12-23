@@ -1,0 +1,6 @@
+file.resource.loader.cache = true 
+file.resource.loader.modificationCheckInterval =0
+input.encoding=utf-8
+output.encoding=utf-8
+velocimacro.library.autoreload=false
+resource.manager.defaultcache.size=0

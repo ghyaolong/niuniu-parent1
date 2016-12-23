@@ -1,0 +1,1 @@
+dubbo.registry.address=zookeeper://10.105.241.119:2181

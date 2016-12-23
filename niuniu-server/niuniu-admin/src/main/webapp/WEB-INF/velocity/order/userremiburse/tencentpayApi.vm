@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>微信退款结果页</title>
+    #parse('layout/thems/default/common/base.vm')
+    <script type="text/javascript">
+        function countDown(secs,surl){
+            var jumpTo = document.getElementById('jumpTo');
+            jumpTo.innerHTML=secs;
+            if(--secs>0){
+                setTimeout("countDown("+secs+",'"+surl+"')",1000);
+            }
+            else{
+                location.href=surl;
+                -ma
+            }
+        }
+    </script>
+</head>
+<body>
+    #parse('layout/thems/default/header.vm')
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        var pageNav="order_userremiburse_list";
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+        #parse('layout/thems/default/left.vm')
+        <div class="main-content">
+            #if($!{result}=="SUCCESS")
+                <h2 id="js-programmatic-api">微信已受理退款请求,款项将原路退回,余额支付实时退款,银行卡支付到账时间为2-5个工作日!</h2>
+            #else
+            <h2 id="js-programmatic-api">退款失败[$!{result}]</h2>
+            #end
+            <a href="$contentPath/order/userremiburse/list.html"><span id="jumpTo">3</span>秒后系统会自动跳转，也可点击本处直接跳</a>
+            <script type="text/javascript">
+                countDown(3,'$contentPath/order/userremiburse/list.html');
+            </script>
+        </div>
+        #parse('layout/thems/default/setting.vm')
+    </div>
+    </div>
+    #parse('layout/thems/default/footer.vm')
+</body>
+</html>

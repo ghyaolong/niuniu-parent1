@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>哞哞管理后台</title>
+	#parse('layout/thems/default/common/base.vm')
+	
+	
+	<script>
+			function validate(paramId){  
+		       var reg = new RegExp("^[0-9]*$");  
+		       var obj = document.getElementById(paramId);  
+		     
+		    if(!/^[0-9]*$/.test(obj.value)){  
+		        alert("请输入数字!");  
+		    }  
+  }  
+			
+			function getProjectPath(){
+	
+				//获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp      
+			    var curWwwPath=window.document.location.href;      
+			    //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp      
+			    var pathName=window.document.location.pathname;      
+			    var pos=curWwwPath.indexOf(pathName);      
+			    //获取主机地址，如： http://localhost:8083      
+			    var localhostPaht=curWwwPath.substring(0,pos);      
+			    //获取带"/"的项目名，如：/uimcardprj      
+			    var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);      
+			    
+			    return localhostPaht;
+		
+	}
+	
+		function uploadImgsAction(){
+			var myform=document.getElementById("newForm");
+			myform.action=getProjectPath()+"/common/resource/image/upload.html";
+			myform.enctype="multipart/form-data";
+			myform.submit();
+		}	
+	
+	function showScopeBegin00(){
+	
+		validate("scopeBegin0");
+		var scopeBegin0Var=document.getElementById("scopeBegin0").value;
+		document.getElementById("scopeBegin00").value=parseInt(scopeBegin0Var)+1;
+	
+	}
+	
+	function showScopeEnd00(){
+		validate("scopeEnd0");
+		var scopeEnd0Var=document.getElementById("scopeEnd0").value;
+		document.getElementById("scopeEnd00").value=parseInt(scopeEnd0Var)+1;
+	
+	}
+	
+	</script>
+</head>
+
+
+ 
+<body>
+
+<!-- Header -->
+#parse('layout/thems/default/header.vm')
+
+	<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				var pageNav="info_menu_list_${sysId}";
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+				#parse('layout/thems/default/left.vm')
+
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="#">首页</a>
+							</li>
+							<li class="active">运营活动</li>
+						</ul><!-- .breadcrumb -->
+
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="icon-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- #nav-search -->
+					</div>
+
+					<div class="page-content">
+						<div class="page-header">
+							<h1>
+								运营活动新增
+								<small>
+									<i class="icon-double-angle-right"></i>
+									添加
+								</small>
+							</h1>
+						</div><!-- /.page-header -->
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+								<form role="form" class="form-horizontal" id="newForm" method="post" action="/advert/add.html" >
+									<div class="form-group" class="col-xs-12 col-sm-12">
+										<label  class="col-xs-2 col-sm-2 control-label no-padding-right"> 活动名称: </label>
+										<input type="text" id="advertName"   name="advertName"    placeholder="请输入活动名称" class="col-xs-4 col-sm-4"/>
+										<label   class="col-sm-1 col-xs-1 control-label"> 活动内容 :</label>
+										<input type="text" id="advertContent" name="advertContent"  class="col-xs-4 col-sm-4" placeholder="活动内容" id="phoneInput">
+									</div> 
+											<div role="grid" class="dataTables_wrapper" id="sample-table-2_wrapper">
+                                                <div class="row">
+                                                    <div class="col-sm-2">
+														<input  placeholder="开始日期"  type="text" data-date-format="yyyy-mm-dd HH:mm:ss" id="startTime" name="startTime" class="form-control date-picker">
+													</div>
+													<div class="col-sm-2">												
+														<input  placeholder="结束日期"  type="text" data-date-format="yyyy-mm-dd HH:mm:ss" id="endTime" name="endTime"  class="form-control date-picker">
+													</div>
+													<div class="col-sm-2">												
+														<input  placeholder="显示日期"  type="text" data-date-format="yyyy-mm-dd HH:mm:ss" id="showTime" name="showTime"  class="form-control date-picker">
+													</div>
+                                                </div>
+                                            </div>
+									
+									 <h3 style="text-align: center;">奖品信息设置 </h3>
+										<div style="margin-left: 75px">
+											人数区间: 0~<input type="text" size="10"  onblur="showScopeBegin00();" id="scopeBegin0" name="scopeBegin0"/>,
+											<input  type="text"  size="10" id="scopeBegin00" disabled />~<input type="text"  size="10"  onblur="showScopeEnd00();" id="scopeEnd0" name="scopeEnd0" />,
+											<input  type="text"  size="10"   id="scopeEnd00" name="scopeEnd00" disabled/>以上  
+										<div>
+											<p><h4>特等奖:</h4></p>
+											
+											对应区间最大中奖人数:<input  type="text"  size="10"  id="numMax"  name="numMax"/>
+											(人数用-隔开)&nbsp;&nbsp;&nbsp;奖品:<input type="text" id="prize" name="prize"/>
+											奖品图片(尺寸690*400px，大小80~200kb):<input type="hidden" name="photoUrl" id="photoUrl0" />
+											<image style="width="100px" height="100px"" id="prizePic0" name="prizePic" class="btn col-sm-0" alt="特等奖图片" />
+											<span>上传特等奖展示小图<span/>
+											<input type="hidden" name="smallPhotoUrl" id="smallPhotoUrl5" />
+											<image style="width="100px" height="100px"" id="smallPrizePic0" name="smallPrizePic" class="btn col-sm-0" alt="特等奖小图(160*160)" />	
+                   							
+											<p><h4>一等奖:</h4></p>
+											 对应区间最大中奖人数:<input  type="text"  size="10"  id="numMax"  name="numMax"/> (人数用-隔开)&nbsp;&nbsp;&nbsp;奖品:<input type="text" id="prize" name="prize"/>
+											奖品图片(尺寸690*400px，大小80~200kb):
+											<input type="hidden" name="photoUrl" id="photoUrl1" />
+											<image style="width="100px" height="100px"" id="prizePic1" name="prizePic" class="btn col-sm-0" alt="一等奖图片" />	 
+											<br> 	
+											<p><h4>二等奖:</h4></p>
+											对应区间最大中奖人数:<input  type="text"  size="10"  id="numMax"  name="numMax"/> (人数用-隔开)&nbsp;&nbsp;&nbsp;奖品:<input type="text"  id="prize" name="prize"/>
+											奖品图片(尺寸690*400px，大小80~200kb):
+											<input type="hidden" name="photoUrl" id="photoUrl2" />
+											<image style="width="100px" height="100px"" id="prizePic2" name="prizePic" class="btn col-sm-0" alt="二等奖图片" />	  	
+											<br>
+											<p><h4>三等奖:</h4></p>
+											 对应区间最大中奖人数:<input  type="text"  size="10"  id="numMax"  name="numMax"/> (人数用-隔开)&nbsp;&nbsp;&nbsp;奖品:<input type="text" id="prize" name="prize"/>
+											奖品图片(尺寸690*400px，大小80~200kb):
+											<input type="hidden" name="photoUrl" id="photoUrl3" />
+											<image style="width="100px" height="100px"" id="prizePic3" name="prizePic" class="btn col-sm-0" alt="三等奖图片" />	  	
+											<br>
+											<p><h4>四等奖:</h4></p>
+											对应区间最大中奖人数:<input  type="text"  size="10"  id="numMax"  name="numMax"/> (人数用-隔开)&nbsp;&nbsp;&nbsp;奖品:<input type="text" id="prize" name="prize"/>
+											奖品图片(尺寸690*400px，大小80~200kb):
+											<input type="hidden" name="photoUrl" id="photoUrl4" />
+											<image style="width="100px" height="100px"" id="prizePic4" name="prizePic" class="btn col-sm-0" alt="四等奖图片" />	  	
+                   							 
+								
+									<div class="clearfix form-actions">
+										<div class="col-md-offset-3 col-md-9">
+										
+											<button type="submit" id="newTeacherButton" class="btn btn-info" >
+												<i class="icon-ok bigger-110"></i>
+												提交数据
+											</button>
+
+											&nbsp; &nbsp; &nbsp;
+											<button type="reset" class="btn">
+												<i class="icon-undo bigger-110"></i>
+												重置
+											</button>
+										</div>
+									</div>
+
+
+								</form>
+
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+				#parse('layout/thems/default/setting.vm')
+			</div><!-- /.main-container-inner -->
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div>
+
+
+<!-- ========== CONTENT END ========== -->
+
+<!-- ========== FOOTER START ========== -->
+#parse('layout/thems/default/footer.vm')
+<!-- ========== FOOTER END ========== -->
+
+
+<script type="text/javascript">
+ 	seajs.use("advert-operatingActivitiesAdd");
+</script>
+</body>
+</html>

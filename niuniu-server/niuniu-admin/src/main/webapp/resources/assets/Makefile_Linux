@@ -1,0 +1,12 @@
+
+build:
+	@spm build
+
+deploy:
+	@rm -rf sea-modules/qishi/web
+	@mkdir  sea-modules/qishi/web
+	@mkdir  sea-modules/qishi/web/1.0.0
+	@cp     dist/*.* sea-modules/qishi/web/1.0.0
+	@echo
+	@echo   " deploy to seajs-modules/qishi/web/1.0.0"
+	@echo

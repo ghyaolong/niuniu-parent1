@@ -1,0 +1,1 @@
+define("banjiajia/web/1.0.0/scripts/common/pager",["$","bootstrap-paginator"],function(a,b,c){var d=a("$");a("bootstrap-paginator")(d);var e={init:function(a,b){var c={bootstrapMajorVersion:3,totalPages:b.totalPages||20,currentPage:b.currentPage+1||1,numberOfPages:10,innerWindow:4,onPageClicked:b.callback||function(){}};a.bootstrapPaginator(c)}};c.exports=e});

@@ -1,0 +1,19 @@
+1. 安装nodejs  如果已经安装 运行npm升级命令  
+   npm update -g npm 
+
+2. 安装 CLI    
+   npm install -g grunt-cli
+   
+3. 配置好 Gruntfile.js 运行
+   npm install  
+
+4. 运行grunt即可生成对应的合并压缩后的文件
+   grunt   
+   
+   
+   
+   
+   
+安装插件命令 
+比如安装 clean插件 grunt-contrib-clean
+npm install grunt-contrib-clean --save-dev   

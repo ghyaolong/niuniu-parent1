@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.org/schema/spring-dwr-4.0.xsd">
+
+	<!-- ======================= 释放【广告冻结】 begin ========================================== -->
+	<bean id="advertStatisticsUnfreezeJob" class="com.mouchina.niuniu.job.AdvertStatisticsUnfreezeJob" />
+
+	<!-- 调度任务 -->
+	<bean id="JobMethod_AdvertUnfreezeJob"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="advertStatisticsUnfreezeJob" />
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+
+	<!-- 调度触发器 -->
+	<bean id="CronTrigger_AdvertUnfreezeJob"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="JobMethod_AdvertUnfreezeJob"></property>
+		<property name="cronExpression" value="10 0/5 * * * ?"></property>
+	</bean>
+	<!-- ======================= 释放【广告冻结】 end ========================================== -->
+	
+	
+	<!-- ======================= 代理商收益初始化  begin  ========================================== -->
+    <bean id="agentIncomeInitJob" class="com.mouchina.niuniu.job.AgentIncomeInitJob" />
+	
+	<!-- 调度任务-->
+	<bean id="JobMethod_AgentIncomeInitJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+	    <property name="targetObject">  
+	        <ref bean="agentIncomeInitJob"/>
+	    </property>  
+	    <property name="targetMethod"> 
+	        <value>execute</value>  
+	    </property>  
+	</bean>
+	
+	<!-- 调度触发器 (每天00:05:00执行一次) -->
+    <bean id="CronTrigger_AgentIncomeInitJob" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+    	<property name="jobDetail" ref="JobMethod_AgentIncomeInitJob"></property>  
+    	<property name="cronExpression" value="0 5 0 * * ?"></property>  
+	</bean>
+	<!-- ======================= 代理商收益初始化 end ========================================== -->
+	
+	<!-- ======================= 定时广告投放  begin  ========================================== -->
+    <bean id="advertSenseJob" class="com.mouchina.niuniu.job.AdvertSenseJob" />
+	
+	<!-- 调度任务-->
+	<bean id="JobMethod_AdvertSenseJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+	    <property name="targetObject">  
+	        <ref bean="advertSenseJob"/>
+	    </property>  
+	    <property name="targetMethod"> 
+	        <value>execute</value>  
+	    </property>  
+	</bean>
+	
+	<!-- 调度触发器 (每隔一分钟执行一次) -->
+    <bean id="CronTrigger_AdvertSenseJob" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+    	<property name="jobDetail" ref="JobMethod_AdvertSenseJob"></property>  
+    	<property name="cronExpression" value="0 0/1 * * * ?"></property>  
+	</bean>
+	<!-- ======================= 定时广告投放 end ========================================== -->
+	
+	<!-- ======================= 召回沉默用户  begin  ========================================== -->
+    <bean id="sendMessageJob" class="com.mouchina.niuniu.job.SendMessageJob" />
+	
+	<!-- 调度任务-->
+	<bean id="JobMethod_SendMessageJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+	    <property name="targetObject">  
+	        <ref bean="sendMessageJob"/>
+	    </property>  
+	    <property name="targetMethod"> 
+	        <value>execute</value>  
+	    </property>  
+	</bean>
+	
+	<!-- 调度触发器 (每隔一分钟执行一次) -->
+    <bean id="CronTrigger_SendMessageJob" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+    	<property name="jobDetail" ref="JobMethod_SendMessageJob"></property>  
+    	<property name="cronExpression" value="0 15 10 ? * *"></property>  
+	</bean>
+	<!-- ======================= 召回沉默用户 end ========================================== -->
+	<!-- 调度工厂 -->
+	<bean name="SchedulerFactory"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<!--延时启动 -->
+		<property name="startupDelay" value="10" />
+		<!-- 普通触发器 ：触发器列表，（可以配置多个任务） -->
+		<property name="triggers">
+			<list>
+				<!-- 广告冻结：解冻 -->
+				<ref bean="CronTrigger_AdvertUnfreezeJob" />
+
+				<!-- 代理商收益初始化 -->
+				<ref bean="CronTrigger_AgentIncomeInitJob" />
+				
+				<!-- 定时广告投放 -->
+				<ref bean="CronTrigger_AdvertSenseJob" />
+				
+				<!-- 召回沉默用户 -->
+				<ref bean="CronTrigger_SendMessageJob" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 营销数据的job -->
+	<!-- <bean id="marketingJob" class="com.mouchina.niuniu.job.BusinessCouponJob"/>
+	<task:scheduled-tasks>
+		<task:scheduled ref="marketingJob" method="testJob" cron="0/5 * * * * ?"/>
+	</task:scheduled-tasks> -->
+</beans>

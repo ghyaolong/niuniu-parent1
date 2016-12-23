@@ -1,0 +1,57 @@
+body, ul, li {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	background-color: #000000;
+}
+
+ul, ol {
+	padding: 0;
+	margin: 0 0 10px 25px;
+	color: #ffffff;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+	margin-bottom: 0;
+}
+
+li {
+	line-height: 20px;
+}
+
+ul.unstyled, ol.unstyled {
+	margin-left: 0;
+	list-style: none;
+}
+
+ul.unstyled li a, ol.unstyled li a {
+	display: block;
+	background-color: #ffffff;
+	color: #000000;
+	cursor: pointer;
+}
+
+ul.inline, ol.inline {
+	margin-left: 0;
+	list-style: none;
+}
+
+ul.inline>li, ol.inline>li {
+	display: inline-block;
+	*display: inline;
+	padding-right: 5px;
+	padding-left: 5px;
+	*zoom: 1;
+}
+
+#left #left-top {
+	height: 120px;
+}
+
+#left #left-top #left-top-logo {
+	height: 80px;
+}
+
+#left #left-top #left-top-search {
+	height: 40px;
+}

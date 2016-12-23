@@ -1,0 +1,907 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mouchina.moumou_server.dao.advert.RedEnvelopeMapper">
+	<resultMap id="BaseResultMap"
+		type="com.mouchina.moumou_server.entity.advert.RedEnvelope">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="advert_id" property="advertId" jdbcType="BIGINT" />
+		<result column="publisher_id" property="publisherId" jdbcType="BIGINT" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="amout" property="amout" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="user_avatar" property="userAvatar" jdbcType="VARCHAR" />
+		<result column="user_sex" property="userSex" jdbcType="TINYINT" />
+		<result column="user_nick_name" property="userNickName"
+			jdbcType="VARCHAR" />
+		<!-- <result column="advert_logo" property="advertLogo" jdbcType="VARCHAR" 
+			/> -->
+		<result column="advert_name" property="advertName" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="TINYINT" />
+		<result column="original_amout" property="originalAmout"
+			jdbcType="INTEGER" />
+		<result column="award_time" property="awardTime" jdbcType="TIMESTAMP" />
+		<result column="age_group" property="ageGroup" jdbcType="TINYINT" />
+		<result column="advert_unfreeze_count" property="advertUnfreezeCount"
+			jdbcType="TINYINT" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 查询排行榜前50名存储过程 -->
+	<select id="selectTopRed50Procedure"
+		resultType="com.mouchina.moumou_server.entity.advert.RedEnvelopeTop"
+		statementType="CALLABLE">
+		{
+		call selectRedTop3()
+		}
+	</select>
+	<sql id="Base_Column_List">
+		id, advert_id, publisher_id, user_id, amout, create_time,
+		user_avatar,
+		user_sex, user_nick_name,
+		advert_name, state,
+		original_amout,
+		award_time,age_group,advert_unfreeze_count,type
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from red_envelope
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!-- 查询排行榜前50人 -->
+	<select id="selectRedEnvelopeTop3"
+		resultType="com.mouchina.moumou_server.entity.advert.RedEnvelopeTop">
+		SELECT * FROM ( SELECT (@r :=@r + 1) topNum, t1.* FROM (
+		SELECT re.user_id AS userId, SUM(amout) AS amountSum FROM red_envelope
+		re WHERE re.amout > 0 GROUP BY re.user_id ) AS t1, (SELECT @r := 0) b
+		ORDER BY
+		t1.amountSum DESC ) g LIMIT 0, 50
+	</select>
+	<select id="selectRedEnvelopeOneself"
+		resultType="com.mouchina.moumou_server.entity.advert.RedEnvelopeTop"
+		parameterType="java.lang.Long">
+		SELECT * FROM ( SELECT (@r :=@r + 1) topNum, t1.* FROM (
+		SELECT re.user_id AS userId, SUM(amout) AS amountSum FROM red_envelope
+		re WHERE re.amout > 0 GROUP BY re.user_id ) AS t1, (SELECT @r := 0) b
+		ORDER BY
+		t1.amountSum DESC ) g WHERE g.userId =
+		#{userId,jdbcType=BIGINT}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		red_envelope
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<insert id="insert"
+		parameterType="com.mouchina.moumou_server.entity.advert.RedEnvelope">
+		insert into red_envelope (id, advert_id, publisher_id,
+		user_id, amout,
+		create_time,
+		user_avatar, user_sex, user_nick_name,
+		advert_name, state,
+		original_amout, award_time,type)
+		values
+		(#{id,jdbcType=BIGINT}, #{advertId,jdbcType=BIGINT},
+		#{publisherId,jdbcType=BIGINT},
+		#{userId,jdbcType=BIGINT},
+		#{amout,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+		#{userAvatar,jdbcType=VARCHAR}, #{userSex,jdbcType=TINYINT},
+		#{userNickName,jdbcType=VARCHAR},
+		#{advertName,jdbcType=VARCHAR},
+		#{state,jdbcType=TINYINT},
+		#{originalAmout,jdbcType=INTEGER},
+		#{awardTime,jdbcType=TIMESTAMP},#{type,jdbcType=INTEGER})
+	</insert>
+
+	<insert id="insertSelective"
+		parameterType="com.mouchina.moumou_server.entity.advert.RedEnvelope">
+		insert into red_envelope
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="advertId != null">
+				advert_id,
+			</if>
+			<if test="publisherId != null">
+				publisher_id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="amout != null">
+				amout,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="userAvatar != null">
+				user_avatar,
+			</if>
+			<if test="userSex != null">
+				user_sex,
+			</if>
+			<if test="userNickName != null">
+				user_nick_name,
+			</if>
+			<if test="advertLogo != null">
+				advert_logo,
+			</if>
+			<if test="advertName != null">
+				advert_name,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="originalAmout != null">
+				original_amout,
+			</if>
+			<if test="awardTime != null">
+				award_time,
+			</if>
+			<if test="ageGroup != null">
+				age_group,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="advertId != null">
+				#{advertId,jdbcType=BIGINT},
+			</if>
+			<if test="publisherId != null">
+				#{publisherId,jdbcType=BIGINT},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="amout != null">
+				#{amout,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userAvatar != null">
+				#{userAvatar,jdbcType=VARCHAR},
+			</if>
+			<if test="userSex != null">
+				#{userSex,jdbcType=TINYINT},
+			</if>
+			<if test="userNickName != null">
+				#{userNickName,jdbcType=VARCHAR},
+			</if>
+			<if test="advertLogo != null">
+				#{advertLogo,jdbcType=VARCHAR},
+			</if>
+			<if test="advertName != null">
+				#{advertName,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=TINYINT},
+			</if>
+			<if test="originalAmout != null">
+				#{originalAmout,jdbcType=INTEGER},
+			</if>
+			<if test="awardTime != null">
+				#{awardTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="ageGroup != null">
+				#{ageGroup,jdbcType=TINYINT},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=TINYINT},
+			</if>
+		</trim>
+		<selectKey resultType="java.lang.Long" order="AFTER"
+			keyProperty="id">
+			SELECT LAST_INSERT_ID() AS ID
+		</selectKey>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.mouchina.moumou_server.entity.advert.RedEnvelope">
+		<!-- WARNING - @mbggenerated This element is automatically generated by 
+			MyBatis Generator, do not modify. This element was generated on Mon Feb 01 
+			15:47:43 CST 2016. -->
+		update red_envelope
+		<set>
+			<if test="publisherId != null">
+				publisher_id = #{publisherId,jdbcType=BIGINT},
+			</if>
+			<if test="amout != null">
+				amout = #{amout,jdbcType=INTEGER},
+			</if>
+			<if test="userAvatar != null">
+				user_avatar = #{userAvatar,jdbcType=VARCHAR},
+			</if>
+			<if test="userSex != null">
+				user_sex = #{userSex,jdbcType=TINYINT},
+			</if>
+			<if test="userNickName != null">
+				user_nick_name = #{userNickName,jdbcType=VARCHAR},
+			</if>
+			<if test="advertLogo != null">
+				advert_logo = #{advertLogo,jdbcType=VARCHAR},
+			</if>
+			<if test="advertName != null">
+				advert_name = #{advertName,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=TINYINT},
+			</if>
+			<if test="originalAmout != null">
+				original_amout = #{originalAmout,jdbcType=INTEGER},
+			</if>
+			<if test="awardTime != null">
+				award_time = #{awardTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="advertUnfreezeCount != null">
+				advert_unfreeze_count =
+				#{advertUnfreezeCount,jdbcType=INTEGER},
+			</if>
+			<if test="ageGroup != null">
+				age_group= #{ageGroup,jdbcType=TINYINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.mouchina.moumou_server.entity.advert.RedEnvelope">
+		<!-- WARNING - @mbggenerated This element is automatically generated by 
+			MyBatis Generator, do not modify. This element was generated on Mon Feb 01 
+			15:47:43 CST 2016. -->
+		update red_envelope
+		set
+		publisher_id = #{publisherId,jdbcType=BIGINT},
+		amout = #{amout,jdbcType=INTEGER},
+		user_avatar =
+		#{userAvatar,jdbcType=VARCHAR},
+		user_sex = #{userSex,jdbcType=TINYINT},
+		user_nick_name = #{userNickName,jdbcType=VARCHAR},
+		advert_logo =
+		#{advertLogo,jdbcType=VARCHAR},
+		advert_name =
+		#{advertName,jdbcType=VARCHAR},
+		state = #{state,jdbcType=TINYINT},
+		original_amout = #{originalAmout,jdbcType=INTEGER},
+		advert_unfreeze_count = #{advertUnfreezeCount,jdbcType=INTEGER},
+		award_time = #{awardTime,jdbcType=TIMESTAMP}
+		where id =
+		#{id,jdbcType=BIGINT}
+	</update>
+	<select id="selectModel" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		moumou.red_envelope
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="advertId != null">
+				and advert_id= #{advertId,jdbcType=BIGINT}
+			</if>
+			<if test="publisherId != null">
+				and publisher_id= #{publisherId,jdbcType=BIGINT}
+			</if>
+			<if test="userId != null">
+				and user_id= #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="amout != null">
+				and amout= #{amout,jdbcType=INTEGER}
+			</if>
+			<if test="crateTime != null">
+				and create_time= #{crateTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userAvatar != null">
+				and user_avatar= #{userAvatar,jdbcType=VARCHAR}
+			</if>
+			<if test="userSex != null">
+				and user_sex= #{userSex,jdbcType=TINYINT}
+			</if>
+			<if test="userNickName != null">
+				and user_nick_name= #{userNickName,jdbcType=VARCHAR}
+			</if>
+			<if test="advertLogo != null">
+				and advert_logo= #{advertLogo,jdbcType=VARCHAR}
+			</if>
+			<if test="advertName != null">
+				and advert_name= #{advertName,jdbcType=VARCHAR}
+			</if>
+			<if test="state != null">
+				and state= #{state,jdbcType=TINYINT}
+			</if>
+			<if test="states != null">
+				and state in (${states})
+			</if>
+			<if test="originalAmout != null">
+				and original_amout= #{originalAmout,jdbcType=INTEGER}
+			</if>
+			<if test="awardTime != null">
+				and award_time= #{awardTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="ageGroup != null">
+				and age_group= #{ageGroup,jdbcType=TINYINT}
+			</if>
+			<if test="crateTimeDay != null">
+				and TO_DAYS(`create_time`) = TO_DAYS(NOW())
+			</if>
+		</where>
+		<if test="order != null">
+      <![CDATA[  order by  ${order} ]]>
+		</if>
+	</select>
+	<select id="selectList" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		moumou.red_envelope
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="advertId != null">
+				and advert_id= #{advertId,jdbcType=BIGINT}
+			</if>
+			<if test="publisherId != null">
+				and publisher_id= #{publisherId,jdbcType=BIGINT}
+			</if>
+			<if test="userId != null">
+				and user_id= #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="amout != null">
+				and amout= #{amout,jdbcType=INTEGER}
+			</if>
+			<if test="crateTime != null">
+				and create_time= #{crateTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userAvatar != null">
+				and user_avatar= #{userAvatar,jdbcType=VARCHAR}
+			</if>
+			<if test="userSex != null">
+				and user_sex= #{userSex,jdbcType=TINYINT}
+			</if>
+			<if test="userNickName != null">
+				and user_nick_name= #{userNickName,jdbcType=VARCHAR}
+			</if>
+			<if test="advertLogo != null">
+				and advert_logo= #{advertLogo,jdbcType=VARCHAR}
+			</if>
+			<if test="advertName != null">
+				and advert_name= #{advertName,jdbcType=VARCHAR}
+			</if>
+			<if test="state != null">
+				and state= #{state,jdbcType=TINYINT}
+			</if>
+			<if test="originalAmout != null">
+				and original_amout= #{originalAmout,jdbcType=INTEGER}
+			</if>
+			<if test="originalAmouts != null">
+				and original_amout in (${originalAmouts})
+			</if>
+			<if test="awardTime != null">
+				and award_time= #{awardTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="ageGroup != null">
+				and age_group= #{ageGroup,jdbcType=TINYINT}
+			</if>
+			<if test="ageGroups != null">
+				and age_group in(${ageGroups})
+			</if>
+			<if test="crateTimeDay != null">
+				and TO_DAYS(`create_time`) = TO_DAYS(NOW())
+			</if>
+		</where>
+		<if test="order != null">
+      <![CDATA[  order by  ${order} ]]>
+		</if>
+		<if test="page != null">
+      <![CDATA[  limit #{page.begin}, #{page.end} ]]>
+		</if>
+	</select>
+
+	<select id="selectEarnParticular" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		moumou.red_envelope
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="advertId != null">
+				and advert_id= #{advertId,jdbcType=BIGINT}
+			</if>
+			<if test="publisherId != null">
+				and publisher_id= #{publisherId,jdbcType=BIGINT}
+			</if>
+			<if test="userId != null">
+				and user_id= #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="amout != null">
+				and amout= #{amout,jdbcType=INTEGER}
+			</if>
+			<if test="crateTime != null">
+				and create_time= #{crateTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userAvatar != null">
+				and user_avatar= #{userAvatar,jdbcType=VARCHAR}
+			</if>
+			<if test="userSex != null">
+				and user_sex= #{userSex,jdbcType=TINYINT}
+			</if>
+			<if test="userNickName != null">
+				and user_nick_name= #{userNickName,jdbcType=VARCHAR}
+			</if>
+			<if test="advertLogo != null">
+				and advert_logo= #{advertLogo,jdbcType=VARCHAR}
+			</if>
+			<if test="advertName != null">
+				and advert_name= #{advertName,jdbcType=VARCHAR}
+			</if>
+			<if test="state != null">
+				and state= #{state,jdbcType=TINYINT}
+			</if>
+			<if test="originalAmout != null">
+				and original_amout= #{originalAmout,jdbcType=INTEGER}
+			</if>
+			<if test="ageGroup != null">
+				and age_group= #{ageGroup,jdbcType=TINYINT}
+			</if>
+			<if test="ageGroups != null">
+				and age_group in(${ageGroups})
+			</if>
+			<if test="crateTimeDay != null">
+				and TO_DAYS(`create_time`) = TO_DAYS(NOW())
+			</if>
+			<!-- 特定条件，查询获得奖励的记录 -->
+			<if test="awardTime == null">
+				and award_time is not null
+			</if>
+		</where>
+		<if test="order != null">
+			<![CDATA[  order by  ${order} ]]>
+		</if>
+	</select>
+
+	<!-- 查询用户收入详情【3.0】 -->
+	<select id="selectUserIncomeDetails" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		*
+		FROM red_envelope
+		WHERE
+		user_id = #{userId,jdbcType=BIGINT} AND award_time IS NOT NULL
+		) re
+		WHERE re.advert_id = 0 OR re.type IN (0, 2, 4)
+		) re
+		WHERE re.amout > 0
+		AND re.state=1
+		ORDER
+		BY re.award_time DESC
+		limit
+		#{page.begin},#{page.length}
+	</select>
+
+	<sql id="selectPageCondition">
+		<where>
+			state in ('0','1')
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="advertId != null">
+				and advert_id= #{advertId,jdbcType=BIGINT}
+			</if>
+			<if test="publisherId != null">
+				and publisher_id= #{publisherId,jdbcType=BIGINT}
+			</if>
+			<if test="userId != null">
+				and user_id= #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="amout != null">
+				and amout= #{amout,jdbcType=INTEGER}
+			</if>
+			<if test="crateTime != null">
+				and create_time= #{crateTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userAvatar != null">
+				and user_avatar= #{userAvatar,jdbcType=VARCHAR}
+			</if>
+			<if test="userSex != null">
+				and user_sex= #{userSex,jdbcType=TINYINT}
+			</if>
+			<if test="userNickName != null">
+				and user_nick_name= #{userNickName,jdbcType=VARCHAR}
+			</if>
+			<if test="advertLogo != null">
+				and advert_logo= #{advertLogo,jdbcType=VARCHAR}
+			</if>
+			<if test="advertName != null">
+				and advert_name= #{advertName,jdbcType=VARCHAR}
+			</if>
+			<if test="state != null">
+				and state= #{state,jdbcType=TINYINT}
+			</if>
+			<if test="originalAmout != null">
+				and original_amout= #{originalAmout,jdbcType=INTEGER}
+			</if>
+			<if test="awardTime != null">
+				and award_time= #{awardTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="ageGroup != null">
+				and age_group= #{ageGroup,jdbcType=TINYINT}
+			</if>
+			<if test="ageGroups != null">
+				and age_group in(${ageGroups})
+			</if>
+			<if test="crateTimeDay != null">
+				and TO_DAYS(`create_time`) = TO_DAYS(NOW())
+			</if>
+			<if test="expireSeconds != null">
+				and UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(create_time) >
+				#{expireSeconds,jdbcType=INTEGER}
+			</if>
+			<if test="type != null">
+				and type = #{type,jdbcType=INTEGER}
+			</if>
+		</where>
+	</sql>
+
+	<select id="selectPageList" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		moumou.red_envelope
+		<include refid="selectPageCondition" />
+		<if test="order != null">
+      <![CDATA[  order by  ${order} ]]>
+		</if>
+		<if test="page != null">
+      <![CDATA[  limit #{page.begin}, #{page.end} ]]>
+		</if>
+	</select>
+	<!-- 校验用户是否领取过该广告 -->
+	<select id="verifyUserReceivedAdvert" resultType="int"
+		parameterType="com.mouchina.moumou_server.entity.advert.RedEnvelope">
+		select count(1) from red_envelope t
+		where t.state in
+		('0','1')
+		and t.user_id=#{userId,jdbcType=BIGINT}
+		and
+		t.advert_id=#{advertId,jdbcType=BIGINT}
+	</select>
+	<select id="selectCount" resultType="int" parameterType="java.util.Map">
+		select
+		count(1)
+		from
+		moumou.red_envelope
+		<include refid="selectPageCondition" />
+	</select>
+	<select id="selectListPageRedEnvelopeTop"
+		resultType="com.mouchina.moumou_server.entity.advert.RedEnvelopeTop"
+		parameterType="com.mouchina.moumou_server.entity.advert.UserSearchSO">
+		select (@r:=@r+1) topNum,odr.* from (
+		select
+		invite.new_user_id userId,
+		sum(IFNULL(re.amout,0)/100) amountSum,
+		re.user_avatar userAvatar,
+		re.user_nick_name userNickName,
+		count(re.amout) total
+		from (
+		select
+		ui.new_user_id from moumou.user_invite ui where ui.user_id =#{userId}
+		union select #{userId}
+		) invite left join moumou.red_envelope re on
+		re.state = '1' and
+		invite.new_user_id = re.user_id
+		group by
+		invite.new_user_id
+		) odr,(select @r:=0) b
+		order by odr.amountSum
+		desc
+	    <![CDATA[limit #{start}, #{limit}]]>
+	</select>
+	<select id="selectRedEnvelopeTopNewMe"
+		resultType="com.mouchina.moumou_server.entity.advert.RedEnvelopeTop"
+		parameterType="java.lang.Long">
+		select userId, amountSum, userAvatar, userNickName,
+		total, topNum from (
+		select (@r:=@r+1) topNum,odr.* from (
+		select
+		invite.new_user_id userId,
+		sum(IFNULL(re.amout,0)/100) amountSum,
+		re.user_avatar userAvatar,
+		re.user_nick_name userNickName,
+		count(re.amout) total
+		from (
+		select ui.new_user_id from
+		moumou.user_invite ui where ui.user_id =#{userId}
+		union select
+		#{userId}
+		) invite left join moumou.red_envelope re on re.state = '1'
+		and
+		invite.new_user_id = re.user_id
+		group by invite.new_user_id
+		)
+		odr,(select @r:=0) b
+		order by odr.amountSum desc
+		) h where h.userId =
+		#{userId}
+	</select>
+	<select id="selectListPageRedEnvelopeTopNew"
+		resultType="com.mouchina.moumou_server.entity.advert.RedEnvelopeTop"
+		parameterType="java.util.Map">
+		select userId, amountSum, userAvatar, userNickName, total, topNum from
+		(
+		select (@r:=@r+1) topNum,odr.* from (
+		select
+		invite.new_user_id userId,
+		sum(IFNULL(re.amout,0)/100) amountSum,
+		re.user_avatar userAvatar,
+		re.user_nick_name userNickName,
+		count(re.amout) total
+		from (
+		select
+		ui.new_user_id from moumou.user_invite ui where ui.user_id =#{userId}
+		union select #{userId}
+		) invite left join moumou.red_envelope re on
+		re.state = '1' and
+		invite.new_user_id = re.user_id
+		group by
+		invite.new_user_id
+		) odr,(select @r:=0) b
+		order by odr.amountSum desc
+		) h
+		where h.userId <![CDATA[<>]]>
+		#{userId}
+	    <![CDATA[limit #{page.begin}, #{page.end}]]>
+	</select>
+	<select id="selectCountTop" resultType="int" parameterType="java.util.Map">
+		select count(1) from (
+		select (@r:=@r+1) topNum,odr.* from (
+		select
+		invite.new_user_id userId,
+		sum(IFNULL(re.amout,0)/100) amountSum,
+		re.user_avatar userAvatar,
+		re.user_nick_name userNickName,
+		count(re.amout) total
+		from (
+		select ui.new_user_id from
+		moumou.user_invite ui where ui.user_id =#{userId}
+		union select
+		#{userId}
+		) invite left join moumou.red_envelope re on re.state = '1'
+		and
+		invite.new_user_id = re.user_id
+		group by invite.new_user_id
+		)
+		odr,(select @r:=0) b
+		order by odr.amountSum
+		desc ) h where h.userId <![CDATA[<>]]>
+		#{userId}
+	</select>
+
+	<!-- 查询待解冻的广告列表 -->
+	<select id="searchWaitUnFreezeAdvertList" parameterType="int"
+		resultType="com.mouchina.moumou_server.entity.advert.RedEnvelope">
+		select id id,
+		advert_id advertId,
+		publisher_id publisherId,
+		user_id
+		userId,
+		amout amout,
+		create_time createTime,
+		user_avatar userAvatar,
+		user_sex userSex,
+		user_nick_name userNickName,
+		advert_logo advertLogo,
+		advert_name advertName,
+		state state,
+		original_amout originalAmout,
+		award_time awardTime,
+		birthday birthday,
+		advert_unfreeze_count
+		advertUnfreezeCount,
+		age_group ageGroup
+		from red_envelope re
+		where
+		re.state = '0' 
+		<![CDATA[ and re.advert_unfreeze_count < 10 ]]>
+		<![CDATA[ and UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(re.create_time) > 10*60 ]]>
+		limit #{limit}
+	</select>
+
+	<!-- 查询该红包已经领取的人数 -->
+	<select id="selectFetchRedEnvelopeCount" resultType="java.lang.Integer">
+		<!-- SELECT COUNT(DISTINCT re.user_id) FROM red_envelope re WHERE re.advert_id=#{advertId} -->
+		SELECT COUNT(DISTINCT re.user_id) FROM red_envelope re WHERE
+		re.advert_id=#{0}
+	</select>
+
+	<!-- 查询营销数据明细 -->
+	<select id="selectMarketDetail"
+		resultType="com.mouchina.moumou_server.entity.vo.marketing.MarketDetailVo"
+		parameterType="java.util.Map">
+		SELECT
+		re.advert_id AS advertId,
+		re.publisher_id AS publisherId,
+		re.user_id AS userId,
+		re.amout AS amount,
+		re.create_time AS createTime,
+		re.user_sex AS userSex,
+		re.user_nick_name AS userNickName
+		FROM red_envelope re
+		<where>
+			re.publisher_id = #{userId} AND re.advert_id = #{advertId}
+			<if test="type == 1">
+				<!-- 普通福袋 -->
+				and re.amout &gt; 0
+			</if>
+
+			<if test="type == 2">
+				<!-- 优惠券 -->
+				and re.type = 1
+			</if>
+
+			<if test="type == 3">
+				<!-- 接力 -->
+			</if>
+			
+			<if test="type == 5">
+				<!-- 首页福袋 -->
+				and DATE_FORMAT(re.create_time, '%Y-%m-%d') = #{createTime}
+			</if>
+		</where>
+		ORDER BY re.create_time DESC
+		LIMIT
+		#{offset,jdbcType=INTEGER},#{pagesize,jdbcType=INTEGER}
+
+	</select>
+	<!-- 营销数据优惠券明细【特殊需求】 -->
+	<select id="selectBusinessCouponMarketDetail" resultType="com.mouchina.moumou_server.entity.vo.marketing.MarketDetailVo"
+		parameterType="java.util.Map">
+		SELECT 
+			re.advert_id AS advertId,
+			re.publisher_id AS publisherId,
+			re.user_id AS userId,
+			re.amout AS amount,
+			re.create_time AS createTime,
+			re.user_sex AS userSex,
+			re.user_nick_name AS userNickName
+		FROM
+		(
+			SELECT * FROM (SELECT * FROM red_envelope re WHERE re.publisher_id = #{userId} AND re.advert_id = #{advertId} AND re.type=1 AND re.award_time IS NOT NULL ORDER BY re.create_time DESC) t1
+			UNION ALL
+			SELECT * FROM (SELECT * FROM red_envelope re WHERE re.publisher_id = #{userId} AND re.advert_id = #{advertId} AND re.type=1 AND re.award_time IS NULL ORDER BY re.create_time DESC) t2
+		)
+		re 
+		LIMIT #{offset,jdbcType=INTEGER},#{pagesize,jdbcType=INTEGER}
+	</select>
+
+	<!-- 查询消费明细 -->
+	<select id="selectConsumeParticular"
+		resultType="com.mouchina.moumou_server.entity.vo.user.particular.ConsumeParticularVo"
+		parameterType="java.util.Map">
+		SELECT
+		*
+		FROM
+		(
+		(
+		SELECT
+		price AS amount,
+		create_time AS time,
+		8 AS type
+		FROM withdrawal_history_order who
+		WHERE who.user_id =
+		#{userId}
+		)
+		UNION
+		(
+		SELECT
+		ABS(re.amout) AS amount,
+		re.create_time AS time,
+		re.type AS type
+		FROM red_envelope re
+		WHERE re.user_id = #{userId} AND
+		re.type IN (2, 3) AND re.amout &lt; 0
+		)
+		) consume
+		ORDER BY consume.time
+		DESC
+		limit
+		#{offset,jdbcType=INTEGER},#{pagesize,jdbcType=INTEGER}
+	</select>
+	<select id="selectRedEnvelopeByMap" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from red_envelope
+		where user_id = #{userId,jdbcType=BIGINT} AND
+		advert_id = #{advertId,jdbcType=BIGINT} AND type = 1
+	</select>
+	<select id="selectPublicWelfareRanking" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		SELECT
+		id, advert_id, publisher_id, user_id, create_time,
+		user_avatar,
+		user_sex, user_nick_name,
+		advert_name, state,
+		award_time,age_group,advert_unfreeze_count,type
+		,SUM(amout) AS amout
+		FROM red_envelope WHERE
+		advert_id = #{advertId,jdbcType=BIGINT} GROUP
+		BY user_id ORDER BY amout
+	</select>
+	<select id="selectLuckyWheelList" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		(SELECT
+		<include refid="Base_Column_List" />
+		FROM moumou.red_envelope WHERE advert_id = #{advertId,jdbcType=BIGINT}
+		AND original_amout = 100 ORDER BY create_time DESC) AS temp
+		UNION ALL
+		select
+		<include refid="Base_Column_List" />
+		FROM(
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM red_envelope WHERE advert_id = #{advertId,jdbcType=BIGINT} AND
+		original_amout IN (${originalAmouts}) ORDER BY
+		original_amout,create_time DESC) temp2
+	</select>
+	
+	<!-- 查询首页广告最新的广告的所有时间 -->
+	<select id="selectRedEnvAllDate" resultType="com.mouchina.moumou_server.entity.vo.marketing.HomePageAdvertDo">
+		SELECT
+			re.advert_id AS advertId,
+			re.original_amout AS redEnvelopeAmount,
+			DATE_FORMAT(create_time, '%Y-%m-%d') AS date
+		FROM
+			(
+				SELECT
+					*
+				FROM red_envelope
+				WHERE advert_id = (
+						SELECT advert_id
+						FROM red_envelope
+						WHERE type = 4
+						AND publisher_id = #{0}
+						ORDER BY create_time DESC
+						LIMIT 0, 1
+					)
+			) re
+		GROUP BY DATE_FORMAT(create_time, '%Y-%m-%d')
+		ORDER BY date DESC
+	</select>
+	<!-- 查询首页福袋余额 -->
+	<select id="selectHomeLuckyBagBalance" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT
+			SUM(amout)
+		FROM
+			red_envelope re
+		WHERE
+			re.type = 4
+		AND re.publisher_id = #{userId}
+		AND DATE_FORMAT(re.create_time, '%Y-%m-%d') &lt;= #{createDate}
+	</select>
+	
+</mapper>

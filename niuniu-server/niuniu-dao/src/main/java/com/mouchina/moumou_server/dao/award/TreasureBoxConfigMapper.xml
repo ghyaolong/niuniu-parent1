@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mouchina.moumou_server.dao.award.TreasureBoxConfigMapper">
+	<resultMap id="BaseResultMap"
+		type="com.mouchina.moumou_server.entity.award.TreasureBoxConfig">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="type" property="type" jdbcType="TINYINT" />
+		<result column="value" property="value" jdbcType="INTEGER" />
+		<result column="hit_rate" property="hitRate" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="open_time" property="openTime" jdbcType="TIMESTAMP" />
+		<result column="state" property="state" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, type, value, hit_rate, create_time, open_time, state
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from treasure_box_config
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from treasure_box_config
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert"
+		parameterType="com.mouchina.moumou_server.entity.award.TreasureBoxConfig">
+		insert into treasure_box_config (id, type, value,
+		hit_rate, create_time, open_time,
+		state)
+		values (#{id,jdbcType=BIGINT}, #{type,jdbcType=TINYINT},
+		#{value,jdbcType=INTEGER},
+		#{hitRate,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{openTime,jdbcType=TIMESTAMP},
+		#{state,jdbcType=TINYINT})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.mouchina.moumou_server.entity.award.TreasureBoxConfig">
+		insert into treasure_box_config
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="value != null">
+				value,
+			</if>
+			<if test="hitRate != null">
+				hit_rate,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="openTime != null">
+				open_time,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=TINYINT},
+			</if>
+			<if test="value != null">
+				#{value,jdbcType=INTEGER},
+			</if>
+			<if test="hitRate != null">
+				#{hitRate,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="openTime != null">
+				#{openTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.mouchina.moumou_server.entity.award.TreasureBoxConfig">
+		update treasure_box_config
+		<set>
+			<if test="type != null">
+				type = #{type,jdbcType=TINYINT},
+			</if>
+			<if test="value != null">
+				value = #{value,jdbcType=INTEGER},
+			</if>
+			<if test="hitRate != null">
+				hit_rate = #{hitRate,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="openTime != null">
+				open_time = #{openTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=TINYINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.mouchina.moumou_server.entity.award.TreasureBoxConfig">
+		update treasure_box_config
+		set type = #{type,jdbcType=TINYINT},
+		value = #{value,jdbcType=INTEGER},
+		hit_rate = #{hitRate,jdbcType=INTEGER},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		open_time = #{openTime,jdbcType=TIMESTAMP},
+		state = #{state,jdbcType=TINYINT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<select id="getTreasureBoxTimes" resultType="java.util.Date">
+		SELECT DATE_FORMAT(open_time,'%H:%i:%s') FROM treasure_box_config GROUP BY open_time ORDER BY open_time ASC
+	</select>
+	
+	<select id="selectModel" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		moumou.treasure_box_config
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="type != null">
+				and type= #{type,jdbcType=TINYINT}
+			</if>
+			<if test="openTime != null">
+				and open_time= #{openTime,jdbcType=DATE}
+			</if>
+			<if test="hitRate != null">
+				and hit_rate= #{hitRate,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectHitRate" resultType="java.lang.Double">
+		SELECT hit_rate FROM treasure_box_config GROUP BY hit_rate
+	</select>
+	
+	<!-- 查询用户命中的奖励 -->
+	<select id="selectUserHitAward" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from
+		moumou.treasure_box_config
+		<where>
+			<if test="id != null">
+				and id= #{id,jdbcType=BIGINT}
+			</if>
+			<if test="type != null">
+				and type= #{type,jdbcType=TINYINT}
+			</if>
+			<if test="openTime != null">
+				and DATE_FORMAT(open_time,'%H:%i:%s')=#{openTime,jdbcType=DATE}
+			</if>
+			<if test="hitRate != null">
+				and hit_rate= #{hitRate,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

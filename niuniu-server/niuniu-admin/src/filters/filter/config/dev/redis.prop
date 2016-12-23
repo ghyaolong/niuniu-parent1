@@ -1,0 +1,9 @@
+#redis.serverList=120.26.91.158:6379,120.26.91.158:6399
+#redis.maxIdle=10
+#redis.maxWaitMillis=100000
+#redis.reqeuirePass=aP9b5#@38
+
+redis.serverList=172.16.9.82:6379
+redis.maxIdle=10
+redis.maxWaitMillis=10000
+redis.reqeuirePass=7788yigou

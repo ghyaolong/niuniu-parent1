@@ -1,0 +1,382 @@
+<div id="sidebar" class="sidebar">
+	<script type="text/javascript">
+		try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+	</script>
+
+	<div id="sidebar-shortcuts" class="sidebar-shortcuts">
+		<div id="sidebar-shortcuts-large" class="sidebar-shortcuts-large">
+			<button class="btn btn-success">
+				<i class="icon-signal"></i>
+			</button>
+
+			<button class="btn btn-info">
+				<i class="icon-pencil"></i>
+			</button>
+
+			<button class="btn btn-warning">
+				<i class="icon-group"></i>
+			</button>
+
+			<button class="btn btn-danger">
+				<i class="icon-cogs"></i>
+			</button>
+		</div>
+
+		<div id="sidebar-shortcuts-mini" class="sidebar-shortcuts-mini">
+			<span class="btn btn-success"></span>
+
+			<span class="btn btn-info"></span>
+
+			<span class="btn btn-warning"></span>
+
+			<span class="btn btn-danger"></span>
+		</div>
+	</div><!-- #sidebar-shortcuts -->
+
+	<ul class="nav nav-list" id="navMenuUL">
+		<li class="active">
+			<a href="${contentPath}/index.html">
+				<i class="icon-dashboard"></i>
+				<span class="menu-text"> 控制台 </span>
+			</a>
+		</li>
+##
+##		<li>
+##			<a href="typography.html">
+##				<i class="icon-text-width"></i>
+##				<span class="menu-text"> 待审核信息 </span>
+##			</a>
+##		</li>
+##
+##		<li>
+##			<a class="dropdown-toggle" href="#">
+##				<i class="icon-desktop"></i>
+##				<span class="menu-text"> 服务管理 </span>
+##
+##				<b class="arrow icon-angle-down"></b>
+##			</a>
+##
+##			<ul class="submenu">
+##				<li data-nav="service_new">
+##					<a href="${contentPath}/course/service/new.html">
+##						<i class="icon-double-angle-right"></i>
+##						新增服务
+##					</a>
+##				</li>
+##
+##				<li data-nav="service_list">
+##					<a href="${contentPath}/course/service/list.html">
+##						<i class="icon-double-angle-right"></i>
+##						服务列表
+##					</a>
+##				</li>
+##			</ul>
+##		</li>
+##		<li>
+##			<a class="dropdown-toggle" href="#">
+##				<i class="icon-list"></i>
+##				<span class="menu-text"> 课程管理 </span>
+##
+##				<b class="arrow icon-angle-down"></b>
+##			</a>
+##			<ul class="submenu">
+####								<li data-nav="course_new">
+####									<a href="${contentPath}/course/new.html">
+####										<i class="icon-double-angle-right"></i>
+####										新增课程
+####									</a>
+####								</li>
+####								<li data-nav="course_list">
+####									<a href="${contentPath}/course/list.html">
+####										<i class="icon-double-angle-right"></i>
+####										课程列表
+####									</a>
+####								</li>
+##				<li data-nav="course_manage">
+##					<a href="${contentPath}/course/treeManage.html">
+##						<i class="icon-double-angle-right"></i>
+##						课程管理
+##					</a>
+##				</li>
+##			</ul>
+##		</li>
+##		<li>
+##			<a class="dropdown-toggle" href="#">
+##				<i class="icon-edit"></i>
+##				<span class="menu-text"> 老师管理 </span>
+##
+##				<b class="arrow icon-angle-down"></b>
+##			</a>
+##			<ul class="submenu">
+##				<li data-nav="members_teacher_new">
+##					<a href="${contentPath}/members/teacher/new.html">
+##						<i class="icon-double-angle-right"></i>
+##						新增老师
+##					</a>
+##				</li>
+##
+##				<li data-nav="members_teacher_list">
+##					<a href="${contentPath}/members/teacher/list.html">
+##						<i class="icon-double-angle-right"></i>
+##						老师列表
+##					</a>
+##				</li>
+##				<li data-nav="teacher_assets_list">
+##					<a href="${contentPath}/teacher/assets/list.html">
+##						<i class="icon-double-angle-right"></i>
+##						账户信息
+##					</a>
+##				</li>
+##				<li data-nav="welfare_withdrawal_list">
+##					<a href="${contentPath}/welfare/withdrawal/list.html">
+##						<i class="icon-double-angle-right"></i>
+##						提现审核
+##					</a>
+##				</li>
+##			</ul>
+##		</li>
+##		<li>
+##			<a class="dropdown-toggle" href="#">
+##				<i class="icon-truck"></i>
+##				<span class="menu-text">  订单管理 </span>
+##
+##				<b class="arrow icon-angle-down"></b>
+##			</a>
+##				<ul class="submenu">
+##				<li data-nav="order_list">
+##					<a href="${contentPath}/order/list.html">
+##						<i class="icon-double-angle-right"></i>
+##						订单列表
+##					</a>
+##				</li>
+##				<li data-nav="order_pay_list">
+##					<a href="${contentPath}/order/pay/list.html">
+##						<i class="icon-double-angle-right"></i>
+##						支付列表
+##					</a>
+##				</li>
+##				<li data-nav="order_schedule_list">
+##					<a href="${contentPath}/order/schedule/list.html">
+##						<i class="icon-double-angle-right"></i>
+##						日程列表
+##					</a>
+##				</li>
+##				<li data-nav="order_userremiburse_list">
+##					<a href="${contentPath}/order/userremiburse/list.html">
+##						<i class="icon-double-angle-right"></i>
+##						用户退款列表
+##					</a>
+##				</li>
+##			</ul>
+##		</li>
+##		<li>
+##
+##			<a class="dropdown-toggle" href="#">
+##				<i class="icon-user"></i>
+##				<span class="menu-text">  用户管理 </span>
+##
+##				<b class="arrow icon-angle-down"></b>
+##			</a>
+##
+##
+##				<ul class="submenu">
+##				<li data-nav="members_user_new">
+##					<a href="${contentPath}/members/user/new.html">
+##						<i class="icon-double-angle-right"></i>
+##						新增用户
+##					</a>
+##				</li>
+##
+##				<li data-nav="members_user_query">
+##					<a href="${contentPath}/members/user/query.html">
+##						<i class="icon-double-angle-right"></i>
+##						用户查询
+##					</a>
+##				</li>
+##
+##
+##			</ul>
+##		</li>
+##		<li>
+##			<a class="dropdown-toggle" href="#">
+##				<i class="icon-tag"></i>
+##				<span class="menu-text"> 评论管理 </span>
+##
+##				<b class="arrow icon-angle-down"></b>
+##			</a>
+##			<ul class="submenu">
+##
+##				<li data-nav="comments_teacher_list">
+##					<a href="${contentPath}/comments/teacher/list.html">
+##						<i class="icon-double-angle-right"></i>
+##						评论列表
+##					</a>
+##				</li>
+##			</ul>
+##		</li>
+##		<li>
+##			<a class="dropdown-toggle" href="#">
+##				<i class="icon-tag"></i>
+##				<span class="menu-text"> 促销管理 </span>
+##
+##				<b class="arrow icon-angle-down"></b>
+##			</a>
+##
+##			<ul class="submenu">
+##
+##				<li data-nav="welfare_discount_list">
+##					<a href="${contentPath}/welfare/discount/list.html">
+##						<i class="icon-double-angle-right"></i>
+##						活动列表
+##					</a>
+##				</li>
+##				<li data-nav="welfare_cashcoupon_list">
+##					<a href="${contentPath}/welfare/cashcoupon/list.html">
+##						<i class="icon-double-angle-right"></i>
+##						优惠券列表
+##					</a>
+##				</li>
+##				<li data-nav="welfare_cashcoupon_config_new">
+##					<a href="${contentPath}/welfare/cashcoupon/config/new.html">
+##						<i class="icon-double-angle-right"></i>
+##						新增优惠优惠配置
+##					</a>
+##				</li>
+##				<li data-nav="welfare_cashcoupon_config_list">
+##					<a href="${contentPath}/welfare/cashcoupon/config/list.html">
+##						<i class="icon-double-angle-right"></i>
+##						优惠券配置列表
+##					</a>
+##				</li>
+##			</ul>
+##		</li>
+##		<li>
+##			<a class="dropdown-toggle" href="#">
+##				<i class="icon-star"></i>
+##				<span class="menu-text">
+##					商圈
+##				</span>
+##				<b class="arrow icon-angle-down"></b>
+##			</a>
+##			<ul class="submenu">
+##				<li data-nav="custom_district_new">
+##					<a href="${contentPath}/custom/district/new.html">
+##						<i class="icon-double-angle-right"></i>
+##						自定义商圈
+##					</a>
+##				</li>
+##				<li data-nav="">
+##					<a href="${contentPath}/statistics/user/new.html">
+##						<i class="icon-double-angle-right"></i>
+##						商圈维护
+##					</a>
+##				</li>
+##			</ul>
+##		</li>
+##		<li>
+##			<a class="dropdown-toggle" href="#">
+##				<i class="icon-star"></i>
+##				<span class="menu-text">
+##					统计
+##				</span>
+##				<b class="arrow icon-angle-down"></b>
+##			</a>
+##			<ul class="submenu">
+##				<li data-nav="statistics_user_new">
+##					<a href="${contentPath}/statistics/user/new.html">
+##						<i class="icon-double-angle-right"></i>
+##						新用户统计
+##					</a>
+##				</li>
+##				<li data-nav="statistics_schedule_new">
+##					<a href="${contentPath}/statistics/order_schedule/chart.html">
+##						<i class="icon-double-angle-right"></i>
+##						日程统计
+##					</a>
+##				</li>
+##				<li data-nav="statistics_order_new">
+##					<a href="${contentPath}/statistics/order/new.html">
+##						<i class="icon-double-angle-right"></i>
+##						订单统计
+##					</a>
+##				</li>
+##			</ul>
+##		</li>
+##		<li>
+##			<a class="dropdown-toggle" href="#">
+##				<i class="icon-gear"></i>
+##				<span class="menu-text">
+##					系统配置
+##				</span>
+##				<b class="arrow icon-angle-down"></b>
+##			</a>
+##
+##			<ul class="submenu">
+##				<li data-nav="system_config_list">
+##					<a href="${contentPath}/system/config/list.html">
+##						<i class="icon-double-angle-right"></i>
+##						全局参数
+##					</a>
+##				</li>
+##				<li data-nav="system_sms_template_list">
+##					<a href="${contentPath}/system/sms/template/list.html">
+##						<i class="icon-double-angle-right"></i>
+##						短信模版
+##					</a>
+##				</li>
+##			</ul>
+##		</li>
+##		<li>
+##			<a class="dropdown-toggle" href="#">
+##				<i class="icon-gear"></i>
+##				<span class="menu-text">
+##					意见反馈
+##				</span>
+##				<b class="arrow icon-angle-down"></b>
+##			</a>
+##			<ul class="submenu">
+##				<li data-nav="feedback_list">
+##					<a href="${contentPath}/feedback/list.html">
+##						<i class="icon-double-angle-right"></i>反馈列表
+##					</a>
+##				</li>
+##			</ul>
+##		</li>
+##		<li>
+##			<a class="dropdown-toggle" href="#">
+##				<i class="icon-gear"></i>
+##				<span class="menu-text">
+##					权限管理
+##				</span>
+##				<b class="arrow icon-angle-down"></b>
+##			</a>
+##			<ul class="submenu">
+##				<li data-nav="menu_manager">
+##					<a href="${contentPath}/menu/manage.html">
+##						<i class="icon-double-angle-right"></i>菜单管理
+##					</a>
+##				</li>
+##				<li data-nav="role_manager">
+##					<a href="${contentPath}/role/index.html">
+##						<i class="icon-double-angle-right"></i>角色管理
+##					</a>
+##				</li>
+##				<li data-nav="permission_manager">
+##					<a href="${contentPath}/permission/index.html">
+##						<i class="icon-double-angle-right"></i>权限管理
+##					</a>
+##				</li>
+##			</ul>
+##		</li>
+	</ul><!-- /.nav-list -->
+	<div id="sidebar-collapse" class="sidebar-collapse">
+		<i data-icon2="icon-double-angle-right" data-icon1="icon-double-angle-left" class="icon-double-angle-left"></i>
+	</div>
+    <!-- ========== FOOTER START ========== -->
+	#parse('layout/thems/default/footer.vm')
+    <!-- ========== FOOTER END ========== -->
+	<script type="text/javascript">
+		seajs.use("menu-tree");
+		try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+	</script>
+</div>

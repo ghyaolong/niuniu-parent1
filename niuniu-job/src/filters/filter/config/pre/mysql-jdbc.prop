@@ -1,0 +1,10 @@
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.password=9074l3d@3#A
+jdbc.username=dbuser
+jdbc.url=jdbc:mysql://192.168.10.41:3306/bjj_bss?useUnicode=true&amp;characterEncoding=UTF-8
+pool.minIdle=10
+pool.maxActive=20
+pool.initialSize=10
+pool.maxWait=60000
+pool.timeBetweenEvictionRunsMillis=60000
+pool.minEvictableIdleTimeMillis=300000

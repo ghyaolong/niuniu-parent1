@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>哞哞科技管理后台</title>
+    <script src="http://api.map.baidu.com/api?v=1.2"></script>
+	#parse('layout/thems/default/common/base.vm')
+    <link href="$contentPath/resources/assets/sea-modules/banjiajia/1.0.0/style/common/Map/mask.css" rel="stylesheet" />
+</head>
+<body>
+
+<!-- Header -->
+#parse('layout/thems/default/header.vm')
+
+	<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				var pageNav="PERMISSION_ORDER_SCHEDULE_LIST";
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+				#parse('layout/thems/default/left.vm')
+
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="#">首页</a>
+							</li>
+							<li class="active">订单管理</li>
+						</ul><!-- .breadcrumb -->
+
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="icon-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- #nav-search -->
+					</div>
+
+					<div class="page-content">
+						<div class="page-header">
+							<h1>
+								日程列表
+								<small>
+									<i class="icon-double-angle-right"></i>
+									 查看
+								</small>
+							</h1>
+						</div><!-- /.page-header -->
+
+						<div class="row">
+							
+							<div class="col-xs-12">
+										<div class="table-header">
+											日程列表
+										</div>
+
+										<div class="table-responsive">
+											<div role="grid" class="dataTables_wrapper" id="sample-table-2_wrapper">
+                                                <div class="row">
+                                                    <div class="col-sm-1">
+                                                        <div class="input-group m-b">
+                                                            <div class="input-group-btn">
+                                                                <button type="button" class="btn btn-white dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                                                                    2016 <span class="caret"></span>
+                                                                </button>
+                                                                <ul class="dropdown-menu" role="menu" id="yearDropDown" data-chk="">
+                                                                    <li data-val="2015">
+                                                                        <a href="javascript:void(0);">2015</a>
+                                                                    </li>
+                                                                    <li class="active" data-val="2016">
+                                                                        <a href="javascript:void(0);">2016</a>
+                                                                    </li>
+                                                                    <li data-val="2017">
+                                                                        <a href="javascript:void(0);">2017</a>
+                                                                    </li>
+                                                                    <li data-val="2018">
+                                                                        <a href="javascript:void(0);">2018</a>
+                                                                    </li>
+                                                                    <li data-val="2019">
+                                                                        <a href="javascript:void(0);">2019</a>
+                                                                    </li>
+                                                                    <li data-val="2020">
+                                                                        <a href="javascript:void(0);">2020</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <div class="input-group m-b">
+                                                            <div class="input-group-btn">
+                                                                <button type="button" class="btn btn-white dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                                                                    状态 <span class="caret"></span>
+                                                                </button>
+                                                                <ul class="dropdown-menu" role="menu" id="stateDropDown" data-chk="">
+                                                                    <li data-val="" class="active"><a href="javascript:void(0);">==全部==</a></li>
+																	  #foreach($state in $orderDetailState.entrySet())
+                                                                          <li data-val="$!state.key"><a href="javascript:void(0);">$!state.value</a></li>
+																	  #end
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="input-group m-b">
+                                                            <div class="input-group-btn">
+                                                                <button type="button" class="btn btn-white dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
+                                                                    流水号 <span class="caret"></span>
+                                                                </button>
+                                                                <ul class="dropdown-menu searchDropDown" role="menu">
+                                                                    <li data-hid="orderNo" class="active"><a href="javascript:void(0);">订单流水</a></li>
+                                                                    <li data-hid="userName"><a href="javascript:void(0);">用户手机</a></li>
+                                                                    <li data-hid="teacherName"><a href="javascript:void(0);">教师名称</a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <input type="text" class="form-control" placeholder="Search" value="" id="searchValue">
+															<span class="input-group-btn">
+																<button class="btn btn-sm btn-primary" type="button" id="serchBtn" data-fild="orderNo">Go!</button>
+															</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ibox-tools">
+                                                        <span class="label label-sm label-success" id="dataTotal">请稍后...</span>
+                                                    </div>
+                                                </div>
+												<table class="table table-striped table-bordered table-hover dataTable" id="sample-table-2" aria-describedby="sample-table-2_info">
+												<thead>
+													<tr role="row">
+														<th class="hidden-480 sorting" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 130px;" >教师</th>
+##														<th class="hidden-480 sorting" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 100px;" >用户id</th>
+														<th class="hidden-480 sorting" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 100px;" >用户</th>
+														<th class="hidden-480 sorting" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >订单流水</th>
+                                                        <th class="hidden-480 sorting" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >签到时间</th>
+                                                        <th class="hidden-480 sorting" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 100px;" >签到位置</th>
+                                                        <th class="hidden-480 sorting" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >签退时间</th>
+                                                        <th class="hidden-480 sorting" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 100px;" >签退位置</th>
+														<th class="hidden-480 sorting" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >状态</th>
+                                                        <th class="hidden-480 sorting" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >服务开始</th>
+                                                        <th class="hidden-480 sorting" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >服务结束</th>
+														<th class="hidden-480 sorting" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >创建时间</th>
+														<th class="hidden-480 sorting" role="columnheader" tabindex="0"  rowspan="1" colspan="1" style="width: 150px;" >备注</th>
+														
+##														<th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" style="width: 161px;" aria-label=""></th>
+													</tr>
+												</thead>
+												
+												
+											<tbody id="theacertbody" role="alert" aria-live="polite" aria-relevant="all">
+											</table>
+                                                <ul class="pagination">
+                                                </ul>
+											 <div/>
+											 #foreach($data in $skillMap.entrySet())
+												<input type="hidden" id="skillId${data.key}" value="${data.value.name}">
+											 #end
+											 <div>
+									</div>
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+				
+		
+			</div><!-- /.main-container-inner -->
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div>
+
+#parse('layout/thems/default/setting.vm')
+</div>
+</div>
+</div>
+<!-- ========== CONTENT END ========== -->
+
+<!-- ========== FOOTER START ========== -->
+#parse('layout/thems/default/footer.vm')
+<!-- ========== FOOTER END ========== -->
+<!-- 配置文件 -->
+
+<script type="text/javascript">
+ 	seajs.use("order-schedule-list");
+</script>
+<div id="div_body">
+</div>
+<div id="div_show">
+</div>
+</body>
+</html>

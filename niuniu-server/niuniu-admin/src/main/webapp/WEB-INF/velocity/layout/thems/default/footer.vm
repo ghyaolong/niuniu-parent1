@@ -1,0 +1,9 @@
+<footer id="footer">
+
+
+</footer>
+<script src="${contentPath}/resources/assets/sea-modules/seajs/seajs/2.1.0/sea.js"></script>
+<script src="${contentPath}/resources/assets/seajs-config.js"></script>
+<script type="text/javascript">
+		 seajs.use("ace-elements");
+</script>

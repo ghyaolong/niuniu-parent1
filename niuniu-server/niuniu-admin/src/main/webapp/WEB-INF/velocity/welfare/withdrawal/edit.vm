@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>哞哞管理后台</title>
+    #parse('layout/thems/default/common/base.vm')
+</head>
+<body>
+<!-- Header -->
+    #parse('layout/thems/default/header.vm')
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        var pageNav="withdrawal_list";
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+        #parse('layout/thems/default/left.vm')
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <script type="text/javascript">
+                    try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+                </script>
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home home-icon"></i>
+                        <a href="#">首页</a>
+                    </li>
+                    <li class="active">提现管理</li>
+                </ul><!-- .breadcrumb -->
+            </div>
+            <div class="page-content">
+                <div class="page-header">
+                    <h1>
+                        提现
+                        <small>
+                            <i class="icon-double-angle-right"></i>
+                            查看
+                        </small>
+                    </h1>
+                </div><!-- /.page-header -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <form role="form" class="form-horizontal" id="saveUserReimburseForm" method="post" action="$contentPath/withdrawals/update.html" >
+
+                            <div class="form-group">
+                                <label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 提现流水号 </label>
+
+                                <div class="col-sm-9">
+                                    <div class="col-xs-10">
+                                        <input type="text"  readonly="true" name="withdrawlHistoryOrderNo"  check-type="required"  value="$withdrawals.withdrawlHistoryOrderNo" required-message="提现流水号不为空" class="col-xs-10 col-sm-5" placeholder="提现流水号" id="phoneInput">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label for="form-field-1"  class="col-sm-3 control-label no-padding-right"> 提现金额 </label>
+
+                                <div class="col-sm-9">
+                                    <div class="col-xs-10">
+                                        <input type="text" name="price" readonly="true"  check-type="required"  value="$withdrawals.price" required-message="提现金额不能为空"  class="col-xs-10 col-sm-5" placeholder="提现金额" id="form-field-1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label for="form-field-1"  class="col-sm-3 control-label no-padding-right"> 提现账户 </label>
+
+                                <div class="col-sm-9">
+                                    <div class="col-xs-10">
+
+                                        <input type="text" name="account" readonly=""  check-type="required"  value="$withdrawals.account" required-message="提现账户不能为空"  class="col-xs-10 col-sm-5" placeholder="提现账户" id="form-field-1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label for="form-field-1"  class="col-sm-3 control-label no-padding-right"> 提现名称 </label>
+
+                                <div class="col-sm-9">
+                                    <div class="col-xs-10">
+
+                                        <input type="text" name="accountName" readonly=""  check-type="required"  value="$withdrawals.accountName" required-message="提现名称不能为空"  class="col-xs-10 col-sm-5" placeholder="提现名称" id="form-field-1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label for="form-field-1"  class="col-sm-3 control-label no-padding-right"> 第三方支付流水号 </label>
+                                <div class="col-sm-9">
+                                    <div class="col-xs-10">
+                                        #set($wstr="")
+                                        #if($!{withdrawals.thirdPartyPayNo})
+                                            #set($wstr=$!{withdrawals.thirdPartyPayNo})
+                                        #end
+                                        <input type="text" name="thirdPartyPayNo"   check-type="required"  value="$wstr" required-message="第三方支付流水号不能为空"  class="col-xs-10 col-sm-5" placeholder="第三方支付流水号" id="form-field-1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label for="form-field-1" class="col-sm-3 control-label no-padding-right"> 状态</label>
+                                <div class="col-sm-9">
+                                    <div class="control-group">
+                                        <select name="state">
+                                            #if($withdrawals.state==1)
+                                                <option value="1" selected="selected">提现申请</option>
+                                            #else
+                                                <option value="1">提现申请</option>
+                                            #end
+                                            #if($withdrawals.state==2)
+                                                <option value="2" selected="selected">提现成功</option>
+                                            #else
+                                                <option value="2">提现成功</option>
+                                            #end
+                                            #if($withdrawals.state==3)
+                                                <option value="3" selected="selected">提现失败</option>
+                                            #else
+                                                <option value="3">提现失败</option>
+                                            #end
+                                            #if($withdrawals.state==4)
+                                                <option value="4" selected="selected">正在提现</option>
+                                            #else
+                                                <option value="4">正在提现</option>
+                                            #end
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-20"></div>
+                            <div class="clearfix form-actions">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <input value="$withdrawals.id" name="id" type="hidden">
+                                    <button type="button" id="saveUserReimburseButton" class="btn btn-info">
+                                        <i class="icon-ok bigger-110"></i>
+                                        确认
+                                    </button>
+                                    &nbsp; &nbsp; &nbsp;
+                                    <button type="reset" class="btn">
+                                        <i class="icon-undo bigger-110"></i>
+                                        重置
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="hr hr-24"></div>
+                        </form>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div><!-- /.main-content -->
+        #parse('layout/thems/default/setting.vm')
+    </div><!-- /.main-container-inner -->
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="icon-double-angle-up icon-only bigger-110"></i>
+    </a>
+</div>
+<!-- ========== CONTENT END ========== -->
+<!-- ========== FOOTER START ========== -->
+    #parse('layout/thems/default/footer.vm')
+<!-- ========== FOOTER END ========== -->
+<!-- 配置文件 -->
+<script type="text/javascript">
+    seajs.use("order-userremiburse-edit");
+</script>
+
+</body>
+</html>

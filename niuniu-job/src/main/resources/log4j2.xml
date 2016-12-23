@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF" monitorInterval="1800">
+
+	<properties>
+		<property name="LOG_HOME">logs/log</property>
+		<property name="FILE_NAME">bs</property>
+	</properties>
+
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+		<Console name="STDOUT" target="SYSTEM_OUT" ignoreExceptions="false">
+			<PatternLayout pattern="%m%n" />
+		</Console>
+		<RollingRandomAccessFile name="running-log"
+			fileName="${LOG_HOME}/${FILE_NAME}.log"
+			filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout
+				pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="20" />
+		</RollingRandomAccessFile>
+	</Appenders>
+
+	<loggers>
+		<root level="${log4j.service.level}">
+			<appender-ref ref="Console" />
+		</root>
+
+		<logger name="org.springframework.beans">
+			<appender-ref ref="Console" />
+			<appender-ref ref="AsynchFile" />
+		</logger>
+	</loggers>
+</Configuration>
